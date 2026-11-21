@@ -10,7 +10,7 @@ class SQLite3Wrapper {
     public function __construct($path) {
         $this->db = new SQLite3($path);
         // 5 с ожидания блокировки: дольше держать бессмысленно — запрос уйдёт в 504.
-        $this->db->busyTimeout(3000);
+        $this->db->busyTimeout(1500);
         // WAL: читатели не блокируются писателем — главная причина «подвисаний»
         // SQLite под нагрузкой. synchronous = NORMAL — без fsync на каждую запись.
         @$this->db->exec('PRAGMA journal_mode = WAL');

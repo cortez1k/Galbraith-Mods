@@ -89,6 +89,56 @@ function emailHeloDomain() {
     return 'localhost';
 }
 
+/**
+ * Ставит письмо в очередь email_queue. Возвращает true, если запись добавлена.
+ * Сама отправка делается emailQueueWorker() из cron/планировщика или по запросу.
+ */
+function queueSystemEmail($to, $subject, $bodyHtml) {
+    if (!filter_var($to, FILTER_VALIDATE_EMAIL)) {
+        return false;
+    }
+    try {
+        $db = getDB();
+        $db->prepare('INSERT INTO email_queue (recipient, subject, body_html, status, created_at) VALUES (?, ?, ?, "pending", datetime("now"))')
+            ->execute([$to, $subject, $bodyHtml]);
+        return true;
+    } catch (Throwable $e) {
+        error_log('queueSystemEmail failed: ' . $e->getMessage());
+        return false;
+    }
+}
+
+/**
+ * Обрабатывает очередь исходящих писем. Ожидается вызов из cron (раз в 1-2 мин).
+ * @param int $limit макс. писем за один прогон
+ * @return int количество успешно отправленных
+ */
+function emailQueueWorker($limit = 20) {
+    if (!smtpConfigured()) {
+        return 0;
+    }
+    $sent = 0;
+    try {
+        $db = getDB();
+        $rows = $db->prepare('SELECT * FROM email_queue WHERE status = "pending" ORDER BY created_at LIMIT ?')
+            ->execute([$limit])->fetchAll();
+        foreach ($rows as $row) {
+            try {
+                smtpSend($row['recipient'], $row['subject'], $row['body_html']);
+                $db->prepare('UPDATE email_queue SET status = "sent", sent_at = datetime("now"), attempts = attempts + 1 WHERE id = ?')
+                    ->execute([$row['id']]);
+                $sent++;
+            } catch (Throwable $e) {
+                $db->prepare('UPDATE email_queue SET status = "failed", error = ?, attempts = attempts + 1 WHERE id = ?')
+                    ->execute([$e->getMessage(), $row['id']]);
+            }
+        }
+    } catch (Throwable $e) {
+        error_log('emailQueueWorker failed: ' . $e->getMessage());
+    }
+    return $sent;
+}
+
 function smtpSend($to, $subject, $bodyHtml) {
     $host = setting('smtp_host');
     $port = (int)setting('smtp_port', 587);
@@ -101,9 +151,9 @@ function smtpSend($to, $subject, $bodyHtml) {
 
     $transport = $security === 'ssl' ? 'ssl://' : '';
     $ctx = stream_context_create(['ssl' => ['verify_peer' => true, 'verify_peer_name' => true]]);
-    $fp = @stream_socket_client($transport . $host . ':' . $port, $errno, $errstr, 15, STREAM_CLIENT_CONNECT, $ctx);
+    $fp = @stream_socket_client($transport . $host . ':' . $port, $errno, $errstr, 8, STREAM_CLIENT_CONNECT, $ctx);
     if (!$fp) { throw new Exception("Не удалось подключиться к $host:$port — $errstr"); }
-    stream_set_timeout($fp, 15);
+    stream_set_timeout($fp, 8);
 
     $expect = function ($fp, $code) {
         $resp = '';

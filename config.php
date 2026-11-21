@@ -4,7 +4,8 @@
 @ini_set('display_errors', '0');
 @ini_set('log_errors', '1');
 @ini_set('error_log', __DIR__ . '/logs/php-errors.log');
-@ini_set('max_execution_time', '60');
+@ini_set('max_execution_time', '30');
+@ini_set('ignore_user_abort', '1');
 error_reporting(E_ALL);
 
 // Один раз на процесс: регистрируем обработчик фатальных ошибок (OOM, исчерпан

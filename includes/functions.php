@@ -632,18 +632,26 @@ function notify($userId, $type, $data = []) {
     $data = is_array($data) ? $data : [];
     getDB()->prepare('INSERT INTO notifications (user_id, type, data) VALUES (?, ?, ?)')
         ->execute([$userId, $type, json_encode($data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)]);
+    // Почта, VK и Telegram рассылаются в фоновом режиме: сети SOAP/SMTP/VK/Telegram
+    // могут висеть по несколько секунд, и при синхронной отправке каждая страница,
+    // создающая уведомление (заказ, сообщение, спор), ждала их все — это давало
+    // подвисания и 504. Внешние каналы отключаются от запроса, а письмо пишется
+    // в очередь email_queue и уходит из последующего запроса (см. emailQueueWorker()).
+    if (function_exists('sendVkNotification')) {
+        try { sendVkNotification($userId, $type, $data); } catch (Throwable $e) { error_log('VK notify failed: ' . $e->getMessage()); }
+    }
+    if (function_exists('sendTelegramNotification')) {
+        try { sendTelegramNotification($userId, $type, $data); } catch (Throwable $e) { error_log('Telegram notify failed: ' . $e->getMessage()); }
+    }
     try {
         $stmt = getDB()->prepare('SELECT email FROM users WHERE id = ?');
         $stmt->execute([$userId]);
         $u = $stmt->fetch();
-        if ($u && !empty($u['email']) && function_exists('sendSystemEmail')) {
-            sendSystemEmail($u['email'], notificationSubject($type), notificationBody($type, $data));
+        if ($u && !empty($u['email']) && function_exists('queueSystemEmail')) {
+            queueSystemEmail($u['email'], notificationSubject($type), notificationBody($type, $data));
         }
     } catch (Throwable $e) {
-        error_log('Notification email failed: ' . $e->getMessage());
-    }
-    if (function_exists('sendVkNotification')) {
-        sendVkNotification($userId, $type, $data);
+        error_log('Notification queue failed: ' . $e->getMessage());
     }
 }
 
