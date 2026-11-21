@@ -10,46 +10,55 @@ try {
 }
 ?>
 
-<div class="container" style="padding-top: 40px; padding-bottom: 40px;">
-    <div style="max-width: 800px; margin: 0 auto;">
-        <h1 style="font-size: 32px; font-weight: 700; margin-bottom: 24px;">Проекты Galbraith</h1>
+<div class="projects-hero">
+    <span class="hero-unusual-eyebrow"><i></i> Galbraith</span>
+    <h1>Наши <em>проекты</em></h1>
+    <p>Все площадки Galbraith в одном месте: соцсети, сервисы и разделы сайта.</p>
+</div>
 
-        <div style="display: grid; gap: 24px; margin-bottom: 40px;">
-            <!-- Социальные сети -->
-            <div style="background: var(--g-card); border: 1px solid var(--g-border); border-radius: var(--g-radius); padding: 24px;">
-                <h2 style="font-size: 20px; font-weight: 700; margin-bottom: 16px; color: var(--g-accent);">Социальные сети</h2>
-                <ul style="list-style: none; padding: 0;">
-                    <li style="margin-bottom: 12px;"><a href="https://t.me/galbraithmods" style="color: var(--g-text); text-decoration: none; font-size: 14px;">Telegram @galbraithmods</a></li>
-                    <li style="margin-bottom: 12px;"><a href="https://vk.com/galbraithmods" style="color: var(--g-text); text-decoration: none; font-size: 14px;">VK @galbraithmods</a></li>
-                    <li style="margin-bottom: 12px;"><a href="https://discord.gg/galbraithmods" style="color: var(--g-text); text-decoration: none; font-size: 14px;">Discord</a></li>
-                </ul>
-            </div>
-
-            <!-- Проекты, добавленные через админку -->
-            <div style="background: var(--g-card); border: 1px solid var(--g-border); border-radius: var(--g-radius); padding: 24px;">
-                <h2 style="font-size: 20px; font-weight: 700; margin-bottom: 16px; color: var(--g-accent);">Наши проекты</h2>
-                <?php if ($dbProjects): ?>
-                <ul style="list-style: none; padding: 0;">
-                    <?php foreach ($dbProjects as $p): ?>
-                    <li style="margin-bottom: 12px;"><a href="<?= e($p['url']) ?>" target="_blank" rel="noopener" style="color: var(--g-text); text-decoration: none; font-size: 14px;"><?= e($p['title']) ?></a></li>
-                    <?php endforeach; ?>
-                </ul>
-                <?php else: ?>
-                <p style="color: var(--g-text-secondary); font-size: 14px;">Пока не добавлено ни одного проекта.</p>
-                <?php endif; ?>
-            </div>
-
-            <!-- Разделы сайта -->
-            <div style="background: var(--g-card); border: 1px solid var(--g-border); border-radius: var(--g-radius); padding: 24px;">
-                <h2 style="font-size: 20px; font-weight: 700; margin-bottom: 16px; color: var(--g-accent);">Разделы сайта</h2>
-                <ul style="list-style: none; padding: 0;">
-                    <li style="margin-bottom: 12px;"><a href="/catalog" style="color: var(--g-text); text-decoration: none; font-size: 14px;">Каталог модов</a></li>
-                    <li style="margin-bottom: 12px;"><a href="/marketplace" style="color: var(--g-text); text-decoration: none; font-size: 14px;">Торговая площадка</a></li>
-                    <li style="margin-bottom: 12px;"><a href="/generator-nikov" style="color: var(--g-text); text-decoration: none; font-size: 14px;">Генератор ников</a></li>
-                </ul>
-            </div>
+<div class="projects-grid">
+    <!-- Социальные сети -->
+    <section class="glass-tile project-tile">
+        <div class="project-tile-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 4.5L2.9 11.7c-.8.3-.8 1.4.1 1.6l4.6 1.4 1.7 5.3c.3.8 1.3.9 1.8.3l2.5-2.9 4.7 3.5c.7.5 1.7.1 1.9-.7l3-14.2c.2-1-.8-1.8-1.7-1.5z"/><path d="M7.6 14.7L18.5 6.8"/></svg>
         </div>
-    </div>
+        <h2>Социальные сети</h2>
+        <ul class="project-links">
+            <li><a href="https://t.me/galbraithmods" target="_blank" rel="noopener">Telegram <span>@galbraithmods</span></a></li>
+            <li><a href="https://vk.com/galbraithmods" target="_blank" rel="noopener">VK <span>@galbraithmods</span></a></li>
+            <li><a href="https://discord.gg/galbraithmods" target="_blank" rel="noopener">Discord <span>сервер</span></a></li>
+        </ul>
+    </section>
+
+    <!-- Проекты, добавленные через админку -->
+    <section class="glass-tile project-tile">
+        <div class="project-tile-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7l9-4 9 4-9 4-9-4z"/><path d="M3 12l9 4 9-4"/><path d="M3 17l9 4 9-4"/></svg>
+        </div>
+        <h2>Наши проекты</h2>
+        <?php if ($dbProjects): ?>
+        <ul class="project-links">
+            <?php foreach ($dbProjects as $p): ?>
+            <li><a href="<?= e($p['url']) ?>" target="_blank" rel="noopener"><?= e($p['title']) ?> <span>открыть →</span></a></li>
+            <?php endforeach; ?>
+        </ul>
+        <?php else: ?>
+        <p class="project-empty">Пока не добавлено ни одного проекта — управление в админ-панели.</p>
+        <?php endif; ?>
+    </section>
+
+    <!-- Разделы сайта -->
+    <section class="glass-tile project-tile">
+        <div class="project-tile-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+        </div>
+        <h2>Разделы сайта</h2>
+        <ul class="project-links">
+            <li><a href="/catalog">Каталог модов <span>перейти →</span></a></li>
+            <li><a href="/marketplace">Торговая площадка <span>перейти →</span></a></li>
+            <li><a href="/generator-nikov">Генератор ников <span>перейти →</span></a></li>
+        </ul>
+    </section>
 </div>
 
 <?php include __DIR__ . '/../templates/footer.php'; ?>

@@ -13,12 +13,12 @@ $pageDesc = 'Все сборки из каталога Galbraith исправл�
 include __DIR__ . '/../templates/header.php';
 ?>
 <style>
-.fx { position: relative; overflow: hidden; isolation: isolate; margin: 8px 0 0; border-radius: var(--g-radius); border: 1px solid var(--g-border-strong); color: #fff; text-align: center; padding: 64px 24px 56px; background: #0b0b0b; }
+.fx { position: relative; overflow: hidden; isolation: isolate; margin: 8px 0 0; border-radius: var(--g-radius); border: 1px solid var(--g-border-strong); color: var(--g-text); text-align: center; padding: 64px 24px 56px; background: radial-gradient(ellipse at 50% 0%, rgba(232,28,90,.08), transparent 55%), var(--g-card); }
 .fx::before { content: ''; position: absolute; inset: 0; z-index: -2;
-    background-image: linear-gradient(rgba(255,255,255,.045) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.045) 1px, transparent 1px);
+    background-image: linear-gradient(rgba(20,18,14,.05) 1px, transparent 1px), linear-gradient(90deg, rgba(20,18,14,.05) 1px, transparent 1px);
     background-size: 44px 44px; -webkit-mask-image: radial-gradient(ellipse at center, #000 20%, transparent 75%); mask-image: radial-gradient(ellipse at center, #000 20%, transparent 75%); }
 .fx::after { content: ''; position: absolute; left: 50%; top: 22%; width: 760px; height: 760px; margin-left: -380px; z-index: -1; pointer-events: none;
-    background: radial-gradient(circle, rgba(232,28,90,.34) 0%, transparent 62%); animation: g-glow-breathe 6s ease-in-out infinite; }
+    background: radial-gradient(circle, rgba(232,28,90,.12) 0%, transparent 62%); animation: g-glow-breathe 6s ease-in-out infinite; }
 .fx-scan { position: absolute; left: 0; right: 0; top: 0; height: 120px; z-index: -1; pointer-events: none;
     background: linear-gradient(180deg, transparent, rgba(232,28,90,.14), transparent); animation: fx-scan 5s linear infinite; }
 @keyframes fx-scan { from { transform: translateY(-120px); } to { transform: translateY(640px); } }
@@ -37,14 +37,14 @@ include __DIR__ . '/../templates/header.php';
 .fx-tag i { width: 7px; height: 7px; border-radius: 50%; background: var(--g-success); animation: fx-blink 1.4s ease-in-out infinite; }
 @keyframes fx-blink { 50% { opacity: .25; } }
 .fx h1 { font-size: 66px; line-height: 1; text-transform: uppercase; margin-bottom: 14px; animation: g-fade-in-up .8s .3s var(--g-ease) both; }
-.fx h1 em { font-style: normal; color: var(--g-accent-light); text-shadow: 0 0 34px rgba(232,28,90,.65); position: relative; display: inline-block; overflow: hidden; vertical-align: bottom; }
+.fx h1 em { font-style: normal; color: var(--g-accent-light); text-shadow: 0 0 18px rgba(232,28,90,.3); position: relative; display: inline-block; overflow: hidden; vertical-align: bottom; }
 .fx h1 em::after { content: ''; position: absolute; top: 0; bottom: 0; width: 40%; left: -60%; background: linear-gradient(100deg, transparent, rgba(255,255,255,.55), transparent); transform: skewX(-18deg); animation: fx-shine 3.4s 1.6s ease-in-out infinite; }
 @keyframes fx-shine { 0% { left: -60%; } 40%, 100% { left: 130%; } }
-.fx .sub { font-size: 18px; line-height: 1.55; color: rgba(255,255,255,.8); max-width: 600px; margin: 0 auto 30px; animation: g-fade-in-up .8s .45s var(--g-ease) both; }
-.fx .sub b { color: #fff; }
+.fx .sub { font-size: 18px; line-height: 1.55; color: var(--g-text-secondary); max-width: 600px; margin: 0 auto 30px; animation: g-fade-in-up .8s .45s var(--g-ease) both; }
+.fx .sub b { color: var(--g-text); }
 .fx-stats { display: flex; justify-content: center; gap: 14px; flex-wrap: wrap; margin-bottom: 32px; animation: g-fade-in-up .8s .6s var(--g-ease) both; }
-.fx-stat { min-width: 150px; padding: 16px 22px; border-radius: var(--g-radius-sm); background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.14); backdrop-filter: blur(4px); }
-.fx-stat b { display: block; font-family: var(--g-font-display); font-size: 38px; line-height: 1; color: #fff; font-variant-numeric: tabular-nums; }
+.fx-stat { min-width: 150px; padding: 16px 22px; border-radius: var(--g-radius-sm); background: rgba(255,255,255,.65); border: 1px solid var(--g-border-strong); backdrop-filter: blur(4px); }
+.fx-stat b { display: block; font-family: var(--g-font-display); font-size: 38px; line-height: 1; color: var(--g-text); font-variant-numeric: tabular-nums; }
 .fx-stat span { display: block; margin-top: 6px; font-size: 12px; letter-spacing: .05em; text-transform: uppercase; color: var(--g-text-secondary); }
 .fx-cta { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; animation: g-fade-in-up .8s .75s var(--g-ease) both; }
 #fxConfetti { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 3; }

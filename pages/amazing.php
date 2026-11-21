@@ -12,11 +12,11 @@ $pageDesc = 'Новый сервер AMAZING Online открыт: сборки, 
 include __DIR__ . '/../templates/header.php';
 ?>
 <style>
-.az-hero { position: relative; overflow: hidden; border-radius: var(--g-radius); border: 1px solid var(--g-border-strong); min-height: 460px; margin: 8px 0 0; color: #fff;
-    background: #0e0e0e url('/assets/img/amazing/hero.webp') right center / cover no-repeat; isolation: isolate; }
+.az-hero { position: relative; overflow: hidden; border-radius: var(--g-radius); border: 1px solid var(--g-border-strong); min-height: 460px; margin: 8px 0 0; color: var(--g-text);
+    background: #F6F5F2 url('/assets/img/amazing/hero.webp') right center / cover no-repeat; isolation: isolate; }
 .az-hero::before { content: ''; position: absolute; inset: 0; z-index: -1;
-    background: linear-gradient(90deg, #0e0e0e 0%, rgba(14,14,14,.93) 34%, rgba(14,14,14,.55) 62%, rgba(14,14,14,.15) 100%),
-                linear-gradient(0deg, #0e0e0e 0%, transparent 38%); }
+    background: linear-gradient(90deg, rgba(246,245,242,.95) 0%, rgba(246,245,242,.85) 34%, rgba(246,245,242,.45) 62%, rgba(246,245,242,.15) 100%),
+                linear-gradient(0deg, #F6F5F2 0%, transparent 38%); }
 .az-hero::after { content: ''; position: absolute; left: -10%; top: -30%; width: 620px; height: 620px; z-index: -1; pointer-events: none;
     background: radial-gradient(circle, rgba(232,28,90,.32) 0%, transparent 66%); animation: g-glow-breathe 7s ease-in-out infinite; }
 .az-hero-inner { position: relative; padding: 56px 44px 64px; max-width: 640px; }
@@ -25,17 +25,17 @@ include __DIR__ . '/../templates/header.php';
 .az-hero-inner > *:nth-child(4) { animation-delay: .24s; } .az-hero-inner > *:nth-child(5) { animation-delay: .32s; }
 .az-eyebrow { display: inline-flex; align-items: center; gap: 8px; font-family: var(--g-font-mono); font-size: 12px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--g-accent-light); background: rgba(232,28,90,.14); border: 1px solid rgba(232,28,90,.4); padding: 6px 13px; border-radius: 9999px; margin-bottom: 20px; }
 .az-eyebrow i { width: 7px; height: 7px; border-radius: 50%; background: var(--g-accent-light); animation: g-badge-pulse 1.6s ease-in-out infinite; }
-.az-hero h1 { font-size: 52px; line-height: 1.02; font-weight: 700; margin-bottom: 16px; text-transform: uppercase; }
+.az-hero h1 { font-size: 52px; line-height: 1.02; font-weight: 700; margin-bottom: 16px; text-transform: uppercase; color: var(--g-text); }
 .az-hero h1 em { font-style: normal; display: block; color: var(--g-accent-light); text-shadow: 0 0 28px rgba(232,28,90,.55); }
-.az-hero p.lead { font-size: 16px; line-height: 1.6; color: rgba(255,255,255,.78); max-width: 500px; margin-bottom: 26px; }
+.az-hero p.lead { font-size: 16px; line-height: 1.6; color: var(--g-text-secondary); max-width: 500px; margin-bottom: 26px; }
 .az-cta { display: flex; gap: 12px; flex-wrap: wrap; }
 .az-chips { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 26px; }
-.az-chip { font-size: 12px; font-weight: 700; letter-spacing: .03em; padding: 7px 13px; border-radius: 9999px; background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.16); backdrop-filter: blur(4px); }
+.az-chip { font-size: 12px; font-weight: 700; letter-spacing: .03em; padding: 7px 13px; border-radius: 9999px; background: rgba(20,18,14,.04); border: 1px solid var(--g-border-strong); backdrop-filter: blur(4px); }
 .az-mascot { position: absolute; right: 3%; bottom: 0; height: 104%; max-height: 520px; z-index: 0; pointer-events: none; animation: az-float 6s ease-in-out infinite; filter: drop-shadow(0 18px 40px rgba(232,28,90,.35)); }
 @keyframes az-float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
 
 .az-count { display: flex; gap: 10px; margin-top: 24px; flex-wrap: wrap; }
-.az-count .countdown-unit { background: rgba(0,0,0,.45); backdrop-filter: blur(4px); min-width: 70px; }
+.az-count .countdown-unit { background: rgba(255,255,255,.7); backdrop-filter: blur(4px); min-width: 70px; }
 
 .az-section { margin-top: 44px; }
 .az-grid4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
@@ -62,10 +62,10 @@ include __DIR__ . '/../templates/header.php';
 .az-faq details[open] summary::after { transform: rotate(45deg); }
 .az-faq details div { padding: 0 18px 16px; font-size: 14px; line-height: 1.6; color: var(--g-text-secondary); animation: g-fade-in .35s var(--g-ease); }
 
-.az-final { position: relative; overflow: hidden; margin-top: 44px; padding: 40px; border-radius: var(--g-radius); border: 1px solid var(--g-accent); text-align: center; color: #fff;
-    background: radial-gradient(ellipse at top, rgba(232,28,90,.28), #0e0e0e 70%); box-shadow: 0 0 40px rgba(232,28,90,.18); }
+.az-final { position: relative; overflow: hidden; margin-top: 44px; padding: 40px; border-radius: var(--g-radius); border: 1px solid var(--g-accent); text-align: center; color: var(--g-text);
+    background: radial-gradient(ellipse at top, rgba(232,28,90,.10), var(--g-card) 70%); box-shadow: var(--g-shadow); }
 .az-final h2 { font-size: 32px; text-transform: uppercase; margin-bottom: 10px; }
-.az-final p { color: rgba(255,255,255,.75); max-width: 520px; margin: 0 auto 22px; line-height: 1.6; }
+.az-final p { color: var(--g-text-secondary); max-width: 520px; margin: 0 auto 22px; line-height: 1.6; }
 .az-final .az-cta { justify-content: center; }
 .az-note { margin-top: 22px; font-size: 12px; color: var(--g-text-secondary); text-align: center; }
 

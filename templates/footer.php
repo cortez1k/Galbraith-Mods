@@ -32,11 +32,11 @@
             </div>
             <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
                 <span style="font-size:14px;color:var(--g-text-secondary);">Фон страницы</span>
-                <input type="color" id="bgPicker" value="#0E0E0E" onchange="updateBg(this.value)" style="width:40px;height:40px;border:none;border-radius:8px;cursor:pointer;background:none;">
+                <input type="color" id="bgPicker" value="#F6F5F2" onchange="updateBg(this.value)" style="width:40px;height:40px;border:none;border-radius:8px;cursor:pointer;background:none;">
             </div>
             <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
                 <span style="font-size:14px;color:var(--g-text-secondary);">Фон карточек</span>
-                <input type="color" id="cardPicker" value="#0F0F0F" onchange="updateCard(this.value)" style="width:40px;height:40px;border:none;border-radius:8px;cursor:pointer;background:none;">
+                <input type="color" id="cardPicker" value="#FFFFFF" onchange="updateCard(this.value)" style="width:40px;height:40px;border:none;border-radius:8px;cursor:pointer;background:none;">
             </div>
             <button class="btn btn-secondary" style="width:100%;" onclick="resetTheme()">Сбросить настройки</button>
         </div>

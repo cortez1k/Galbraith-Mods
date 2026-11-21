@@ -111,10 +111,10 @@ foreach ($uploadDirs as $d) {
 // Default settings
 $default_settings = [
     'accent_default' => '#E81C5A',
-    'bg_main_default' => '#0D0D0F',
-    'bg_card_default' => '#16161A',
-    'text_main_default' => '#F0F0F5',
-    'text_secondary_default' => '#8E8E93',
+    'bg_main_default' => '#F6F5F2',
+    'bg_card_default' => '#FFFFFF',
+    'text_main_default' => '#17140F',
+    'text_secondary_default' => '#6B6862',
     'bg_main_light' => '#F5F5F7',
     'bg_card_light' => '#FFFFFF',
     'text_main_light' => '#1D1D1F',

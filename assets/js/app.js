@@ -11,8 +11,8 @@
     const bgPicker = document.getElementById('bgPicker');
     const cardPicker = document.getElementById('cardPicker');
     if (accentPicker) accentPicker.value = theme.accent || '#E81C5A';
-    if (bgPicker) bgPicker.value = theme.bg || '#0E0E0E';
-    if (cardPicker) cardPicker.value = theme.card || '#0F0F0F';
+    if (bgPicker) bgPicker.value = theme.bg || '#F6F5F2';
+    if (cardPicker) cardPicker.value = theme.card || 'rgba(255,255,255,0.7)';
     updateToggleDot();
 })();
 
@@ -65,8 +65,8 @@ function resetTheme() {
     const bp = document.getElementById('bgPicker');
     const cp = document.getElementById('cardPicker');
     if (ap) ap.value = '#E81C5A';
-    if (bp) bp.value = '#0E0E0E';
-    if (cp) cp.value = '#0F0F0F';
+    if (bp) bp.value = '#F6F5F2';
+    if (cp) cp.value = 'rgba(255,255,255,0.7)';
     const av = document.getElementById('accentValue');
     if (av) av.textContent = '#E81C5A';
     updateToggleDot();

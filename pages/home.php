@@ -76,7 +76,7 @@ foreach (getMaterials(null, null, null, 'new') as $m) { if ($m['access_type'] ==
             <?php foreach ($news as $n): ?>
             <div style="flex:0 0 280px;scroll-snap-align:start;background:var(--g-card);border:1px solid var(--g-border);border-radius:var(--g-radius);overflow:hidden;display:flex;flex-direction:column;">
                 <?php if ($n['image_url']): ?>
-                <div style="height:140px;background:linear-gradient(135deg,#1a1a2e,#16213e);overflow:hidden;">
+                <div style="height:140px;background:linear-gradient(135deg,#E9E9F2,#DDE4F0);overflow:hidden;">
                     <img src="<?= e(UPLOAD_URL . $n['image_url']) ?>" style="width:100%;height:100%;object-fit:cover;">
                 </div>
                 <?php endif; ?>
@@ -100,7 +100,7 @@ foreach (getMaterials(null, null, null, 'new') as $m) { if ($m['access_type'] ==
             if (!empty($popular[0])): $pop = $popular[0]; 
             ?>
             <a href="/mod/<?= e($pop['slug']) ?>" style="flex:0 0 280px;scroll-snap-align:start;background:var(--g-card);border:1px solid var(--g-border);border-radius:var(--g-radius);overflow:hidden;display:flex;flex-direction:column;text-decoration:none;color:inherit;">
-                <div style="height:140px;background:linear-gradient(135deg,#2a1a3e,#1a1a2e);display:flex;align-items:center;justify-content:center;position:relative;">
+                <div style="height:140px;background:linear-gradient(135deg,#EFE4F2,#E4E9F2);display:flex;align-items:center;justify-content:center;position:relative;">
                     <?php if ($pop['cover_path']): ?>
                         <img src="<?= e(UPLOAD_URL . $pop['cover_path']) ?>" style="width:100%;height:100%;object-fit:cover;opacity:0.7;">
                     <?php endif; ?>
@@ -121,7 +121,7 @@ foreach (getMaterials(null, null, null, 'new') as $m) { if ($m['access_type'] ==
                 $rand = $allMats[array_rand($allMats)];
             ?>
             <a href="/mod/<?= e($rand['slug']) ?>" style="flex:0 0 280px;scroll-snap-align:start;background:var(--g-card);border:1px solid var(--g-border);border-radius:var(--g-radius);overflow:hidden;display:flex;flex-direction:column;text-decoration:none;color:inherit;">
-                <div style="height:140px;background:linear-gradient(135deg,#1a2e1a,#0d1f0d);display:flex;align-items:center;justify-content:center;position:relative;">
+                <div style="height:140px;background:linear-gradient(135deg,#E2F0E4,#D8E9DC);display:flex;align-items:center;justify-content:center;position:relative;">
                     <?php if ($rand['cover_path']): ?>
                         <img src="<?= e(UPLOAD_URL . $rand['cover_path']) ?>" style="width:100%;height:100%;object-fit:cover;opacity:0.6;">
                     <?php endif; ?>
