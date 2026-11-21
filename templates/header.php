@@ -50,7 +50,7 @@ $unreadCount = $headerUser ? getUnreadNotificationsCount($headerUser['id']) : 0;
         </div>
     </div>
     <?php endif; ?>
-    <header class="header">
+    <header class="header header-capsule">
         <div class="container header-inner">
             <a href="/" class="logo">
                 <?php if ($logo): ?>
@@ -118,6 +118,7 @@ $unreadCount = $headerUser ? getUnreadNotificationsCount($headerUser['id']) : 0;
     <nav class="mobile-nav" id="mobileNav">
         <a href="/catalog" class="<?= $currentPath === '/catalog' ? 'active' : '' ?>">Каталог</a>
         <a href="/marketplace" class="<?= $currentPath === '/marketplace' ? 'active' : '' ?>">Торговая площадка</a>
+        <a href="/projects" class="<?= $currentPath === '/projects' ? 'active' : '' ?>">Проекты</a>
         <?php foreach ($menuPages as $p): ?>
             <a href="/page/<?= e($p['slug']) ?>"><?= e($p['title']) ?></a>
         <?php endforeach; ?>

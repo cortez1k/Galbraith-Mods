@@ -12,8 +12,8 @@ $totalCount = count(getMaterials(null, null, null, 'new'));
 $freeCount = 0;
 foreach (getMaterials(null, null, null, 'new') as $m) { if ($m['access_type'] === 'free') $freeCount++; }
 ?>
-<div class="hero-unusual">
-    <div class="hero-unusual-panel">
+<div class="hero-lumo">
+    <div class="hero-lumo-panel">
         <span class="hero-unusual-eyebrow"><i></i> Galbraith · Amazing RP</span>
         <h1>Сборки и моды<br>для <em>AMAZING RP</em></h1>
         <p>Качественный контент для Amazing RP. Выполняй задания — получай доступ к загрузке уже сегодня.</p>
@@ -236,6 +236,24 @@ function scrollNews(dir) {
     const el = document.getElementById('newsCarousel');
     el.scrollBy({ left: dir * 296, behavior: 'smooth' });
 }
+
+// Lumo: плавное появление карточек при прокрутке
+(function() {
+    const cards = document.querySelectorAll('.grid > a.card');
+    if (!cards.length) return;
+    if (!('IntersectionObserver' in window)) { cards.forEach(c => c.classList.add('reveal-in')); return; }
+    cards.forEach(c => c.classList.add('reveal'));
+    const io = new IntersectionObserver(entries => {
+        entries.forEach((en, i) => {
+            if (en.isIntersecting) {
+                en.target.style.transitionDelay = (i * 60) + 'ms';
+                en.target.classList.add('reveal-in');
+                io.unobserve(en.target);
+            }
+        });
+    }, { threshold: 0.12 });
+    cards.forEach(c => io.observe(c));
+})();
 </script>
 
 <?php include __DIR__ . '/../templates/footer.php'; ?>

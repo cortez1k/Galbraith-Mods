@@ -1154,3 +1154,20 @@ body.light-mode .admin-table tr:hover td { background: rgba(0,0,0,0.02); }
 .nd-tag { font-size: 11.5px; font-weight: 700; padding: 4px 11px; border-radius: 9999px; border: 1px solid var(--g-border-strong); color: var(--g-text-secondary); white-space: nowrap; }
 .nd-cta { margin-left: auto; font-weight: 700; font-size: 13.5px; color: var(--g-accent-light); white-space: nowrap; }
 @media (max-width: 640px) { .nd-tag { display: none; } .nd-cta { font-size: 12px; white-space: normal; text-align: right; } .nd-text b { font-size: 21px; } }
+
+/* ===== Lumo-style redesign (v4) ===== */
+.header-capsule { background: rgba(14,14,14,0.72); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom: 1px solid rgba(255,255,255,0.08); }
+.hero-lumo { position: relative; margin: 8px 0 36px; text-align: center; }
+.hero-lumo-panel { position: relative; overflow: hidden; background: radial-gradient(ellipse at top, rgba(232,28,90,0.18), transparent 60%), #0E0E0E; border: 1px solid rgba(255,255,255,0.10); border-radius: var(--g-radius); padding: 64px 40px 52px; }
+.hero-lumo-panel h1 { font-size: clamp(32px, 5vw, 56px); line-height: 1.05; margin: 0 0 16px; }
+.hero-lumo-panel h1 em { color: var(--g-accent-light); font-style: normal; }
+.hero-lumo-panel p { max-width: 640px; margin: 0 auto 28px; color: var(--g-text-secondary); }
+.hero-lumo-stats { display: flex; gap: 32px; justify-content: center; flex-wrap: wrap; }
+.hero-lumo-stat b { font-size: 28px; display: block; }
+.hero-lumo-stat span { font-size: 12px; color: var(--g-text-secondary); text-transform: uppercase; letter-spacing: .08em; }
+.glass-tile { background: rgba(255,255,255,0.05); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.10); border-radius: var(--g-radius); padding: 24px; transition: transform var(--g-t-base) var(--g-ease), border-color var(--g-t-base) var(--g-ease); }
+.glass-tile:hover { transform: translateY(-4px); border-color: var(--g-accent); }
+@media (max-width: 640px) { .hero-lumo-panel { padding: 40px 20px 36px; } .hero-lumo-stats { gap: 18px; } }
+.reveal { opacity: 0; transform: translateY(16px); transition: opacity var(--g-t-slow) var(--g-ease), transform var(--g-t-slow) var(--g-ease); }
+.reveal-in { opacity: 1; transform: translateY(0); }
+@media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; transition: none; } }
