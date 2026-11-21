@@ -164,6 +164,17 @@ function ensureTables($db) {
             )
         ');
     }
+    if (!in_array('projects', $existing)) {
+        $db->exec('
+            CREATE TABLE projects (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                title VARCHAR(255) NOT NULL,
+                url VARCHAR(2048) NOT NULL,
+                sort_order INTEGER DEFAULT 0,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            )
+        ');
+    }
     // Add totp_secret to users if missing
     $cols = $db->query("PRAGMA table_info(users)")->fetchAll();
     $colNames = array_column($cols, 'name');

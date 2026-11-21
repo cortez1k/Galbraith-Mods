@@ -3,7 +3,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $db = getDB();
     if (isset($_POST['action']) && $_POST['action'] === 'add') {
         $stmt = $db->prepare('INSERT INTO projects (title, url, sort_order) VALUES (?, ?, ?)');
-        $stmt->execute([$_POST['title'], $_POST['url'], $_POST['sort_order'] ?? 0]);
+        $stmt->execute([trim($_POST['title']), trim($_POST['url']), (int)($_POST['sort_order'] ?? 0)]);
         redirect('/admin/projects');
     }
     if (isset($_POST['action']) && $_POST['action'] === 'delete') {
@@ -47,7 +47,11 @@ include __DIR__ . '/../templates/admin_header.php';
                 <td><?= e($p['title']) ?></td>
                 <td><a href="<?= e($p['url']) ?>" target="_blank" style="color: var(--g-accent-light);">Перейти</a></td>
                 <td>
-                    <a href="/admin/projects/delete/<?= $p['id'] ?>" class="btn btn-secondary btn-sm" style="color: var(--g-danger);">Удалить</a>
+                    <form method="POST" style="display:inline;" onsubmit="return confirm('Удалить проект?')">
+                        <input type="hidden" name="action" value="delete">
+                        <input type="hidden" name="id" value="<?= (int)$p['id'] ?>">
+                        <button type="submit" class="btn btn-secondary btn-sm" style="color: var(--g-danger);">Удалить</button>
+                    </form>
                 </td>
             </tr>
             <?php endforeach; ?>
@@ -57,6 +61,3 @@ include __DIR__ . '/../templates/admin_header.php';
 </div>
 
 <?php include __DIR__ . '/../templates/admin_footer.php'; ?>
-
-<a href="/admin/projects/delete/<?= $id ?>" onclick="return confirm('Удалить проект?')">Удалить</a>
-<?php endif; ?>

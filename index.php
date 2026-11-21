@@ -1098,6 +1098,9 @@ if ($uri === '' || $uri === 'index.php') {
 } elseif ($uri === 'admin/nicks') {
     requireAdmin();
     require __DIR__ . '/admin/nicks.php';
+} elseif ($uri === 'admin/projects') {
+    requireAdmin();
+    require __DIR__ . '/admin/projects.php';
 } elseif ($uri === 'fixed') {
     require __DIR__ . '/pages/fixed.php';
 } elseif ($uri === 'projects') {
