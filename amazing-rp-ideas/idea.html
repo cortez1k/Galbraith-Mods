@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Galbraith — панель идей</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0d0c14;--card:#171622;--card2:#1f1e2c;--line:#2b2a3d;--tx:#eceaf7;--mut:#9391aa;--ac:#7c5cff;--ok:#3ecf8e}
+[data-theme=light]{--bg:#f4f3fb;--card:#fff;--card2:#f0eefb;--line:#e2e0f0;--tx:#1a1927;--mut:#6a6882}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.5 Inter,system-ui,sans-serif}
+a{color:var(--ac);text-decoration:none}
+h2{margin:0 0 4px;font-size:22px}
+p{margin:0}
+.mut{color:var(--mut)}
+header{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
+.bar{max-width:1080px;margin:auto;padding:12px 20px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:18px}
+.logo i{width:32px;height:32px;border-radius:9px;background:var(--ac);color:#fff;display:grid;place-items:center;font-style:normal}
+nav{display:flex;gap:4px;flex:1;flex-wrap:wrap}
+nav button,.tabs button{background:none;border:0;color:var(--mut);font:inherit;font-weight:600;padding:8px 12px;border-radius:10px;cursor:pointer}
+nav button.on,.tabs button.on{background:var(--card2);color:var(--tx)}
+.wrap{max-width:1080px;margin:auto;padding:24px 20px 80px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px}
+.grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(310px,1fr))}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.btn{border:1px solid var(--line);background:var(--card);color:var(--tx);padding:9px 14px;border-radius:10px;font:inherit;font-weight:600;cursor:pointer}
+.btn:hover{border-color:var(--ac)}
+.pri{background:var(--ac);border-color:var(--ac);color:#fff}
+.roll{padding:14px 26px;font-size:17px;border-radius:14px}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+input,select,textarea{background:var(--card2);color:var(--tx);border:1px solid var(--line);border-radius:10px;padding:10px 12px;font:inherit;max-width:100%}
+input.grow{flex:1;min-width:200px}
+textarea{width:100%;resize:vertical}
+.sec{margin-top:28px}
+.tag{display:inline-block;background:var(--card2);border:1px solid var(--line);border-radius:99px;padding:2px 10px;font-size:12px;color:var(--mut);margin:0 6px 8px 0}
+.idea b{display:block;font-size:17px;line-height:1.3;margin-bottom:8px}
+.idea ul{margin:6px 0 12px;padding-left:18px;color:var(--mut)}
+.idea .k{font-weight:600}
+.vid{display:flex;gap:14px;align-items:flex-start}
+.vid img{width:168px;border-radius:10px;flex:none}
+.stats{display:flex;gap:6px 14px;flex-wrap:wrap;margin-top:8px}
+.up{color:var(--ok);margin-left:4px}
+.plan{display:grid;grid-template-columns:1fr auto auto auto;gap:10px;align-items:center;margin-bottom:10px}
+.sum{display:flex;gap:26px;flex-wrap:wrap;margin-bottom:14px}
+.sum b{font-size:24px;display:block}
+.tip{border-left:3px solid var(--ac);padding-left:14px;margin-bottom:12px}
+.err{color:#ff6b7a;margin-top:10px;min-height:20px}
+#login{position:fixed;inset:0;background:var(--bg);display:grid;place-items:center;z-index:20;padding:20px}
+#login .card{width:min(400px,100%);text-align:center}
+#code{width:100%;text-align:center;font-size:22px;letter-spacing:3px;margin:16px 0 12px;text-transform:uppercase}
+#toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);background:var(--ac);color:#fff;padding:10px 18px;border-radius:12px;opacity:0;pointer-events:none;transition:opacity .2s;z-index:30}
+#toast.on{opacity:1}
+.tabs{display:flex;gap:4px;margin:12px 0 16px;flex-wrap:wrap}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.ch{text-align:center;font-size:13px}
+.day{min-height:84px;background:var(--card2);border:1px solid var(--line);border-radius:10px;padding:6px;cursor:pointer;overflow:hidden}
+.day.today{border-color:var(--ac)}
+.ev{font-size:12px;background:var(--ac);color:#fff;border-radius:6px;padding:2px 6px;margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ev.st4,.ev.st5{background:var(--ok)}
+.msg{padding:12px 14px;border-radius:14px;margin-bottom:10px;max-width:92%}
+.msg.u{background:var(--ac);color:#fff;margin-left:auto}
+.msg.a{background:var(--card);border:1px solid var(--line)}
+.ev.warn{outline:2px solid #ff6b7a}
+.meter{height:8px;background:var(--card2);border-radius:99px;overflow:hidden}
+.meter i{display:block;height:100%;background:var(--ac)}
+dialog{background:var(--card);color:var(--tx);border:1px solid var(--line);border-radius:18px;width:min(720px,94vw);padding:20px;max-height:90vh}
+dialog::backdrop{background:rgba(0,0,0,.65)}
+.bar{gap:8px 12px}
+.logo{order:1;margin-right:auto}
+#theme{order:2}#out{order:3}
+nav{order:4;flex:1 0 100%;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;gap:6px;padding-bottom:2px}
+nav::-webkit-scrollbar{display:none}
+nav button,.tabs button{white-space:nowrap;flex:none;min-height:40px;display:inline-flex;align-items:center}
+.btn,input,select{min-height:42px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;line-height:1.2;text-align:center}
+.btn.sm{min-height:34px;padding:5px 12px;font-size:13px}
+input[type=file]{min-height:0;padding:8px}
+.row>.btn,.row>select,.row>input{margin:0}
+.plan{align-items:start}
+.vid{align-items:flex-start}
+.idea .row .btn{flex:1 1 auto}
+#cmsgs{max-height:62vh;overflow-y:auto;padding-right:4px}
+.clip{max-height:220px;overflow:hidden;-webkit-mask-image:linear-gradient(#000 60%,transparent);mask-image:linear-gradient(#000 60%,transparent)}
+.md p{margin:0 0 10px}.md p:last-child{margin:0}
+.md ul,.md ol{margin:0 0 10px;padding-left:22px}
+.md h4{margin:12px 0 6px;font-size:16px}
+.md hr{border:0;border-top:1px solid var(--line);margin:12px 0}
+.md code,.md pre{background:var(--card2);border-radius:6px;font-size:13px}
+.md code{padding:1px 5px}.md pre{padding:10px;overflow-x:auto}
+.tw{overflow-x:auto;margin:8px 0 12px}
+.md table{border-collapse:collapse;width:100%;font-size:14px}
+.md th,.md td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+.md th{background:var(--card2);white-space:nowrap}
+.msg.u .md{color:#fff}
+.msg{width:fit-content;min-width:120px}
+@media(max-width:640px){.row>.btn,.row>select,.row>input:not([type=file]){flex:1 1 150px}.msg{max-width:100%}}
+[hidden]{display:none!important}
+@media(max-width:640px){.day{min-height:56px}.ev{font-size:10px}}
+@media(max-width:640px){.vid{flex-direction:column}.vid img{width:100%}.plan{grid-template-columns:1fr 1fr}.plan>div:first-child{grid-column:1/-1}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div id="login">
+  <div class="card">
+    <div class="logo" style="justify-content:center"><i>G</i>Galbraith</div>
+    <p class="mut" style="margin-top:8px">Панель идей для Amazing RP</p>
+    <input id="code" type="password" placeholder="Код доступа" autocomplete="off" autofocus>
+    <button class="btn pri" id="go" style="width:100%">Войти</button>
+    <div class="err" id="err"></div>
+  </div>
+</div>
+
+<div id="app" hidden>
+<header><div class="bar">
+  <div class="logo"><i>G</i>Панель идей</div>
+  <nav>
+    <button data-tab="recs" class="on">🏠 Главная</button>
+    <button data-tab="ideas">💡 Идеи</button>
+    <button data-tab="plan">📅 План</button>
+    <button data-tab="chat">🎬 Сценарист</button>
+    <button data-tab="vids">📊 Ролики</button>
+    <button data-tab="shorts">🩳 Shorts</button>
+    <button data-tab="bl">⭐ Блогеры</button>
+  </nav>
+  <button class="btn" id="theme" title="Тема">🌗</button>
+  <button class="btn" id="out">Выйти</button>
+</div></header>
+
+<main class="wrap">
+<section id="t-ideas" hidden>
+  <h2>Конструктор идей</h2>
+  <p class="mut">Выбери тему и формат или оставь «любой» — получишь заголовок, хук, превью и структуру.</p>
+  <div class="row" style="margin:16px 0">
+    <select id="ftopic"></select>
+    <select id="ffmt"></select>
+    <button class="btn pri roll" id="roll">🎲 Сгенерировать идеи</button>
+  </div>
+  <div class="grid" id="gen"></div>
+  <div class="sec">
+    <h2>⭐ Банк идей</h2>
+    <div class="grid" id="bank"></div>
+  </div>
+  <div class="sec card">
+    <b>Список тем</b>
+    <p class="mut" style="margin:4px 0 10px">Одна тема в строке — так генератор подстраивается под твой контент. Пиши без глаголов, например «фарм денег с нуля».</p>
+    <textarea id="topics" rows="6"></textarea>
+  </div>
+</section>
+
+<section id="t-plan" hidden>
+  <h2>Планировщик</h2>
+  <p class="mut">Нажми на день в календаре, чтобы выбрать дату. В карточке ролика («Открыть карточку ролика») — превью, три названия и описание.</p>
+  <div class="card" id="cal" style="margin-top:16px"></div>
+  <div class="row" style="margin:16px 0">
+    <input class="grow" id="ptitle" placeholder="Название ролика">
+    <input type="date" id="pdate">
+    <button class="btn pri" id="padd">Добавить</button>
+  </div>
+  <div id="plist"></div>
+</section>
+
+<section id="t-vids" hidden>
+  <h2>Статистика роликов</h2>
+  <p class="mut">Вставь ссылку на ролик — данные подтянутся из YouTube. Каждое обновление сохраняет снимок, поэтому видно прирост.</p>
+  <div class="row" style="margin:16px 0">
+    <input class="grow" id="vurl" placeholder="https://www.youtube.com/watch?v=…">
+    <button class="btn pri" id="vadd">Добавить ролик</button>
+    <button class="btn" id="vref">🔄 Обновить всё</button>
+  </div>
+  <div class="card" style="margin-bottom:16px">
+    <div class="row">
+      <input id="handle" placeholder="@канал">
+      <button class="btn" id="vch">Загрузить 10 последних (без стримов)</button>
+    </div>
+    <div class="row" style="margin-top:10px"><button class="btn" id="vlast">Только последний ролик</button><input type="date" id="pfrom" title="С"><input type="date" id="pto" title="По"><button class="btn" id="vper">Загрузить за период</button></div>
+    <div id="chbox" style="margin-top:12px"></div>
+  </div>
+  <div class="err" id="verr"></div>
+  <div class="grid" id="vlist" style="grid-template-columns:1fr"></div>
+  <details class="sec"><summary class="mut" style="cursor:pointer">Свой API-ключ YouTube</summary>
+    <p class="mut" style="margin:8px 0">Если оставить пустым, используется встроенный ключ.</p>
+    <input class="grow" id="mykey" placeholder="AIza…" style="width:100%">
+  </details>
+</section>
+
+<section id="t-chat" hidden>
+  <h2>Сценарист</h2>
+  <p class="mut">Чат-соавтор: знает твой канал, манеру речи и тренды YouTube. Напиши идею, он уточнит детали и вместе с тобой соберёт текст.</p>
+  <div class="row" style="margin:14px 0"><select id="cplan"></select><button class="btn" id="ctr">📈 Обновить тренды</button><button class="btn" id="cclr">🗑 Очистить чат</button></div>
+  <div class="row" id="cchips" style="margin-bottom:12px"></div>
+  <div id="cmsgs"></div>
+  <div class="row" style="margin-top:12px;align-items:flex-end"><textarea id="cin" rows="3" placeholder="Например: хочу ролик про новую работу, помоги с интро. Ctrl+Enter — отправить" style="flex:1"></textarea><button class="btn pri" id="csend">Отправить</button></div>
+  <details class="sec"><summary class="mut" style="cursor:pointer">Мои транскрипты (образцы манеры речи)</summary><p class="mut" style="margin:8px 0">Два твоих ролика уже встроены. Добавь .txt с текстом других — чат подстроится под твою речь.</p><input type="file" id="ctf" accept=".txt" multiple><div id="ctl" style="margin-top:10px"></div></details>
+</section>
+<section id="t-shorts" hidden>
+  <h2>Shorts</h2><p class="mut">Ролики до 3 минут из загруженных автоматически попадают сюда.</p>
+  <div class="card" style="margin:16px 0"><div class="row" style="justify-content:space-between"><b>✨ Идеи для Shorts</b><button class="btn" id="shgo">Придумать</button></div><div id="shbox" style="margin-top:10px"></div></div>
+  <div class="grid" id="slist" style="grid-template-columns:1fr"></div>
+</section>
+<section id="t-bl" hidden>
+  <h2>Блогеры ниши</h2><p class="mut">Добавь каналы сильных авторов по GTA RP — панель покажет, что у них заходит.</p>
+  <div class="row" style="margin:16px 0"><input class="grow" id="blh" placeholder="@канал1, @канал2"><button class="btn pri" id="blgo">Загрузить</button><button class="btn" id="blai">🤖 Что у них заходит</button></div>
+  <div class="err" id="blerr"></div><div id="blbox" class="card" hidden style="margin-bottom:16px"></div><div class="grid" id="bllist"></div>
+</section>
+<section id="t-recs">
+  <h2>Главная</h2>
+  <p class="mut" style="margin-bottom:16px">Что работает на канале и что снимать дальше.</p>
+  <div id="hsum"></div>
+  <div class="card" style="margin-bottom:16px">
+    <div class="row" style="justify-content:space-between"><b>🤖 Рекомендации ИИ</b><button class="btn" id="airef">🔄 Пересчитать</button></div>
+    <div id="aibox" style="margin-top:10px"></div>
+  </div>
+  <div class="card" style="margin-bottom:16px"><b>🔥 Какой формат залетает лучше</b><div id="fbars" style="margin-top:12px"></div></div>
+  <div class="card" style="margin-bottom:16px"><div class="row" style="justify-content:space-between"><b>💬 Идеи из комментариев</b><button class="btn" id="cmgo">Проанализировать</button></div><div id="cmbox" style="margin-top:10px"><span class="mut">Панель возьмёт комментарии под тремя лучшими роликами и найдёт вопросы зрителей.</span></div></div>
+  <h2 class="sec">Выводы по роликам</h2>
+  <div id="rlist" style="margin-top:12px"></div>
+  <details class="sec"><summary class="mut" style="cursor:pointer">⚙ Настройки ИИ и описаний</summary>
+    <p class="mut" style="margin:8px 0">Ключ хранится только в этом браузере.</p>
+    <div class="row"><select id="aiprov"><option value="gemini">Google Gemini (бесплатно)</option><option value="groq">Groq (бесплатно, много запросов)</option><option value="openrouter">OpenRouter (бесплатно, 50 запросов/день)</option><option value="deepseek">DeepSeek (очень дёшево)</option><option value="anthropic">Anthropic Claude (платно)</option></select><input class="grow" id="aikey" type="password" placeholder="Ключ ИИ"><input id="aimodel" placeholder="Модель"></div>
+    <p class="mut" style="margin:12px 0 6px">Блок со ссылками для описаний</p>
+    <textarea id="links" rows="6"></textarea>
+    <div class="row" style="margin-top:12px"><button class="btn" id="bkx">⬇ Скачать бэкап</button><label class="btn">⬆ Загрузить бэкап<input type="file" id="bki" accept=".json" hidden></label></div>
+  </details>
+</section>
+</main>
+</div>
+<dialog id="dlg"><div id="dbody"></div></dialog>
+<div id="toast"></div>
+
+<script>
+const BLOB='IyNHqAgwGRA9TvZHZjBDQD8TV2YwFmTZNlRsr8BnD/TpzDhznl6j7onKKetFLzHdN6KFKGqTRAEHLAnKmf4tu5x6M2YQROleHFAlXrIWedl5i9U=';
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const fmt=n=>Math.round(n).toLocaleString('ru-RU');
+const cap=s=>s[0].toUpperCase()+s.slice(1);
+const rnd=a=>a[Math.floor(Math.random()*a.length)];
+let KEY='',GEN=[];
+const LINKS=`🔥 Начни играть на Amazing Online: https://amazing-online.com/a/gabi
+🎁 Мой личный промокод: GABI (дает крутые бонусы при старте!)
+
+Ищи меня здесь:
+📱 Telegram: https://t.me/galbraith_yt`;
+const S={aiKey:'',aiProv:'gemini',aiModel:'gemini-3.6-flash',links:LINKS,aiText:'',aiSig:'',ideas:[],plan:[],videos:[],topics:null,handle:'@galbraith1629',myKey:'',ch:null,theme:'dark'};
+const load=()=>{try{Object.assign(S,JSON.parse(localStorage.getItem('gb_panel')||'{}'))}catch(e){}};
+const save=()=>{try{localStorage.setItem('gb_panel',JSON.stringify(S))}catch(e){toast('Не хватило места в браузере — удали лишние превью')}};
+function toast(t){const e=$('#toast');e.textContent=t;e.classList.add('on');setTimeout(()=>e.classList.remove('on'),1800)}
+
+/* ---------- вход: код расшифровывает API-ключ ---------- */
+async function unlock(code){
+  const pw=code.toUpperCase().replace(/[^A-Z0-9]/g,'');
+  const raw=Uint8Array.from(atob(BLOB),c=>c.charCodeAt(0));
+  const km=await crypto.subtle.importKey('raw',new TextEncoder().encode(pw),'PBKDF2',false,['deriveKey']);
+  const k=await crypto.subtle.deriveKey({name:'PBKDF2',salt:raw.slice(0,16),iterations:250000,hash:'SHA-256'},km,{name:'AES-GCM',length:256},false,['decrypt']);
+  return new TextDecoder().decode(await crypto.subtle.decrypt({name:'AES-GCM',iv:raw.slice(16,28)},k,raw.slice(28)));
+}
+async function login(code,auto){
+  if(!window.crypto||!crypto.subtle){$('#err').textContent='Открой сайт по HTTPS — иначе вход не работает';return}
+  $('#go').disabled=true;
+  try{KEY=await unlock(code);try{sessionStorage.setItem('gb_p',code)}catch(e){}start()}
+  catch(e){if(!auto)$('#err').textContent='Неверный код доступа'}
+  $('#go').disabled=false;
+}
+$('#go').onclick=()=>login($('#code').value);
+$('#code').onkeydown=e=>{if(e.key==='Enter')$('#go').click()};
+$('#out').onclick=()=>{try{sessionStorage.removeItem('gb_p')}catch(e){}location.reload()};
+try{const p=sessionStorage.getItem('gb_p');if(p)login(p,true)}catch(e){}
+
+/* ---------- данные генератора ---------- */
+const TOPICS=['фарм денег с нуля','лучшая работа для новичка','дезинсектор','бизнес','AHK-скрипты','сборка FPS UP','гос. организации','автомобили и тюнинг','обновление сервера','заработок без доната'];
+const FORMATS=[
+ {n:'Гайд',t:x=>`Гайд: ${x} в Amazing RP — с нуля до результата`,h:'Покажи готовый результат в первые 5 секунд, потом объясни путь к нему',th:x=>`Крупно «${cap(x)}» и твоё лицо с удивлением`,o:['Результат в первых 10 секундах','Пошаговая инструкция','Частые ошибки','Итог и ссылка на сайт']},
+ {n:'Ошибки',t:x=>`${cap(x)}: 5 ошибок, которые делают все новички`,h:'Начни с самой обидной ошибки — той, что стоит денег',th:x=>`Красный крестик на «${x}» и цифра 5`,o:['Ошибка №1 с примером','Как её исправить','Остальные ошибки по нарастающей','Чек-лист в конце']},
+ {n:'Челлендж',t:x=>`24 часа: ${x} — сколько получится заработать?`,h:'Назови стартовый капитал и цель, в конце сравни с результатом',th:x=>`Таймер 24:00 и сумма на экране («${x}»)`,o:['Правила и стартовый капитал','Ход челленджа с таймкодами','Неожиданный поворот','Итоговая цифра']},
+ {n:'Проверка',t:x=>`Новая имба? ${cap(x)} — проверяю на себе`,h:'Задай вопрос «стоит ли оно того?» и не отвечай до середины ролика',th:x=>`Вопросительный знак и «${cap(x)}»`,o:['Что обещают','Тест в реальных условиях','Плюсы и минусы','Вердикт']},
+ {n:'Мифы',t:x=>`${cap(x)}: миф или реальность? Проверка`,h:'Озвучь самый популярный миф и пообещай его разбить',th:x=>`Надпись «ФЕЙК?» поверх «${x}»`,o:['Список мифов','Проверка каждого','Что оказалось правдой','Что делать вместо этого']},
+ {n:'Топ',t:x=>`Топ-5 лайфхаков: ${x}`,h:'Начни с лайфхака №5 и намекни, что №1 изменит подход',th:x=>`Цифра 5 и «${cap(x)}»`,o:['Лайфхак №5','№4 и №3','№2','№1 и бонус']},
+ {n:'Сравнение',t:x=>`${cap(x)} — что выгоднее? Сравнение способов`,h:'Поставь два варианта рядом и дай зрителю угадать победителя',th:x=>`Экран пополам: VS и «${x}»`,o:['Условия сравнения','Раунд 1: скорость','Раунд 2: прибыль','Победитель']},
+ {n:'Shorts',t:x=>`${cap(x)} за 60 секунд #shorts`,h:'Один приём и один результат, без вступления',th:x=>`Один яркий кадр с результатом «${x}»`,o:['Хук 0–3 секунды','Один приём','Результат','Призыв к длинному ролику']}
+];
+function fillSel(){
+  const t=S.topics&&S.topics.length?S.topics:TOPICS;
+  $('#ftopic').innerHTML='<option value="">Любая тема</option>'+t.map(x=>`<option>${esc(x)}</option>`).join('');
+  $('#ffmt').innerHTML='<option value="">Любой формат</option>'+FORMATS.map(f=>`<option>${f.n}</option>`).join('');
+}
+function roll(){
+  const T=(S.topics&&S.topics.length?S.topics:TOPICS),ft=$('#ftopic').value,ff=$('#ffmt').value,seen=new Set();GEN=[];
+  for(let i=0;i<60&&GEN.length<6;i++){
+    const x=ft||rnd(T),f=ff?FORMATS.find(a=>a.n===ff):rnd(FORMATS),k=x+f.n;
+    if(seen.has(k))continue;seen.add(k);
+    GEN.push({id:Date.now()+i,title:f.t(x),hook:f.h,thumb:f.th(x),outline:f.o,fmt:f.n,topic:x});
+  }
+  renderGen();
+}
+const ideaCard=(x,a1,a2,i)=>`<div class="card idea"><span class="tag">${esc(x.fmt)}</span><span class="tag">${esc(x.topic)}</span>
+<b>${esc(x.title)}</b><p><span class="k">Хук:</span> ${esc(x.hook)}</p><p><span class="k">Превью:</span> ${esc(x.thumb)}</p>
+<ul>${x.outline.map(o=>`<li>${esc(o)}</li>`).join('')}</ul>
+<div class="row">${a1}<button class="btn" data-a="${a2}" data-i="${i}">📅 В план</button><button class="btn" data-a="copy" data-i="${i}" data-src="${a2==='gplan'?'g':'b'}">Копировать</button></div></div>`;
+function renderGen(){
+  $('#gen').innerHTML=GEN.length?GEN.map((x,i)=>ideaCard(x,`<button class="btn pri" data-a="gsave" data-i="${i}">⭐ Сохранить</button>`,'gplan',i)).join(''):'<p class="mut">Нажми «Сгенерировать идеи», чтобы получить первую подборку.</p>';
+}
+function renderBank(){
+  $('#bank').innerHTML=S.ideas.length?S.ideas.map((x,i)=>ideaCard(x,`<button class="btn" data-a="bdel" data-i="${i}">Удалить</button>`,'bplan',i)).join(''):'<p class="mut">Сохранённых идей пока нет.</p>';
+}
+
+/* ---------- планировщик ---------- */
+const ST=['Идея','Сценарий','Съёмка','Монтаж','Готов','Вышел'];
+function addPlan(title,date){if(!title)return;S.plan.push({id:Date.now()+Math.random(),title,date:date||'',st:'Идея',t:['','',''],desc:'',img:''});save();renderPlan()}
+function renderPlan(){
+  const L=[...S.plan].sort((a,b)=>(a.date||'9')<(b.date||'9')?-1:1);
+  $('#plist').innerHTML=L.length?L.map(p=>{
+    const d=p.date?Math.ceil((new Date(p.date)-new Date().setHours(0,0,0,0))/864e5):null;
+    const note=d===null?'':p.st==='Вышел'?'':d<0?`просрочено на ${-d} дн.`:d===0?'сегодня':`через ${d} дн.`;
+    return `<div class="card plan"><div><b>${esc(p.title)}</b><div class="mut">${esc(note)}</div>${soon(p)?`<div class="err" style="min-height:0">⚠ Не хватает: ${missing(p).join(', ')}</div>`:''}<div style="margin:8px 0">${p.img?`<img src="${p.img}" alt="" style="width:160px;border-radius:8px;display:block;margin-bottom:8px">`:''}<span class="tag">🖼 превью: ${p.img?'есть':'нет'}</span><span class="tag">✏️ названия: ${(p.t||[]).filter(Boolean).length}/3</span><span class="tag">📝 описание: ${p.desc?'есть':'нет'}</span></div><button class="btn pri" data-a="popen" data-i="${p.id}">Открыть карточку ролика</button></div>
+<input type="date" value="${esc(p.date)}" data-dt="${p.id}">
+<select data-st="${p.id}">${ST.map(s=>`<option${s===p.st?' selected':''}>${s}</option>`).join('')}</select>
+<button class="btn" data-a="pdel" data-i="${p.id}">✕</button></div>`}).join(''):'<p class="mut">В плане пока пусто. Добавь ролик или отправь идею из генератора.</p>';renderCal();
+}
+
+/* ---------- YouTube API ---------- */
+async function yt(ep,p){
+  p.key=S.myKey||KEY;
+  const r=await fetch('https://www.googleapis.com/youtube/v3/'+ep+'?'+new URLSearchParams(p)),j=await r.json();
+  if(!r.ok)throw new Error(j.error&&j.error.message||r.status);return j;
+}
+const vid=u=>{u=u.trim();const m=u.match(/(?:v=|youtu\.be\/|shorts\/|live\/|embed\/)([\w-]{11})/);return m?m[1]:/^[\w-]{11}$/.test(u)?u:null};
+const dur=s=>{const m=s.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/);return (+m[1]||0)*3600+(+m[2]||0)*60+(+m[3]||0)};
+const mmss=s=>s>=3600?`${Math.floor(s/3600)}:${String(Math.floor(s%3600/60)).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`:`${Math.floor(s/60)}:${String(s%60).padStart(2,'0')}`;
+function upsert(it){
+  const st=it.statistics;let o=S.videos.find(x=>x.id===it.id);
+  if(!o){o={id:it.id,h:[]};S.videos.push(o)}
+  Object.assign(o,{title:it.snippet.title,pub:it.snippet.publishedAt,thumb:(it.snippet.thumbnails.medium||it.snippet.thumbnails.default).url,dur:dur(it.contentDetails.duration)});
+  o.h.push({v:+st.viewCount||0,l:+st.likeCount||0,c:+st.commentCount||0,t:Date.now()});o.h=o.h.slice(-30);
+}
+async function addIds(ids,o={}){
+  let it=[];
+  for(let i=0;i<ids.length;i+=50)it.push(...(await yt('videos',{part:'snippet,statistics,contentDetails,liveStreamingDetails',id:ids.slice(i,i+50).join(',')})).items);
+  it.sort((a,b)=>new Date(b.snippet.publishedAt)-new Date(a.snippet.publishedAt));
+  if(o.noLive)it=it.filter(x=>!x.liveStreamingDetails);
+  if(o.limit)it=it.slice(0,o.limit);
+  if(!it.length)throw new Error(o.noLive?'Подходящих роликов не найдено (стримы пропускаются)':'Ролик не найден или скрыт');
+  it.forEach(upsert);save();renderVids();
+}
+async function run(fn){$('#verr').textContent='';try{await fn()}catch(e){$('#verr').textContent='Ошибка YouTube API: '+e.message}}
+async function syncCh(){
+  const c=(await yt('channels',{part:'snippet,statistics,contentDetails',forHandle:S.handle.replace('@','')})).items;
+  if(!c||!c[0])throw new Error('Канал не найден, проверь @ник');
+  S.ch={t:c[0].snippet.title,s:+c[0].statistics.subscriberCount,v:+c[0].statistics.viewCount,n:+c[0].statistics.videoCount,u:c[0].contentDetails.relatedPlaylists.uploads,h:S.handle};
+}
+async function chLoad(o){
+  S.handle=$('#handle').value.trim()||S.handle;await syncCh();
+  const ids=[];let tok='',stop=false;
+  for(let g=0;g<4&&!stop;g++){
+    const r=await yt('playlistItems',{part:'contentDetails',playlistId:S.ch.u,maxResults:50,...(tok?{pageToken:tok}:{})});
+    for(const i of r.items){
+      const d=i.contentDetails.videoPublishedAt.slice(0,10);
+      if(o.from&&d<o.from){stop=true;break}
+      if(o.to&&d>o.to)continue;
+      ids.push(i.contentDetails.videoId);
+      if(!o.from&&ids.length>=o.limit*3){stop=true;break}
+    }
+    if(!(tok=r.nextPageToken))break;
+  }
+  if(!ids.length)throw new Error('За этот период роликов нет');
+  await addIds(ids,{noLive:true,limit:o.limit});
+}
+const isSh=v=>v.dur<=180;
+const spark=h=>{if(h.length<2)return'';const a=h.map(x=>x.v),mn=Math.min(...a),mx=Math.max(...a),w=160,t=36,y=x=>t-2-(mx===mn?(t-4)/2:(x-mn)/(mx-mn)*(t-4));
+  return `<svg width="${w}" height="${t}" style="display:block;margin-top:8px"><polyline points="${a.map((x,i)=>(i/(a.length-1)*w).toFixed(1)+','+y(x).toFixed(1)).join(' ')}" fill="none" stroke="var(--ac)" stroke-width="2"/></svg><span class="mut" style="font-size:12px">рост просмотров, снимков: ${a.length}</span>`};
+function vcard(v){
+  const l=v.h[v.h.length-1],p=v.h[v.h.length-2],d=Math.max(1,(Date.now()-new Date(v.pub))/864e5);
+  const up=k=>p&&l[k]>p[k]?`<span class="up">+${fmt(l[k]-p[k])}</span>`:'';
+  return `<div class="card vid"><img src="${esc(v.thumb)}" alt=""><div style="flex:1"><a href="https://youtu.be/${esc(v.id)}" target="_blank" rel="noopener"><b>${esc(v.title)}</b></a>
+<div class="mut">${new Date(v.pub).toLocaleDateString('ru-RU')}, ${mmss(v.dur)}</div>
+<div class="stats"><span>👁 ${fmt(l.v)}${up('v')}</span><span>👍 ${fmt(l.l)}${up('l')}</span><span>💬 ${fmt(l.c)}${up('c')}</span><span>ER ${l.v?((l.l+l.c)/l.v*100).toFixed(1):0}%</span><span>${fmt(l.v/d)} просм./день</span></div>${spark(v.h)}</div>
+<button class="btn" data-a="vdel" data-i="${esc(v.id)}">✕</button></div>`}
+function renderVids(){
+  const c=S.ch;
+  $('#chbox').innerHTML=c?`<div class="sum"><div><b>${esc(c.t)}</b><span class="mut">канал</span></div><div><b>${fmt(c.s)}</b><span class="mut">подписчиков</span></div><div><b>${fmt(c.v)}</b><span class="mut">просмотров</span></div><div><b>${fmt(c.n)}</b><span class="mut">роликов</span></div></div>`:'<span class="mut">Нажми кнопку, чтобы подтянуть статистику канала.</span>';
+  const A=[...S.videos].sort((a,b)=>new Date(b.pub)-new Date(a.pub)),f=(a,t)=>a.length?a.map(vcard).join(''):`<p class="mut">${t}</p>`;
+  $('#vlist').innerHTML=f(A.filter(v=>!isSh(v)),'Роликов пока нет. Вставь ссылку выше.');
+  $('#slist').innerHTML=f(A.filter(isSh),'Shorts пока нет — они появятся после загрузки роликов.');
+}
+
+/* ---------- рекомендации ---------- */
+const DAYS=['в воскресенье','в понедельник','во вторник','в среду','в четверг','в пятницу','в субботу'];
+const KW=['гайд','топ','имба','сборк','ахк','челлендж','?'];
+const avg=a=>a.reduce((s,x)=>s+x,0)/a.length;
+function renderRecs(){
+  const V=S.videos.map(v=>{const l=v.h[v.h.length-1],d=Math.max(3,(Date.now()-new Date(v.pub))/864e5);return{...v,vpd:l.v/d,er:l.v?(l.l+l.c)/l.v*100:0}});
+  const R=[];
+  if(V.length<3)R.push('Добавь хотя бы 3 ролика во вкладке «Ролики» — тогда здесь появятся выводы по твоему каналу. Быстрее всего: кнопка «Загрузить 10 последних (без стримов)».');
+  else{
+    const by=k=>[...V].sort((a,b)=>b[k]-a[k]);
+    R.push(`<b>Лучший по темпу:</b> «${esc(by('vpd')[0].title)}» — ${fmt(by('vpd')[0].vpd)} просмотров в день. Разберись, что в нём сработало (тема, превью, первые секунды), и повтори.`);
+    R.push(`<b>Самая вовлечённая аудитория:</b> «${esc(by('er')[0].title)}» — ER ${by('er')[0].er.toFixed(1)}%. Если ER ниже 3%, добавляй в ролик прямой вопрос к зрителям.`);
+    const top=by('vpd').slice(0,Math.max(2,Math.ceil(V.length/3)));
+    const dc={};top.forEach(v=>{const k=new Date(v.pub).getDay();dc[k]=(dc[k]||0)+1});
+    const bd=Object.entries(dc).sort((a,b)=>b[1]-a[1])[0][0];
+    R.push(`<b>День выхода:</b> самые успешные ролики чаще выходили ${DAYS[bd]}. Проверь это на следующих трёх выпусках.`);
+    const md=a=>[...a].sort((x,y)=>x-y)[Math.floor(a.length/2)];
+    R.push(`<b>Длительность:</b> у топовых роликов медиана ${mmss(md(top.map(v=>v.dur)))}, у всех остальных ${mmss(md(V.map(v=>v.dur)))}.`);
+    const kr=KW.map(k=>{const w=V.filter(v=>v.title.toLowerCase().includes(k)),o=V.filter(v=>!v.title.toLowerCase().includes(k));return w.length&&o.length?{k,w:avg(w.map(v=>v.vpd)),o:avg(o.map(v=>v.vpd)),n:w.length}:null}).filter(Boolean).sort((a,b)=>b.w/b.o-a.w/a.o)[0];
+    if(kr)R.push(`<b>Формат:</b> ролики со словом «${esc(kr.k)}» в названии (${kr.n} шт.) набирают ${fmt(kr.w)} просм./день против ${fmt(kr.o)} у остальных.`);
+    const ds=[...V].sort((a,b)=>new Date(a.pub)-new Date(b.pub)).map(v=>new Date(v.pub));
+    if(ds.length>2)R.push(`<b>Регулярность:</b> в среднем ролик выходит раз в ${Math.round((ds[ds.length-1]-ds[0])/864e5/(ds.length-1))} дн. Стабильный график зрителю важнее одного удачного ролика.`);
+  }
+  const T=['Первые 30 секунд решают удержание: покажи итог сразу, вступление вынеси в конец.','Одно превью — одна мысль: 3–4 слова и яркая эмоция.','В описании и закреплённом комментарии ставь ссылку на сайт с каталогом сборок.','Режь из длинного ролика Shorts: каждый приём — отдельный короткий ролик.','Через 48 часов после выхода смотри просмотры/день и решай, менять ли превью.'];
+  $('#rlist').innerHTML=R.map(x=>`<div class="tip">${x}</div>`).join('')+`<div class="sec"><h2>Общие советы</h2>${T.map(x=>`<div class="tip">${x}</div>`).join('')}</div>`;
+  $('#hsum').innerHTML=S.ch?$('#chbox').innerHTML:'';renderFormats();runAI();if(S.cmText)$('#cmbox').innerHTML=md(S.cmText);
+}
+
+/* ---------- форматы и ИИ ---------- */
+const last=v=>v.h[v.h.length-1];
+const FM=[['Shorts',v=>v.dur<=180],['Челлендж',/челлендж|24 час|суток/],['Гайд',/гайд|как /],['Топ',/топ|лучш/],['Ошибки',/ошибк/],['Проверка',/имба|проверя|тест|обзор|стоит ли/],['Сравнение',/сравнен|vs|выгодн/],['Сборка',/сборк|fps/],['АХК',/ахк|ahk/]];
+function fmtOf(v){const t=v.title.toLowerCase();for(const [n,r] of FM){if(typeof r==='function'?r(v):r.test(t))return n}return 'Другое'}
+function renderFormats(){
+  const g={};S.videos.forEach(v=>{const d=Math.max(3,(Date.now()-new Date(v.pub))/864e5),k=fmtOf(v);(g[k]=g[k]||[]).push(last(v).v/d)});
+  const R=Object.entries(g).map(([k,a])=>({k,n:a.length,a:avg(a)})).sort((x,y)=>y.a-x.a);
+  $('#fbars').innerHTML=R.length?R.map((r,i)=>`<div style="margin-bottom:10px"><div class="row" style="justify-content:space-between"><span>${i?'':'🏆 '}${esc(r.k)} <span class="mut">(${r.n} шт.)</span></span><b>${fmt(r.a)} просм./день</b></div><div class="meter"><i style="width:${r.a/R[0].a*100}%"></i></div></div>`).join(''):'<p class="mut">Добавь ролики во вкладке «Ролики» — здесь появится сравнение форматов.</p>';
+}
+const SYS='Ты — продюсер YouTube-канала Galbraith про Amazing RP (Amazing Online, GTA-RP): гайды, заработок, сборки, AHK-скрипты. Отвечай по-русски, конкретно и без воды. В названиях роликов не используй КАПС целиком: обычный регистр, а заглавными выделяй только 1–2 слова-акцента. Каждое название начинай с одного подходящего эмодзи, как на канале, например «💰 Новая ИМБА для новичков? Гайд по дезинсектору в Amazing Online».';
+const EX=`В этом гайде подробно разберем новую работу дезинсектора на Amazing RP — отличный способ заработка, который подойдет как новичкам, так и опытным игрокам. Я покажу весь процесс работы от А до Я, расскажу про все тонкости и назову точные цифры по доходу, чтобы ты сразу понял, стоит ли здесь тратить свое время.\n\nТеги:\n#AmazingRP #AmazingOnline #дезинсектор #гайд #заработок #работа #Galbraith #GTA #RP #криминальнаяРоссия #новаяработа, Amazing RP, Amazing Online, Амазинг Онлайн, дезинсектор гайд, работа дезинсектора Amazing RP, заработок на Amazing RP, лучшая работа Amazing RP, новая работа Amazing Online, сколько платят дезинсектор, гайд Galbraith, как заработать на Amazing`;
+const DEF={gemini:'gemini-3.6-flash',groq:'openai/gpt-oss-120b',openrouter:'meta-llama/llama-3.3-70b-instruct:free',deepseek:'deepseek-v4-flash',anthropic:'claude-sonnet-5'};
+const OAI={groq:'https://api.groq.com/openai/v1/chat/completions',openrouter:'https://openrouter.ai/api/v1/chat/completions',deepseek:'https://api.deepseek.com/chat/completions'};
+const wait=ms=>new Promise(z=>setTimeout(z,ms));
+async function ai(user,max,sys){const M=Array.isArray(user)?user:[{role:'user',content:user}],SY=sys||SYS;
+  if(!S.aiKey)throw new Error('добавь ключ ИИ: Главная → ⚙ Настройки ИИ');
+  const P=DEF[S.aiProv]?S.aiProv:'gemini',m=S.aiModel||DEF[P];
+  let url=OAI[P],body,h={'content-type':'application/json'};
+  if(url){h.authorization='Bearer '+S.aiKey;body={model:m,max_tokens:max*4,messages:[{role:'system',content:SY},...M]};if(P==='groq'&&/gpt-oss/.test(m))body.reasoning_effort='low'}
+  else if(P==='gemini'){url=`https://generativelanguage.googleapis.com/v1beta/models/${m}:generateContent`;h['x-goog-api-key']=S.aiKey;body={systemInstruction:{parts:[{text:SY}]},contents:M.map(m=>({role:m.role==='assistant'?'model':'user',parts:[{text:m.content}]})),generationConfig:{maxOutputTokens:max*4}}}
+  else{url='https://api.anthropic.com/v1/messages';h['x-api-key']=S.aiKey;h['anthropic-version']='2023-06-01';h['anthropic-dangerous-direct-browser-access']='true';body={model:m,max_tokens:max,system:SY,messages:M}}
+  for(let k=0;;k++){
+    const r=await fetch(url,{method:'POST',headers:h,body:JSON.stringify(body)}).catch(()=>{throw new Error('нет связи с сервером ИИ (сеть, блокировка браузером или провайдер недоступен в твоей стране)')});
+    const j=await r.json().catch(()=>({}));
+    if(r.ok)return OAI[P]?(j.choices[0].message.content||''):P==='gemini'?((j.candidates||[])[0]?.content?.parts||[]).map(p=>p.text||'').join(''):j.content.map(c=>c.text||'').join('');
+    const e=String(j.error&&j.error.message||r.status),busy=r.status===503||r.status===529||/high demand|overload|unavailable/i.test(e);
+    if(busy&&k<2){await wait(3000*(k+1));continue}
+    throw new Error(busy?'сервис ИИ перегружен. Попробуй через минуту или выбери другого провайдера в «⚙ Настройки ИИ».':r.status===429||/quota|exceeded|rate limit/i.test(e)?'достигнут лимит запросов у провайдера (у бесплатных тарифов он небольшой). Подожди минуту или до завтра, либо выбери другого провайдера в «⚙ Настройки ИИ».':r.status===401||/api key not valid|invalid api key|unauthorized/i.test(e)?'ключ не подошёл: проверь, что вставлен ключ именно выбранного провайдера':r.status===402?'на счёте провайдера нет средств':e);
+  }
+}
+const inl=t=>t.replace(/&lt;br\s*\/?&gt;/gi,'<br>').replace(/&lt;(\/?)(b|strong|i|em)&gt;/gi,'<$1$2>').replace(/\*\*(.+?)\*\*/g,'<b>$1</b>').replace(/`([^`]+)`/g,'<code>$1</code>').replace(/(^|[\s(])\*([^*\n]+)\*/g,'$1<i>$2</i>');
+function md(src){
+  const L=esc(src).split('\n'),o=[],pipe=l=>/^\s*\|.*\|\s*$/.test(l),ul=/^\s*[-*•]\s+/,ol=/^\s*\d+[.)]\s+/,cells=r=>r.trim().replace(/^\||\|$/g,'').split('|').map(x=>inl(x.trim()));
+  let i=0;
+  while(i<L.length){
+    const l=L[i];
+    if(/^```/.test(l)){const c=[];i++;while(i<L.length&&!/^```/.test(L[i]))c.push(L[i++]);i++;o.push(`<pre>${c.join('\n')}</pre>`)}
+    else if(pipe(l)){
+      const R=[];while(i<L.length&&pipe(L[i]))R.push(L[i++]);
+      const sep=R.length>1&&/^[\s|:-]+$/.test(R[1])&&R[1].includes('-'),H=sep?cells(R[0]):null,B=R.slice(sep?2:0).map(cells);
+      o.push(`<div class="tw"><table>${H?`<thead><tr>${H.map(x=>`<th>${x}</th>`).join('')}</tr></thead>`:''}<tbody>${B.map(r=>`<tr>${r.map(x=>`<td>${x}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`);
+    }
+    else if(ul.test(l)||ol.test(l)){const t=ul.test(l)?'ul':'ol',re=t==='ul'?ul:ol,a=[];while(i<L.length&&re.test(L[i]))a.push(inl(L[i++].replace(re,'')));o.push(`<${t}>${a.map(x=>`<li>${x}</li>`).join('')}</${t}>`)}
+    else if(/^#{1,4}\s+/.test(l)){o.push(`<h4>${inl(l.replace(/^#+\s+/,''))}</h4>`);i++}
+    else if(/^\s*(-{3,}|\*{3,})\s*$/.test(l)){o.push('<hr>');i++}
+    else if(!l.trim())i++;
+    else{const p=[];while(i<L.length&&L[i].trim()&&!/^```|^#{1,4}\s|^\s*(-{3,}|\*{3,})\s*$/.test(L[i])&&!ul.test(L[i])&&!ol.test(L[i])&&!pipe(L[i]))p.push(inl(L[i++]));o.push(`<p>${p.join('<br>')}</p>`)}
+  }
+  return `<div class="md">${o.join('')}</div>`;
+}
+function ctx(){
+  return JSON.stringify({channel:S.ch,videos:S.videos.map(v=>{const l=last(v),d=Math.max(3,(Date.now()-new Date(v.pub))/864e5);return{title:v.title,format:fmtOf(v),views:l.v,viewsPerDay:Math.round(l.v/d),erPercent:l.v?+((l.l+l.c)/l.v*100).toFixed(1):0,minutes:Math.round(v.dur/60),date:v.pub.slice(0,10)}}),plan:S.plan.map(p=>({title:p.title,date:p.date,status:p.st}))});
+}
+let aiFail=null;
+async function runAI(force){
+  const box=$('#aibox');
+  if(!S.aiKey){box.innerHTML='<p class="mut">Добавь ключ ИИ в настройках внизу страницы — здесь появятся рекомендации по твоим данным.</p>';return}
+  if(!S.videos.length){box.innerHTML='<p class="mut">Загрузи ролики во вкладке «Ролики» — ИИ разберёт статистику.</p>';return}
+  const sig=S.videos.map(v=>v.id+last(v).v).join();
+  if(!force&&S.aiSig===sig&&S.aiText){box.innerHTML=md(S.aiText);return}
+  if(!force&&aiFail&&aiFail.sig===sig){box.innerHTML=`<div class="err">Ошибка ИИ: ${esc(aiFail.msg)}</div><p class="mut">Автозапрос остановлен, чтобы не тратить лимит. Нажми «Пересчитать», когда он восстановится.</p>`;return}
+  box.innerHTML='<p class="mut">ИИ анализирует свежую статистику…</p>';
+  try{
+    S.aiText=await ai(`Данные канала (JSON): ${ctx()}\n\nСегодня ${new Date().toLocaleDateString('ru-RU')}. Дай три блока: **1. Какой формат заходит лучше** (1–2 предложения с цифрами из данных), **2. Что делать в ближайших роликах** (4 конкретных пункта), **3. Три идеи новых роликов** с рабочими названиями. Коротко, не выдумывай цифры.`,1500);
+    S.aiSig=sig;aiFail=null;save();box.innerHTML=md(S.aiText);
+  }catch(e){aiFail={sig,msg:e.message};box.innerHTML=`<div class="err">Ошибка ИИ: ${esc(e.message)}</div>`}
+}
+
+/* ---------- календарь ---------- */
+const CAL=new Date();CAL.setDate(1);
+const isoD=(y,m,d)=>`${y}-${String(m).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+function renderCal(){
+  const y=CAL.getFullYear(),m=CAL.getMonth(),first=(new Date(y,m,1).getDay()+6)%7,n=new Date(y,m+1,0).getDate(),t=new Date(),today=isoD(t.getFullYear(),t.getMonth()+1,t.getDate());
+  let h=`<div class="row" style="justify-content:space-between;margin-bottom:10px"><button class="btn" data-a="cprev">←</button><b>${cap(CAL.toLocaleDateString('ru-RU',{month:'long',year:'numeric'}))}</b><button class="btn" data-a="cnext">→</button></div><div class="cal">`;
+  ['Пн','Вт','Ср','Чт','Пт','Сб','Вс'].forEach(d=>h+=`<div class="mut ch">${d}</div>`);
+  for(let i=0;i<first;i++)h+='<div></div>';
+  for(let d=1;d<=n;d++){
+    const iso=isoD(y,m+1,d);
+    h+=`<div class="day${iso===today?' today':''}" data-a="cday" data-i="${iso}"><span class="mut">${d}</span>${S.plan.filter(p=>p.date===iso).map(p=>`<div class="ev st${ST.indexOf(p.st)}${soon(p)?' warn':''}" data-a="popen" data-i="${p.id}">${esc(p.title)}</div>`).join('')}</div>`;
+  }
+  $('#cal').innerHTML=h+'</div>';
+}
+
+/* ---------- карточка ролика ---------- */
+let CUR=null,DT='prev';
+function openPlan(id){CUR=S.plan.find(p=>String(p.id)===String(id));if(!CUR)return;DT='prev';renderDlg();if(!$('#dlg').open)$('#dlg').showModal()}
+function renderDlg(){
+  const p=CUR;p.t=p.t||['','',''];let b;
+  if(DT==='prev')b=`${p.img?`<img src="${p.img}" style="width:100%;border-radius:12px;margin-bottom:12px" alt="">`:'<p class="mut" style="margin-bottom:12px">Превью пока нет. Загрузи картинку 16:9.</p>'}<div class="row"><input type="file" accept="image/*" data-thumb="1">${p.img?'<button class="btn" data-a="timg">Убрать</button>':''}</div>`;
+  else if(DT==='names')b=`<p class="mut" style="margin-bottom:10px">Три варианта названия. Выбранный станет основным в плане.</p>${[0,1,2].map(i=>`<div class="row" style="margin-bottom:8px"><input class="grow" value="${esc(p.t[i])}" data-tv="${i}" placeholder="Вариант ${i+1}"><button class="btn" data-a="tsel" data-i="${i}">Выбрать</button></div>${p.sc&&p.sc[i]?`<div class="mut" style="margin:-4px 0 8px">Оценка ${esc(p.sc[i].s)}/10 — ${esc(p.sc[i].n)}</div>`:''}`).join('')}<button class="btn pri" data-a="tgen">✨ Сгенерировать названия ИИ</button> <button class="btn" data-a="tscore">📊 Оценить названия</button>`;
+  else b=`<textarea rows="14" data-desc="1">${esc(p.desc||'')}</textarea><div class="row" style="margin-top:10px"><button class="btn pri" data-a="dgen">✨ Сгенерировать описание ИИ</button><button class="btn" data-a="dcopy">Копировать</button></div>`;
+  $('#dbody').innerHTML=`<div class="row" style="justify-content:space-between"><h2>${esc(p.title)}</h2><button class="btn" data-a="dclose">✕</button></div><div class="tabs">${[['prev','🖼 Превью'],['names','✏️ Названия'],['desc','📝 Описание']].map(([k,l])=>`<button data-a="dtab" data-i="${k}" class="${k===DT?'on':''}">${l}</button>`).join('')}</div>${b}<div class="err" id="derr"></div>`;
+}
+function readImg(f){
+  const r=new FileReader();r.onload=()=>{const im=new Image();im.onload=()=>{const c=document.createElement('canvas'),k=Math.min(1,960/im.width);c.width=im.width*k;c.height=im.height*k;c.getContext('2d').drawImage(im,0,0,c.width,c.height);CUR.img=c.toDataURL('image/jpeg',.82);save();renderDlg();renderPlan()};im.src=r.result};r.readAsDataURL(f);
+}
+async function dgo(b,fn){
+  const t=b.textContent;b.disabled=true;b.textContent='Генерирую…';
+  try{await fn()}catch(e){const x=$('#derr');if(x)x.textContent='Ошибка ИИ: '+e.message}
+  b.disabled=false;b.textContent=t;
+}
+const fixCaps=t=>{const L=t.replace(/[^A-Za-zА-Яа-яЁё]/g,'');if(L.length<6||L.replace(/[^A-ZА-ЯЁ]/g,'').length/L.length<.6)return t;return t.toLowerCase().replace(/amazing rp/g,'Amazing RP').replace(/amazing online/g,'Amazing Online').replace(/\bfps up\b/g,'FPS UP').replace(/\bahk\b/g,'AHK').replace(/\bахк\b/g,'АХК').replace(/^./,c=>c.toUpperCase())};
+const withEmoji=t=>!t||/\p{Extended_Pictographic}/u.test(t)?t:(/заработ|фарм|деньг|млн|доход|платят|сколько/i.test(t)?'💰':/ошибк/i.test(t)?'❌':'🔥')+' '+t;
+async function genTitles(){
+  const r=await ai(`Тема ролика: «${CUR.title}».\nДанные канала: ${ctx()}\nПридумай 3 разных названия для YouTube: до 70 символов, в стиле лучших роликов канала, цепляющие, но честные. Регистр обычный: КАПСОМ выделяй только 1–2 слова-акцента (например, сумму или ключевое слово), всё остальное строчными буквами; название целиком заглавными недопустимо. Каждое название начинается с одного эмодзи по теме. Ответь ТОЛЬКО JSON-массивом из 3 строк.`,400);
+  const a=JSON.parse(r.match(/\[[\s\S]*\]/)[0]);CUR.t=[0,1,2].map(i=>withEmoji(fixCaps(String(a[i]||''))));save();renderDlg();
+}
+async function genDesc(){
+  const r=await ai(`Название ролика: «${CUR.title}».\nПример описания в нужном стиле:\n${EX}\n\nНапиши вступительный абзац (2–3 предложения в таком же тоне, с конкретикой про этот ролик), 10–12 хэштегов (обязательно #AmazingRP #AmazingOnline #Galbraith) и 12–15 поисковых фраз для тегов. Ответь ТОЛЬКО JSON: {"intro":"","hashtags":[],"keywords":[]}`,900);
+  const j=JSON.parse(r.match(/\{[\s\S]*\}/)[0]);
+  CUR.desc=`${j.intro}\n\n${S.links}\n\nТеги:\n${j.hashtags.join(' ')}, ${j.keywords.join(', ')}`;save();renderDlg();
+}
+
+/* ---------- готовность, оценка, комментарии, блогеры, бэкап ---------- */
+const missing=p=>[!p.img&&'превью',!p.desc&&'описание',!(p.t||[]).some(Boolean)&&'названия'].filter(Boolean);
+const soon=p=>{const d=p.date?Math.ceil((new Date(p.date)-new Date().setHours(0,0,0,0))/864e5):null;return d!==null&&d<=2&&p.st!=='Вышел'&&missing(p).length>0};
+async function aiTo(id,key,prompt,max){
+  const b=$(id);b.hidden=false;b.innerHTML='<p class="mut">ИИ думает…</p>';
+  try{S[key]=await ai(prompt,max||1200);save();b.innerHTML=md(S[key])}catch(e){b.innerHTML=`<div class="err">Ошибка ИИ: ${esc(e.message)}</div>`}
+}
+async function scoreTitles(){
+  const ix=[0,1,2].filter(i=>CUR.t[i]);if(!ix.length)throw new Error('сначала впиши или сгенерируй названия');
+  const r=await ai(`Оцени варианты названий для YouTube-ролика (тема: «${CUR.title}»):\n${ix.map((i,j)=>`${j+1}. ${CUR.t[i]}`).join('\n')}\nДанные канала: ${ctx()}\nДля каждого дай оценку кликабельности 1–10 и короткую причину. Ответь ТОЛЬКО JSON-массивом [{"s":число,"n":"причина"}], по одному объекту на вариант, в том же порядке.`,600);
+  const a=JSON.parse(r.match(/\[[\s\S]*\]/)[0]);CUR.sc={};ix.forEach((i,j)=>CUR.sc[i]=a[j]||{s:'?',n:''});save();renderDlg();
+}
+async function comments(){
+  const top=S.videos.filter(v=>!isSh(v)).map(v=>({v,x:last(v).v/Math.max(3,(Date.now()-new Date(v.pub))/864e5)})).sort((a,b)=>b.x-a.x).slice(0,3),all=[];
+  if(!top.length)throw new Error('сначала загрузи ролики во вкладке «Ролики»');
+  for(const {v} of top){try{const r=await yt('commentThreads',{part:'snippet',videoId:v.id,maxResults:60,order:'relevance',textFormat:'plainText'});all.push(`Ролик «${v.title}»:\n`+r.items.map(i=>'- '+i.snippet.topLevelComment.snippet.textDisplay.slice(0,200)).join('\n'))}catch(e){}}
+  if(!all.length)throw new Error('комментарии недоступны (возможно, отключены)');
+  await aiTo('#cmbox','cmText',`Комментарии зрителей под лучшими роликами:\n${all.join('\n\n')}\n\nВыдели 5 самых частых вопросов или просьб зрителей и предложи по каждому идею нового ролика с названием. Коротко.`,1200);
+}
+$('#cmgo').onclick=async()=>{try{await comments()}catch(e){$('#cmbox').innerHTML=`<div class="err">${esc(e.message)}</div>`}};
+$('#shgo').onclick=()=>{
+  const L=S.videos.filter(v=>!isSh(v)).sort((a,b)=>last(b).v-last(a).v).slice(0,5).map(v=>`${v.title} (${Math.round(v.dur/60)} мин, ${last(v).v} просм.)`);
+  if(!L.length){$('#shbox').innerHTML='<span class="mut">Сначала загрузи длинные ролики.</span>';return}
+  aiTo('#shbox','shText',`Лучшие длинные ролики канала:\n${L.join('\n')}\n\nПредложи 6 идей для Shorts: какой момент вырезать из какого ролика (что в кадре первые 2 секунды) и название с эмодзи. Коротко.`,1200);
+};
+async function loadBl(){
+  const out=[];
+  for(const h of S.blH.split(/[,\s]+/).filter(Boolean).map(x=>x[0]==='@'?x:'@'+x)){
+    const c=((await yt('channels',{part:'snippet,statistics,contentDetails',forHandle:h.slice(1)})).items||[])[0];
+    if(!c){out.push({h,err:1});continue}
+    const pl=await yt('playlistItems',{part:'contentDetails',playlistId:c.contentDetails.relatedPlaylists.uploads,maxResults:20});
+    const vs=(await yt('videos',{part:'snippet,statistics,contentDetails,liveStreamingDetails',id:pl.items.map(i=>i.contentDetails.videoId).join(',')})).items.filter(v=>!v.liveStreamingDetails&&dur(v.contentDetails.duration)>180);
+    out.push({h,t:c.snippet.title,s:+c.statistics.subscriberCount,v:vs.map(v=>({id:v.id,t:v.snippet.title,v:+v.statistics.viewCount,p:Math.round(v.statistics.viewCount/Math.max(3,(Date.now()-new Date(v.snippet.publishedAt))/864e5))}))});
+  }
+  S.bl=out;save();renderBl();
+}
+function renderBl(){
+  $('#blh').value=S.blH||'';
+  $('#bllist').innerHTML=(S.bl||[]).map(c=>c.err?`<div class="card">${esc(c.h)}: канал не найден</div>`:`<div class="card"><b>${esc(c.t)}</b> <span class="mut">${fmt(c.s)} подписчиков</span>${[...c.v].sort((a,b)=>b.p-a.p).slice(0,4).map(v=>`<div style="margin-top:8px"><a href="https://youtu.be/${esc(v.id)}" target="_blank" rel="noopener">${esc(v.t)}</a><div class="mut">${fmt(v.v)} просм., ${fmt(v.p)} в день</div></div>`).join('')}</div>`).join('')||'<p class="mut">Добавь каналы и нажми «Загрузить».</p>';
+  if(S.blText){$('#blbox').hidden=false;$('#blbox').innerHTML=md(S.blText)}
+}
+$('#blgo').onclick=async()=>{$('#blerr').textContent='';S.blH=$('#blh').value;try{await loadBl()}catch(e){$('#blerr').textContent='Ошибка YouTube API: '+e.message}};
+$('#blai').onclick=()=>{
+  if(!(S.bl||[]).some(c=>c.v))return void($('#blerr').textContent='Сначала загрузи каналы блогеров');
+  aiTo('#blbox','blText',`Данные по каналам блогеров ниши (просмотры в день у последних роликов):\n${JSON.stringify(S.bl.filter(c=>c.v).map(c=>({канал:c.t,подписчики:c.s,ролики:c.v.map(v=>({название:v.t,вДень:v.p}))})))}\n\nПроанализируй, какие темы, форматы и приёмы в названиях у них заходят лучше всего, и предложи 5 идей роликов, адаптированных под канал Galbraith (Amazing RP). Коротко.`,1400);
+};
+$('#bkx').onclick=()=>{const d={...S};['aiKey','aiKeys','myKey'].forEach(k=>delete d[k]);const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(d)],{type:'application/json'}));a.download='galbraith-backup-'+new Date().toISOString().slice(0,10)+'.json';a.click()};
+$('#bki').onchange=e=>{const f=e.target.files[0];if(f)f.text().then(t=>{const d=JSON.parse(t);['aiKey','aiKeys','myKey','aiProv','aiModel'].forEach(k=>delete d[k]);Object.assign(S,d);save();start();toast('Бэкап загружен')}).catch(()=>toast('Не удалось прочитать файл'))};
+
+/* ---------- сценарист ---------- */
+const TR0=[{"n": "Ролик про дезинсектора", "s": "Здорово. Уже достаточно давно на Амазинге вышло новое обновление, которое затронуло множество систем, а также добавила несколько новых работ. Сегодня мы вместе с вами обозреем работу Дизинсектора. А то, что от обновления прошло уже достаточно много времени, означает то, что эта работа уже достигла практически своего идеала и в дальнейшем, скорее всего, её фиксить не будут. Да, извините, я просто хоть как-то пытаюсь оправдать то, что я практически месяц не мог заснять работу дезинсектора. Ну вот так получилось, да. Короче, сегодня мы обозреваем работу дизнсектора. И я не буду медлить и, в свою очередь лишь напомню о том, что мой промокод Габи действует на всех серверах Амадинга, и рандомный комментарий под этим видеороликом получит сотку себе на баланс. Я желаю вам приятного просмотра. Пока я еду на эту работу, друзья, я хотел уточнить у вас. протестировали вы уже эту работу и как она вам […] а отойти. В связи с этим я уже не хочу заморачиваться, честно говоря. и готов подвести итоги данного видеоролика. За 40 минут я заработал 446.000. Оставалось ещё 20 минут. То есть за час мы бы заработали в районе 650.000. Я считаю то, что на первом скиле это невероятно крутой результат. И всем советую эту работу. А вы пишите в комментарии своё мнение по поводу этой работы. Я желаю вам удачи. Пока."}, {"n": "Ролик про майнинг-фермы", "s": "21 августа на Амазинге вышло обновление, затронувшее огромное количество систем, которые уже давно были нам известны. А также была добавлена долгожданная система майнингферм. Присаживайтесь поудобнее. Ну а я лишь напомню, что мой промокод Габи действует на всех серверах Амадингах, и рандомный комментарий под этим видеороликом получит 100 руб. себе на баланс. Приятного просмотра. В первую очередь я вам расскажу, что это вообще такое. Майнинг фермы можно создать в любом доме низкого, среднего, высокого класса, а также в коттеджах. Сама по себе майнингферма представляет из себя вот такой вот риг, состоящий из определённых комплектующих. О том, какие комплектующие можно поставить в самом начале и до чего стоит стремиться, мы поговорим позже. Думаю, что у многих есть вопрос, что добывает майнинг ферма, может быть, биткоины или какие-то другие валюты. Я вам отвечу. Майкферма добывает aming кои […] т аукцион и сразу они будут дорожать. Вот это я прямо вам гарантирую. И, честно, я не исключаю то, что они будут доходить до 20 млн в это время. Короче, я думаю, что вы поняли моё мнение по поводу майнинга. Всем большое спасибо за просмотр. Жду ваши лайки и комментарии. Пишите в комментарии, что ещё мне заснять по поводу майнингферм. Я обязательно к вам прислушаюсь. Всем спасибо за просмотр. Пока."}];
+const STYLE="МАНЕРА ГОВОРИТЬ (по его роликам; в транскриптах есть ошибки распознавания речи — игнорируй их):\n— Живая устная речь от первого лица, короткие фразы, без канцелярита. К зрителям на «вы» и «друзья», иногда на «ты».\n— Частые связки: «Итак,», «Ну что ж,», «Короче,», «Всё,», «В принципе», «Безусловно», «Честно говоря», «Сразу говорю», «Учитывайте это», «Обязательно смотрите…».\n— Самоирония и лёгкий юмор про себя («извините, я просто пытаюсь оправдать, что месяц не снимал», «я ловлю вайп с тех времён, когда чистил общагу»). Без пафоса и эпичных штампов.\n— Считает вслух: цены, время, окупаемость, итоговая сумма, сравнивает варианты, делает вывод («на первом скиле это невероятно крутой результат, советую»).\n— Объясняет практично: где найти (GPS, пункт меню), что купить, порядок действий, нюансы; отвечает на вопросы зрителей («у многих есть вопрос… я вам отвечу»).\n— Структура ролика: «Здорово.» → контекст (обновление или причина ролика) → промокод GABI и розыгрыш («рандомный комментарий получит 100 руб. на баланс», условия уточняй) → «Приятного просмотра» → основная часть с проверкой и цифрами → в середине вопрос зрителям в комментарии → вывод с итоговой цифрой → просьба лайк/комментарий («пишите, что ещё снять») → «Я желаю вам удачи. Пока.»\n— Игровой сленг в меру: скил, вайп, спавн, слёт, дешманский, имба, фармить.";
+const CH=['Придумай сценарий по моей идее: ','Напиши интро в моём стиле для ролика: ','Напиши концовку для ролика: ','Разбей ролик на структуру с таймкодами: ','Предложи 5 тем роликов по трендам','Улучши мой текст и оставь мою манеру: '];
+const clr=t=>t.replace(/^https?:\S+\s*/,'').replace(/^Transcript:\s*/,'').replace(/\(\d\d:\d\d(?::\d\d)?\)\s*/g,'').replace(/\s+/g,' ').trim();
+async function trends(quiet){
+  if(quiet&&S.trends&&Date.now()-S.trends.t<864e5)return;
+  try{
+    const q={part:'snippet,statistics',chart:'mostPopular',regionCode:'RU',maxResults:20};let r;
+    try{r=await yt('videos',{...q,videoCategoryId:'20'})}catch(e){r=await yt('videos',q)}
+    S.trends={t:Date.now(),items:r.items.map(v=>({t:v.snippet.title,c:v.snippet.channelTitle,v:+v.statistics.viewCount}))};save();
+  }catch(e){if(!quiet)throw e}
+}
+function chatSys(){
+  const p=S.plan.find(x=>String(x.id)===$('#cplan').value),V=S.videos.filter(v=>!isSh(v)).sort((a,b)=>last(b).v-last(a).v).slice(0,6).map(v=>`${v.title} (${fmt(last(v).v)} просм.)`);
+  const tr=((S.trends&&S.trends.items)||[]).slice(0,10).map(x=>x.t).join('; '),sm=[...TR0,...(S.tr||[])].slice(0,4).map(x=>`«${x.n}»: ${x.s}`).join('\n\n');
+  return `${SYS}\n\nСегодня ${new Date().toLocaleDateString('ru-RU')}. Ты — соавтор Galbraith: помогаешь придумывать и писать тексты и сценарии его роликов. Пиши от его лица, его манерой.\n${STYLE}\n\nЛучшие ролики канала: ${V.join('; ')||'данных пока нет'}.\nСейчас в тренде в игровой категории YouTube (Россия): ${tr||'нет данных'}.\n${S.blText?'Что заходит у блогеров ниши: '+S.blText.slice(0,700)+'\n':''}${p?`Ролик из плана: «${p.title}». Варианты названий: ${(p.t||[]).filter(Boolean).join(' | ')||'нет'}.\n`:''}\nОбразцы его речи из роликов:\n${sm}\n\nПравила диалога: отвечай живо и по делу, как соавтор, а не как справка. Если данных для хорошего текста не хватает, задай один уточняющий вопрос. Не выдумывай игровые факты, цены и цифры — ставь [заполнить] там, где нужны его данные. Скрипт пиши как устную речь, блоками с короткими заголовками и пометками [в кадре: …]. Промокод и ссылки бери отсюда: ${S.links.replace(/\n+/g,' ')}. Без штампов и «нейросетевых» оборотов.`;
+}
+const OPEN=new Set();
+function renderChat(keep){
+  const box=$('#cmsgs'),st=box.scrollTop;
+  $('#cchips').innerHTML=CH.map((c,i)=>`<button class="btn sm" data-a="cchip" data-i="${i}">${esc(c.replace(/:\s*$/,''))}</button>`).join('');
+  box.innerHTML=S.chat.length?S.chat.map((m,i)=>{
+    const u=m.r==='user',long=m.c.length>700,open=OPEN.has(i),cp=!u&&!m.err;
+    return `<div class="msg ${u?'u':'a'}"><div class="${long&&!open?'clip':''}">${u?esc(m.c).replace(/\n/g,'<br>'):md(m.c)}</div>${long||cp?`<div class="row" style="margin-top:8px">${long?`<button class="btn sm" data-a="cfold" data-i="${i}">${open?'▴ Свернуть':'▾ Развернуть'}</button>`:''}${cp?`<button class="btn sm" data-a="ccopy" data-i="${i}">Копировать</button>`:''}</div>`:''}</div>`}).join(''):'<p class="mut">Начни с идеи или выбери быстрый старт выше.</p>';
+  box.scrollTop=keep?st:box.scrollHeight;
+}
+function fillCplan(){const v=$('#cplan').value;$('#cplan').innerHTML='<option value="">Ролик из плана (необязательно)</option>'+S.plan.map(p=>`<option value="${p.id}">${esc(p.title)}</option>`).join('');$('#cplan').value=v}
+async function csend(){
+  const txt=$('#cin').value.trim();if(!txt||$('#csend').disabled)return;
+  $('#cin').value='';S.chat.push({r:'user',c:txt});renderChat();$('#csend').disabled=true;
+  $('#cmsgs').insertAdjacentHTML('beforeend','<div class="msg a mut">Пишу…</div>');
+  try{
+    await trends(true);
+    const M=S.chat.filter(m=>!m.err).slice(-12).map(m=>({role:m.r==='user'?'user':'assistant',content:m.c}));
+    while(M.length&&M[0].role!=='user')M.shift();
+    S.chat.push({r:'assistant',c:await ai(M,2000,chatSys())});
+  }catch(e){S.chat.push({r:'assistant',c:'⚠ Ошибка ИИ: '+e.message,err:1})}
+  S.chat=S.chat.slice(-40);save();$('#csend').disabled=false;renderChat();
+}
+function renderTr(){
+  $('#ctl').innerHTML=[...TR0.map(x=>`<div class="mut">✓ ${esc(x.n)} (встроен)</div>`),...(S.tr||[]).map((x,i)=>`<div>✓ ${esc(x.n)} <button class="btn" data-a="trdel" data-i="${i}">✕</button></div>`)].join('');
+}
+$('#csend').onclick=csend;
+$('#cin').onkeydown=e=>{if(e.key==='Enter'&&(e.ctrlKey||e.metaKey)){e.preventDefault();csend()}};
+$('#cclr').onclick=()=>{if(confirm('Очистить чат?')){S.chat=[];OPEN.clear();save();renderChat()}};
+$('#ctr').onclick=async()=>{try{await trends();toast('Тренды обновлены')}catch(e){toast('Не удалось: '+String(e.message).slice(0,70))}};
+$('#ctf').onchange=async e=>{for(const f of e.target.files){const t=clr(await f.text());if(t.length>200){S.tr.push({n:f.name,s:t.slice(0,900)+' […] '+t.slice(-400)})}}save();renderTr();e.target.value='';toast('Транскрипты добавлены')};
+
+/* ---------- события ---------- */
+document.addEventListener('click',e=>{
+  const b=e.target.closest('[data-a]');if(!b)return;const a=b.dataset.a,i=b.dataset.i;
+  if(a==='gsave'){S.ideas.unshift(GEN[i]);save();renderBank();toast('Идея сохранена')}
+  else if(a==='gplan'){addPlan(GEN[i].title);toast('Добавлено в план')}
+  else if(a==='bplan'){addPlan(S.ideas[i].title);toast('Добавлено в план')}
+  else if(a==='bdel'){S.ideas.splice(i,1);save();renderBank()}
+  else if(a==='copy'){const x=b.dataset.src==='g'?GEN[i]:S.ideas[i];navigator.clipboard.writeText(`${x.title}\nХук: ${x.hook}\nПревью: ${x.thumb}\n- ${x.outline.join('\n- ')}`).then(()=>toast('Скопировано'))}
+  else if(a==='pdel'){S.plan=S.plan.filter(p=>String(p.id)!==i);save();renderPlan()}
+  else if(a==='vdel'){S.videos=S.videos.filter(v=>v.id!==i);save();renderVids()}
+  else if(a==='popen')openPlan(i);
+  else if(a==='dtab'){DT=i;renderDlg()}
+  else if(a==='dclose')$('#dlg').close();
+  else if(a==='cprev'||a==='cnext'){CAL.setMonth(CAL.getMonth()+(a==='cnext'?1:-1));renderCal()}
+  else if(a==='cday'){$('#pdate').value=i;$('#ptitle').focus()}
+  else if(a==='timg'){CUR.img='';save();renderDlg();renderPlan()}
+  else if(a==='tsel'){if(CUR.t[i]){CUR.title=CUR.t[i];save();renderPlan();renderDlg()}}
+  else if(a==='tgen')dgo(b,genTitles);
+  else if(a==='tscore')dgo(b,scoreTitles);
+  else if(a==='cchip'){$('#cin').value=CH[i];$('#cin').focus()}
+  else if(a==='ccopy')navigator.clipboard.writeText(S.chat[i].c).then(()=>toast('Скопировано'))
+  else if(a==='trdel'){S.tr.splice(i,1);save();renderTr()}
+  else if(a==='cfold'){OPEN.has(+i)?OPEN.delete(+i):OPEN.add(+i);renderChat(1)}
+  else if(a==='dgen')dgo(b,genDesc);
+  else if(a==='dcopy')navigator.clipboard.writeText(CUR.desc||'').then(()=>toast('Скопировано'));
+});
+document.addEventListener('change',e=>{
+  const s=e.target.dataset;
+  if(s.st){S.plan.find(p=>String(p.id)===s.st).st=e.target.value;save();renderPlan()}
+  if(s.dt){S.plan.find(p=>String(p.id)===s.dt).date=e.target.value;save();renderPlan()}
+  if(s.tv!==undefined){CUR.t[s.tv]=e.target.value;save()}
+  if(s.desc){CUR.desc=e.target.value;save()}
+  if(s.thumb&&e.target.files[0])readImg(e.target.files[0]);
+});
+$$('nav button').forEach(b=>b.onclick=()=>{
+  $$('nav button').forEach(x=>x.classList.toggle('on',x===b));b.scrollIntoView({inline:'center',block:'nearest'});
+  ['ideas','plan','chat','vids','shorts','bl','recs'].forEach(t=>$('#t-'+t).hidden=t!==b.dataset.tab);
+  if(b.dataset.tab==='recs')renderRecs();
+  if(b.dataset.tab==='chat'){fillCplan();renderChat()}
+});
+$('#roll').onclick=roll;
+$('#airef').onclick=()=>runAI(true);
+$('#aiprov').onchange=e=>{S.aiKeys=S.aiKeys||{};S.aiKeys[S.aiProv]=S.aiKey;S.aiProv=e.target.value;S.aiKey=S.aiKeys[S.aiProv]||'';S.aiModel=DEF[S.aiProv];aiFail=null;$('#aikey').value=S.aiKey;$('#aimodel').value=S.aiModel;save();runAI()};
+$('#aikey').onchange=e=>{S.aiKey=e.target.value.trim();aiFail=null;save();runAI()};
+$('#aimodel').onchange=e=>{S.aiModel=e.target.value.trim();save()};
+$('#links').onchange=e=>{S.links=e.target.value;save()};
+$('#padd').onclick=()=>{addPlan($('#ptitle').value.trim(),$('#pdate').value);$('#ptitle').value=''};
+$('#vadd').onclick=()=>run(async()=>{const id=vid($('#vurl').value);if(!id)throw new Error('Не удалось найти ID ролика в ссылке');await addIds([id]);$('#vurl').value=''});
+$('#vref').onclick=()=>run(()=>addIds(S.videos.map(v=>v.id)).then(()=>toast('Статистика обновлена')));
+$('#vch').onclick=()=>run(()=>chLoad({limit:10}));
+$('#vlast').onclick=()=>run(()=>chLoad({limit:1}));
+$('#vper').onclick=()=>run(()=>{const f=$('#pfrom').value,t=$('#pto').value;if(!f&&!t)throw new Error('выбери даты «с» и «по»');return chLoad({from:f,to:t})});
+$('#mykey').onchange=e=>{S.myKey=e.target.value.trim();save()};
+$('#topics').onchange=e=>{S.topics=e.target.value.split('\n').map(x=>x.trim()).filter(Boolean);save();fillSel()};
+$('#theme').onclick=()=>{S.theme=S.theme==='dark'?'light':'dark';document.documentElement.dataset.theme=S.theme;save()};
+
+function start(){
+  load();if(S.aiModel==='llama-3.3-70b-versatile'){S.aiModel='openai/gpt-oss-120b';save()}if(S.aiModel==='gemini-2.5-flash'){S.aiModel='gemini-3.6-flash';save()}S.chat=S.chat||[];S.tr=S.tr||[];document.documentElement.dataset.theme=S.theme;
+  $('#login').hidden=true;$('#app').hidden=false;
+  $('#topics').value=(S.topics&&S.topics.length?S.topics:TOPICS).join('\n');
+  $('#handle').value=S.handle;$('#mykey').value=S.myKey;
+  fillSel();renderGen();renderBank();renderPlan();renderVids();
+  $('#aiprov').value=S.aiProv;$('#aikey').value=S.aiKey;$('#aimodel').value=S.aiModel;$('#links').value=S.links;renderRecs();renderBl();renderTr();if(S.shText)$('#shbox').innerHTML=md(S.shText);
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,17 @@
+RewriteEngine On
+RewriteBase /
+
+# Route everything to index.php except real files and the assets folder
+RewriteCond %{REQUEST_URI} !^/assets/
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^(.*)$ index.php [QSA,L]
+
+# Protect database
+<Files "database.sqlite">
+    Order allow,deny
+    Deny from all
+</Files>
+
+# Disable directory listing
+Options -Indexes
+DirectoryIndex index.php

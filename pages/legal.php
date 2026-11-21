@@ -1,0 +1,3 @@
+<?php include __DIR__.'/../templates/header.php'; ?>
+<div class="card" style="max-width:900px;margin:0 auto;padding:28px;line-height:1.75;color:var(--g-text-secondary)"><h1 style="color:var(--g-text);margin-top:0"><?=e($doc['title'])?></h1><?= $doc['content'] ?><div style="margin-top:24px;font-size:12px;opacity:.7">Версия <?=e($doc['version'])?> · Обновлено <?=e($doc['updated_at'])?></div></div>
+<?php include __DIR__.'/../templates/footer.php'; ?>

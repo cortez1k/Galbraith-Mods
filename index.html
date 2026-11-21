@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="ru"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Знаток — шоу Galbraith</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f6f6f9;--cd:#fff;--tx:#17171c;--mt:#6b6b78;--ac:#E81C5A;--bd:#e4e4ec;--gl:rgba(232,28,90,.28);box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0d0d12;--cd:#17171f;--tx:#f2f2f6;--mt:#9a9aab;--bd:#272733;--gl:rgba(232,28,90,.4)}}
+:root[data-theme="dark"]{--bg:#0d0d12;--cd:#17171f;--tx:#f2f2f6;--mt:#9a9aab;--bd:#272733;--gl:rgba(232,28,90,.4)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font:500 16px/1.4 Inter,system-ui,-apple-system,"Segoe UI",sans-serif;min-height:100vh}
+.tick{overflow:hidden;background:var(--ac);color:#fff;font-weight:800;font-size:12px;letter-spacing:.12em;padding:6px 0}
+.tick span{display:inline-block;white-space:nowrap;animation:mq 25s linear infinite}
+@keyframes mq{to{transform:translateX(-50%)}}
+header{display:flex;align-items:center;gap:10px;padding:14px 20px;max-width:1100px;margin:auto}
+.logo{width:38px;height:38px;border-radius:11px;background:linear-gradient(135deg,var(--ac),#9d0f3c);color:#fff;font:800 24px/38px Inter,sans-serif;text-align:center;text-shadow:2px 2px 0 rgba(0,0,0,.25);box-shadow:0 6px 18px var(--gl)}
+header b{font-size:20px;letter-spacing:-.02em}header small,.mt{color:var(--mt)}
+header button{margin-left:auto}
+main{max-width:1100px;margin:auto;padding:0 20px 40px}
+.cd{background:var(--cd);border:1px solid var(--bd);border-radius:20px;padding:24px;box-shadow:0 10px 40px rgba(0,0,0,.06)}
+h2{margin:4px 0 16px;font-size:26px}
+.gr{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin-bottom:14px}
+label{display:flex;flex-direction:column;gap:5px;font-size:13px;color:var(--mt)}
+.ck{flex-direction:row;align-items:center;gap:8px;color:var(--tx);font-size:14px}
+input,select,textarea{font:inherit;background:var(--bg);color:var(--tx);border:1px solid var(--bd);border-radius:11px;padding:10px 12px;width:100%}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--ac);border-color:transparent}
+input[type=checkbox]{width:auto;accent-color:var(--ac)}
+textarea{min-height:190px;resize:vertical;font-size:14px}
+.bt{font:700 15px Inter,sans-serif;border:0;border-radius:12px;padding:12px 20px;background:var(--ac);color:#fff;cursor:pointer;transition:transform .15s,box-shadow .15s;box-shadow:0 6px 18px var(--gl)}
+.bt:hover{transform:translateY(-2px)}.bt:active{transform:scale(.96)}
+.gh{background:var(--bd);color:var(--tx);box-shadow:none}.ok{background:#17a34a}.no{background:#dc2626}
+.row{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px}
+.es{margin:10px 0;font-weight:700;color:var(--ac)}
+#st{display:grid;gap:16px}
+.bd{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.pc{background:var(--cd);border:1px solid var(--bd);border-radius:18px;padding:14px;text-align:center;transition:all .35s cubic-bezier(.2,.8,.2,1);position:relative}
+.pc.on{transform:translateY(-8px) scale(1.03);border-color:var(--ac);box-shadow:0 0 0 3px var(--gl),0 16px 34px var(--gl)}
+.pc.out{opacity:.4;filter:grayscale(1)}.pc.idle{opacity:.55}.pc.me{border-color:var(--ac)}
+.av{width:44px;height:44px;margin:0 auto 6px;border-radius:50%;background:var(--ac);color:#fff;font-weight:800;line-height:44px;overflow:hidden;display:flex;align-items:center;justify-content:center}.av img{width:100%;height:100%;object-fit:cover}
+.nm{font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sc{font:800 32px Inter,sans-serif;font-variant-numeric:tabular-nums}.sc.fl{animation:fl .6s}
+@keyframes fl{40%{color:var(--ac);transform:scale(1.25)}}
+.ad{display:flex;gap:6px;justify-content:center}.ad button{border:0;border-radius:8px;background:var(--bd);color:var(--tx);cursor:pointer;width:28px}
+#qc{min-height:260px;display:flex;flex-direction:column;justify-content:center}
+.pop,.qt,.stt,.ansr,.msg,.hint,.code{animation:pop .5s cubic-bezier(.2,.8,.2,1) both}
+@keyframes pop{from{opacity:0;transform:translateY(16px) scale(.97)}}
+.tp{display:flex;flex-wrap:wrap;gap:8px}
+.bg{background:var(--bd);border-radius:99px;padding:4px 12px;font-size:12px;font-weight:700}
+.m-секрет{background:#6d28d9;color:#fff}.m-x2{background:#f59e0b;color:#000}.m-сюрприз{background:#0ea5e9;color:#fff}
+.qt{font-size:clamp(24px,4.4vw,42px);line-height:1.15;margin:18px 0;letter-spacing:-.02em}
+.stt{font-size:22px;font-weight:700}.go{color:var(--ac);font-size:46px;font-weight:800;animation:pop .4s both,pulse 1s .4s infinite;border-radius:20px;width:max-content}
+@keyframes pulse{0%{box-shadow:0 0 0 0 var(--gl)}100%{box-shadow:0 0 0 30px transparent}}
+.ansr{font-size:28px;font-weight:800;color:#17a34a}.msg{margin-top:10px;font-size:20px;font-weight:700;color:var(--ac)}.hint{font-size:20px;margin-bottom:8px}
+.tb{height:7px;background:var(--bd);border-radius:9px;overflow:hidden;margin-top:20px}.tb i{display:block;height:100%;width:0;background:var(--ac);transition:width .12s linear}
+.lb{color:var(--ac);font-weight:800;letter-spacing:.14em;text-transform:uppercase;font-size:13px}.code{font:800 72px Inter,sans-serif;letter-spacing:.2em}
+.pod{display:flex;gap:12px;align-items:flex-end;height:240px;margin-top:16px}
+.pd{flex:1;height:var(--h);background:linear-gradient(var(--ac),#8a0e36);border-radius:14px 14px 0 0;color:#fff;text-align:center;padding:10px 4px;animation:rise .9s cubic-bezier(.2,.8,.2,1) both;display:flex;flex-direction:column;gap:2px}
+.pd span{font-size:26px;font-weight:800}.pd i{font-style:normal;opacity:.7;margin-top:auto;font-size:32px;font-weight:800}
+@keyframes rise{from{height:0;opacity:0}}
+.hp{margin-top:16px;background:var(--cd);border:1px solid var(--bd);border-radius:18px;padding:16px}
+.sec{font-weight:700}
+#big{width:min(78vw,320px);aspect-ratio:1;border-radius:50%;border:0;background:var(--ac);color:#fff;font:800 40px Inter,sans-serif;margin:24px auto;display:block;box-shadow:0 12px 0 #a50f3e;cursor:pointer;touch-action:manipulation}
+#big:active{transform:translateY(8px);box-shadow:0 4px 0 #a50f3e}#big:disabled{background:var(--bd);color:var(--mt);box-shadow:0 12px 0 rgba(0,0,0,.12);cursor:default}#big.live{animation:pulse 1s infinite}
+#cf{position:fixed;inset:0;pointer-events:none;z-index:9}
+#ax{display:none;position:fixed;top:8px;right:8px;opacity:.25;z-index:5}
+.profile-card{display:flex;align-items:center;gap:14px;margin-top:10px}.profile-pic{width:62px;height:62px;flex:0 0 62px;border-radius:50%;overflow:hidden;display:grid;place-items:center;background:linear-gradient(135deg,var(--ac),#9d0f3c);color:#fff;font-size:25px;font-weight:800;border:3px solid var(--bd)}.profile-pic img{width:100%;height:100%;object-fit:cover}.profile-info{min-width:0;flex:1}.profile-name{font-weight:800;overflow-wrap:anywhere}.profile-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:9px}.avatar-file{display:none}.profile-help{font-size:12px;color:var(--mt);margin-top:8px}.profile-status{font-size:12px;color:var(--mt);min-height:17px;margin-top:6px}.air header,.air .tick,.air #rtc{display:none}.air main{padding-top:clamp(44px,10vh,120px)}.air #ct{margin-top:clamp(42px,10vh,120px)}.air #st{align-content:center}.hp textarea{min-height:90px;font-size:12px;word-break:break-all}.pr{margin-top:14px;padding-top:12px;border-top:1px dashed var(--bd)}.air #ax{display:block}.air #ct{display:none}.stream-window header,.stream-window body>.tick{display:none}.stream-window .stream-ticker.tick{display:block}.stream-window main{display:block;min-height:100vh;padding:58px 2vw 2vh}.stream-window #st{display:grid;align-content:center;min-height:65vh}.stream-window #bd,.stream-window #qc{width:100%}
+.gd{display:grid;gap:8px;margin-top:14px}.rw{display:grid;grid-template-columns:minmax(84px,1.7fr) repeat(var(--n),1fr);gap:8px}
+.gc{background:var(--bd);border-radius:12px;padding:12px;font-weight:800;display:flex;align-items:center;font-size:clamp(13px,2vw,20px)}
+.gp{border:0;border-radius:12px;background:var(--ac);color:#fff;font:800 clamp(16px,2.6vw,28px) Inter,sans-serif;display:flex;align-items:center;justify-content:center;min-height:54px;animation:pop .5s both}
+button.gp{cursor:pointer;transition:transform .15s,box-shadow .15s}button.gp:hover{transform:translateY(-3px) scale(1.04);box-shadow:0 8px 20px var(--gl)}
+.gp.dn{background:transparent;border:1px dashed var(--bd)}
+.mo{position:fixed;inset:0;z-index:8;display:flex;align-items:center;justify-content:center;background:rgba(10,10,16,.9);backdrop-filter:blur(6px);animation:mo 3s both;color:#fff;text-align:center}
+@keyframes mo{0%{opacity:0}10%,86%{opacity:1}100%{opacity:0}}
+.mi{animation:mp .9s cubic-bezier(.2,1.4,.4,1) both;padding:20px}
+@keyframes mp{from{transform:scale(.3) rotate(-8deg);opacity:0}}
+.mj{font-size:clamp(80px,18vw,150px);line-height:1.1;animation:sp 1.2s ease-in-out infinite alternate}
+@keyframes sp{to{transform:scale(1.15) rotate(6deg)}}
+.mi b{display:block;font:800 clamp(40px,9vw,88px) Inter,sans-serif;letter-spacing:.06em;color:var(--ac);text-shadow:0 0 40px var(--gl)}
+.mi small{display:block;opacity:.85;font-size:clamp(14px,2.4vw,22px);margin-bottom:6px}.mi p{font-size:clamp(15px,2.6vw,24px);margin:8px 0 0}
+.mi.mc{max-width:680px;margin:auto;text-align:center}.mc .mj{margin-top:6px}.lk{animation:lk .6s}@keyframes lk{50%{transform:scale(1.5) rotate(-10deg)}}
+.m-рулетка{background:#ec4899;color:#fff}.m-ва-банк{background:#16a34a;color:#fff}.m-щит{background:#2563eb;color:#fff}.m-обмен{background:#0d9488;color:#fff}.m-блиц{background:#ef4444;color:#fff}.m-заморозка{background:#67e8f9;color:#000}
+.mc .mj{margin-bottom:8px}.bd{grid-template-columns:repeat(auto-fit,minmax(104px,1fr))}.rw{grid-template-columns:minmax(92px,1.5fr) repeat(var(--n),1fr)}.gc{overflow-wrap:anywhere;hyphens:auto}
+@media(max-width:520px){.cd{padding:16px}main{padding:0 12px 30px}header{padding:12px}.gc{font-size:12px;padding:8px}.gp{min-height:46px;border-radius:10px}.sc{font-size:26px}.code{font-size:56px}}
+.stream-ticker{display:none}.stream-window .stream-ticker.tick{display:block;position:fixed;top:0;left:0;width:100%;z-index:1000}.stream-window .stream-ticker span{display:inline-block;white-space:nowrap;animation:mq 25s linear infinite;letter-spacing:.12em}.stream-window #st{margin-top:34px}section.cd>.sec{margin-top:18px}section.cd>label{margin-top:14px}section.cd>.mt{margin:6px 0 10px;font-size:14px}section.cd>.bt{margin-top:10px}section.cd>.es{margin-top:14px}.pr.done>label,.pr.done>.row{display:none}
+body.ovm{background:transparent!important;min-height:0}.ovm header,.ovm .tick,.ovm .stream-ticker,.ovm #ax{display:none!important}body.ovm main{padding:0!important;min-height:0!important;max-width:none!important}body.ovg{background:#00ff00!important}
+.ov{display:flex;flex-wrap:wrap;gap:14px;padding:22px 14px 14px}.ovc{flex-direction:column;flex-wrap:nowrap;width:380px;max-width:100%}.ovr .ovp{flex:1 1 210px}
+.ovp{display:flex;align-items:center;gap:12px;min-width:210px;background:rgba(15,15,22,.9);border:2px solid rgba(255,255,255,.14);border-radius:18px;padding:10px 20px 10px 10px;color:#fff;transition:all .35s cubic-bezier(.2,.8,.2,1)}
+.ovp.on{border-color:var(--ac);transform:translateY(-6px) scale(1.04);box-shadow:0 0 0 3px var(--gl),0 14px 30px var(--gl)}.ovp.out{opacity:.45;filter:grayscale(1)}
+.ova{width:52px;height:52px;flex:0 0 52px;border-radius:50%;background:var(--ac);display:grid;place-items:center;font-weight:800;font-size:22px;overflow:hidden}.ova img{width:100%;height:100%;object-fit:cover}
+.ovn{flex:1;min-width:0;font-weight:700;font-size:21px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.ovs{font:800 36px Inter,sans-serif;font-variant-numeric:tabular-nums}.ovs.fl{animation:fl .6s}
+.scn{position:fixed;left:0;top:0;width:1920px;height:1080px;transform-origin:0 0;padding:0;display:block}
+.scn #qc{position:absolute;box-sizing:border-box;min-height:0;overflow:hidden;padding:26px 36px;background:rgba(15,15,22,.93);color:#f2f2f6}.scn .qimg{display:block;box-sizing:border-box;width:auto;max-width:min(72%,760px);max-height:170px;height:auto;object-fit:contain;padding:7px;background:linear-gradient(145deg,rgba(255,255,255,.13),rgba(255,255,255,.035));border:2px solid rgba(255,255,255,.22);border-radius:16px;box-shadow:0 8px 24px rgba(0,0,0,.32);margin:8px auto 12px}.scn .qimg.ld{width:max-content;max-width:72%;height:auto;max-height:none;padding:14px 22px;background:rgba(255,255,255,.07);border:1px dashed rgba(255,255,255,.3);color:#d7d7e2}.scn .qt{font-size:46px}.scn .stt{font-size:30px}.scn .ansr{font-size:38px}.scn .msg{font-size:26px}
+.scn .cam{position:absolute}.scn .hole{border:3px solid rgba(255,255,255,.3);border-radius:18px;position:relative;transition:all .3s}
+.scn .cam.on .hole{border-color:var(--ac);box-shadow:0 0 0 4px var(--gl),0 0 40px var(--gl)}.scn .cam.out .hole{box-shadow:inset 0 0 0 9999px rgba(0,0,0,.55)}
+.scn .plate{display:flex;align-items:center;gap:12px;margin-top:10px;height:68px;background:rgba(15,15,22,.93);border:2px solid rgba(255,255,255,.14);border-radius:16px;padding:8px 18px 8px 8px;color:#fff;transition:all .3s}.scn .cam.on .plate{border-color:var(--ac)}.scn .cam.out .plate{opacity:.5}
+.guide .hole{background:repeating-linear-gradient(45deg,rgba(0,200,255,.3) 0 14px,rgba(0,200,255,.12) 14px 28px);display:grid;place-items:center;color:#fff;font:700 20px/1.4 Inter,sans-serif;text-align:center}
+.ovm #ct .hp{background:#17171f;color:#f2f2f6;border-color:#333;max-width:560px}.ovm #ct .mt{color:#a8a8b8}.ovm #ct textarea{background:#0d0d12;color:#f2f2f6;border-color:#333}.qmedia{display:block;max-width:100%;max-height:38vh;margin:10px auto;border-radius:12px}.qmedia[controls]{width:min(100%,760px)}.qimg{display:block;max-width:100%;max-height:340px;object-fit:contain;border-radius:14px;margin:8px auto 12px;animation:pop .5s both}.qimg.ld{padding:40px;text-align:center;background:var(--bd);color:var(--mt)}.il{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}.ib{display:flex;align-items:center;gap:6px;background:var(--bd);border-radius:10px;padding:4px 8px;font-size:13px}.ib img{width:34px;height:34px;object-fit:cover;border-radius:6px}.ib button{border:0;background:transparent;color:var(--mt);cursor:pointer}@media(max-width:520px){.qimg{max-height:17vh}#big{width:min(56vw,27vh,240px);margin:10px auto 14px;font-size:30px;box-shadow:0 8px 0 #a50f3e}#big:active{transform:translateY(5px);box-shadow:0 3px 0 #a50f3e}.pc{padding:8px}body.plr #big{position:fixed;left:50%;bottom:12px;margin:0;transform:translateX(-50%);z-index:6}body.plr #big:active{transform:translateX(-50%) translateY(5px)}body.plr main{padding-bottom:calc(min(56vw,27vh,240px) + 34px)}.pc .av{width:26px;height:26px;line-height:26px;margin-bottom:2px}.sc{font-size:22px}#qc.cd{padding:14px}.qt{margin:10px 0}}
+.stream-window main{display:block;height:auto;min-height:100vh;padding:58px 2vw 2vh;box-sizing:border-box}
+.stream-window #st{display:grid;align-content:center;min-height:65vh;margin-top:34px;gap:1.4vh}
+.stream-window #bd{flex:0 0 auto}.stream-window .pc{padding:1vh 10px}.stream-window .av{width:3.6vh;height:3.6vh;line-height:3.6vh;font-size:1.8vh;margin-bottom:.4vh}.stream-window .av img{width:100%;height:100%}.stream-window .nm{font-size:2vh}.stream-window .sc{font-size:3.8vh}
+.stream-window #qc{flex:0 1 auto;height:auto;max-height:52vh;min-height:0;overflow:hidden;padding:1.5vh 2vw;justify-content:center}.stream-window .qt{font-size:clamp(20px,4.6vh,52px);margin:1vh 0}.stream-window .stt{font-size:clamp(16px,3.2vh,30px)}.stream-window .msg{font-size:clamp(14px,2.6vh,26px);margin-top:.6vh}.stream-window .ansr{font-size:clamp(18px,3.8vh,36px)}.stream-window .tb{margin-top:1.4vh;flex:0 0 auto}
+.stream-window .qimg{display:block;flex:0 1 auto;width:auto;max-width:min(72%,760px);height:auto;max-height:20vh;min-height:0;object-fit:contain;box-sizing:border-box;padding:7px;background:linear-gradient(145deg,rgba(255,255,255,.13),rgba(255,255,255,.035));border:2px solid rgba(255,255,255,.22);border-radius:16px;box-shadow:0 8px 24px rgba(0,0,0,.32);margin:.6vh auto 1vh}.stream-window .qimg.ld{flex:0 0 auto;width:max-content;max-width:72%;height:auto;max-height:none;min-height:0;padding:10px 16px;background:rgba(255,255,255,.07);border:1px dashed rgba(255,255,255,.3);color:#d7d7e2}.stream-window .mj{font-size:clamp(60px,14vh,140px)}.stream-window .mi b{font-size:clamp(34px,8vh,80px)}.stream-window .mi p{font-size:clamp(14px,2.8vh,24px)}.stream-window .code{font-size:clamp(40px,10vh,72px)}.stream-window .gp{min-height:5.5vh}.stream-window .gc{padding:1vh 12px}.stream-window .pod{height:30vh}
+
+/* Финальная полировка интерфейса */
+:root{--radius:18px}
+.cd,.hp{border-radius:18px;box-shadow:0 8px 28px rgba(0,0,0,.055)}
+.cd{padding:clamp(16px,2.2vw,24px)}
+.gr{align-items:stretch}
+label{min-width:0}
+input,select,textarea{min-width:0;transition:border-color .16s,box-shadow .16s}
+input:focus,select:focus,textarea:focus{box-shadow:0 0 0 3px var(--gl)}
+.bt{min-height:42px;display:inline-flex;align-items:center;justify-content:center;gap:7px}
+.bt:focus-visible,button:focus-visible{outline:3px solid var(--ac);outline-offset:3px}
+.row{align-items:center}
+.hp{box-shadow:0 4px 18px rgba(0,0,0,.045)}
+.timer-paused{display:inline-flex;align-items:center;gap:8px;margin-top:14px;padding:7px 12px;border-radius:999px;background:#f59e0b;color:#211600;font-weight:800;font-size:14px}
+.tb{margin-top:18px}
+.tb i{will-change:width}
+@media(max-width:520px){.hp{padding:13px}.row>.bt{flex:1 1 auto}.gr{grid-template-columns:repeat(auto-fit,minmax(min(100%,145px),1fr))}h2{font-size:23px}.qt{overflow-wrap:anywhere}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}}
+#eventOverlay{position:fixed;inset:auto 4vw 9vh;z-index:10000;display:flex;justify-content:center;pointer-events:none;text-align:center}
+#eventOverlay span{font:800 clamp(24px,4vw,58px)/1.15 Inter,system-ui,sans-serif;color:#fff;text-shadow:0 3px 16px rgba(0,0,0,.9),0 1px 3px #000;opacity:0;transform:translateY(8px);transition:opacity .45s ease,transform .45s ease;max-width:92vw}
+#eventOverlay.show span{opacity:1;transform:translateY(0)}
+@media(prefers-reduced-motion:reduce){#eventOverlay span{transition:none}}
+</style></head><body>
+<div class="tick stream-ticker"><span id="streamTickerText">ЗНАТОК ● ИНТЕЛЛЕКТУАЛЬНОЕ ШОУ ● ЗНАТОК ● ИНТЕЛЛЕКТУАЛЬНОЕ ШОУ ● </span></div><div class="tick"><span>ЗНАТОК ● ИНТЕЛЛЕКТУАЛЬНОЕ ШОУ ● AMAZING RP ● КТО ПЕРВЫЙ НАЖАЛ — ТОТ И ОТВЕЧАЕТ ● ЗНАТОК ● ИНТЕЛЛЕКТУАЛЬНОЕ ШОУ ● AMAZING RP ● КТО ПЕРВЫЙ НАЖАЛ — ТОТ И ОТВЕЧАЕТ ● ЗНАТОК ● ИНТЕЛЛЕКТУАЛЬНОЕ ШОУ ● AMAZING RP ● КТО ПЕРВЫЙ НАЖАЛ — ТОТ И ОТВЕЧАЕТ ● ЗНАТОК ● ИНТЕЛЛЕКТУАЛЬНОЕ ШОУ ● AMAZING RP ● КТО ПЕРВЫЙ НАЖАЛ — ТОТ И ОТВЕЧАЕТ ●</span></div>
+<header><div class="logo">G</div><b>Знаток</b><small>шоу Galbraith</small><button class="bt gh" onclick="th()">◐</button></header>
+<main id="app"></main><div id="eventOverlay"><span></span></div><canvas id="cf"></canvas><button id="ax" class="bt gh" onclick="air=0;paint()">✕</button>
+<script>
+const $=(s,e=document)=>e.querySelector(s),esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const MB={};
+let ns=null,r=null,host=true,P=null,S=null,me=-1,air=0,RT=0,rtcAns='',rtcSt='';
+const QP=new URLSearchParams(location.search),STREAM_MODE=QP.get('stream')==='1',EVENT_MODE=QP.get('event')==='1',VIEW=QP.get('view'),OBS=QP.get('obs')==='1',LAY=QP.get('layout')||'row',GUIDE=QP.get('guide')==='1';if(OBS||STREAM_MODE)document.documentElement.dataset.theme='dark';if(QP.get('bg')==='green')document.body.classList.add('ovg');let streamBus=null,eventLast='',eventTimer=0;
+try{streamBus=new BroadcastChannel('znatok-stream-window')}catch(e){}
+function obsPaint(){document.body.classList.add('ovm');if(!$('#ov'))$('#app').innerHTML='<div id="ov"></div><div id="ct"></div>';if(P&&(r||STREAM_MODE)){$('#ct').innerHTML='';ovPaint()}else if(!STREAM_MODE){$('#ov').innerHTML='';ctl()}}
+function ovPaint(){if(VIEW==='scene')return scenePaint();const c=$('#ov'),g=P.pl,sig=g.length+LAY;if(c._s!==sig){c._s=sig;c.className='ov '+(LAY==='col'?'ovc':'ovr');c.innerHTML=g.map((_,i)=>`<div class="ovp" id="o${i}"><div class="ova"></div><div class="ovn"></div><div class="ovs">0</div></div>`).join('')}
+g.forEach((p,i)=>{const e=$('#o'+i);e.className='ovp'+(((P.bz==i&&['ans','pass','swap','bet','frz'].includes(P.ph))||(P.ph=='grid'&&P.ch==i))?' on':'')+(p.out?' out':'');$('.ova',e).innerHTML=p.a?`<img src="${p.a}" alt="">`:String(i+1);$('.ovn',e).textContent=p.n;tw($('.ovs',e),p.s)})}
+function fit(){const o=$('#ov');if(o&&o.classList.contains('scn'))o.style.transform='scale('+Math.min(innerWidth/1920,innerHeight/1080)+')'}addEventListener('resize',fit);
+function scenePaint(){const o=$('#ov'),n=P.pl.length,L=LAY==='sides'?'sides':'bottom',sig=n+L+GUIDE;
+if(o._s!==sig){o._s=sig;o.className='scn'+(GUIDE?' guide':'');const cams=[];let st;
+if(L==='bottom'){const gap=24,cw=Math.floor((1840-gap*(n-1))/n),h=Math.round(cw*9/16),top=1080-30-h-78;for(let i=0;i<n;i++)cams.push([40+i*(cw+gap),top,cw,h]);st=[40,30,1840,top-52]}
+else{const cw=440,h=248,bh=h+78;[Math.ceil(n/2),Math.floor(n/2)].forEach((m,c)=>{const g=(1020-m*bh)/(m+1);for(let j=0;j<m;j++)cams.push([c?1920-40-cw:40,Math.round(30+g+j*(bh+g)),cw,h])});st=[504,30,912,1020]}
+o.innerHTML=`<div id="qc" class="cd" style="left:${st[0]}px;top:${st[1]}px;width:${st[2]}px;height:${st[3]}px"></div>`+cams.map((c,i)=>`<div class="cam" id="c${i}" style="left:${c[0]}px;top:${c[1]}px;width:${c[2]}px"><div class="hole" style="height:${c[3]}px">${GUIDE?`<span>КАМЕРА ${i+1}<br>${c[2]}×${c[3]} px<br>x ${c[0]} · y ${c[1]}</span>`:''}</div><div class="plate"><div class="ova"></div><div class="ovn"></div><div class="ovs">0</div></div></div>`).join('');fit()}
+qcard();P.pl.forEach((p,i)=>{const e=$('#c'+i);e.className='cam'+(((P.bz==i&&['ans','pass','swap','bet','frz'].includes(P.ph))||(P.ph=='grid'&&P.ch==i))?' on':'')+(p.out?' out':'');$('.ova',e).innerHTML=p.a?`<img src="${p.a}" alt="">`:String(i+1);$('.ovn',e).textContent=p.n;tw($('.ovs',e),p.s)})}
+function openSceneWindow(){return}
+function openScoresWindow(){const u=new URL(location.href);u.search='?stream=1&view=scores&bg=green';window.open(u.href,'znatok-scores-window','popup,width=1100,height=170,resizable=yes')}
+function openEventWindow(){const u=new URL(location.href);u.search='?event=1';window.open(u.href,'znatok-event-window','popup,width=1100,height=260,resizable=yes')}
+function openStreamWindow(){const u=new URL(location.href);u.searchParams.set('stream','1');window.open(u.href,'znatok-stream-window','popup,width=1280,height=800,resizable=yes,scrollbars=yes')}
+let streamTickerText='ЗНАТОК ● ИНТЕЛЛЕКТУАЛЬНОЕ ШОУ ● ';
+try{streamTickerText=localStorage.getItem('znatok-stream-ticker')||streamTickerText}catch(e){}
+function renderTicker(text){streamTickerText=(text||'').trim();const el=$('#streamTickerText');if(el){const chunk=streamTickerText?streamTickerText+' ● ':'';el.textContent=chunk.repeat(8);el.style.animation='none';void el.offsetWidth;el.style.animation=''}}
+if(streamBus){streamBus.onmessage=e=>{if(EVENT_MODE&&e.data&&e.data.type==='event'){showEvent(e.data.text);return}if(e.data&&e.data.type==='ticker'){renderTicker(e.data.text);return}if(STREAM_MODE){if(e.data&&e.data.type==='ping'){streamBus.postMessage({type:'ticker',text:streamTickerText});return}const state=e.data&&e.data.type==='state'?e.data.data:e.data;if(state&&typeof state==='object'&&state.ph){P=state;air=1;document.body.classList.add('air','stream-window');paint()}}else if(e.data&&e.data.type==='event-ping'){if(eventLast)streamBus.postMessage({type:'event',text:eventLast})}else if(e.data&&e.data.type==='ping'){if(P)streamBus.postMessage({type:'state',data:P});streamBus.postMessage({type:'ticker',text:streamTickerText})}};if(STREAM_MODE){renderTicker(streamTickerText);streamBus.postMessage({type:'ping'})}
+function showEvent(text){const o=$('#eventOverlay'),sp=o&&$('span',o);if(!sp)return;sp.textContent=text||'';o.classList.remove('show');void o.offsetWidth;o.classList.add('show');clearTimeout(eventTimer);eventTimer=setTimeout(()=>o.classList.remove('show'),4800)}}
+
+let CF={np:3,nm:['Игрок 1','Игрок 2','Игрок 3'],pen:1,bt:15,ph:30,k:{'секрет':1,'сюрприз':1,'рулетка':1,'блиц':1},hp:1,hh:1,q:`# Наука
+100 | Какой газ мы вдыхаем для жизни? | Кислород
+200 | Какая планета третья от Солнца? | Земля
+300 | Сколько ног у паука? | 8
+400 | Какой металл жидкий при комнатной температуре? | Ртуть
+500 | Какая планета самая большая в Солнечной системе? | Юпитер
+# География
+100 | Столица Франции? | Париж
+200 | На каком материке находится Египет? | Африка
+300 | Самая длинная река Европы? | Волга
+400 | Столица Австралии? | Канберра
+500 | Самая высокая гора мира? | Эверест
+# Числа
+100 | Сколько дней в неделе? | 7
+200 | Сколько сторон у шестиугольника? | 6
+300 | Сколько секунд в минуте? | 60
+400 | Сколько месяцев в году? | 12
+500 | Сколько градусов в прямом угле? | 90`};
+function th(){const d=document.documentElement,k=matchMedia('(prefers-color-scheme:dark)').matches;d.dataset.theme=(d.dataset.theme||(k?'dark':'light'))=='dark'?'light':'dark'}
+function rc(){const g=i=>$('#'+i),n=+g('np').value;CF={np:n,nm:[...Array(n)].map((_,i)=>(g('n'+i)&&g('n'+i).value.trim())||'Игрок '+(i+1)),pen:+g('pen').value,bt:+g('bt').value,ph:+g('phs').value,k:Object.fromEntries(KS.map((t,i)=>[t,g('k'+i)?+g('k'+i).value:1])),hp:g('hp').checked,hh:g('hh').checked,q:g('qs').value}}
+function es(){rc();const R=parse(CF.q),n=cnt(R),m=Math.round(n*55/60),refs=[];R.forEach(rd=>rd.cats.forEach(c=>Object.values(c.c).forEach(x=>{if(x.img)refs.push(x.img)})));const miss=refs.filter(x=>!/^https?:\/\//i.test(x)&&!IMG[x.toLowerCase()]);const il=$('#il');if(il&&il._s!==Object.keys(IMG).join('|'))imgList();$('#es').textContent=`Вопросов в игре: ${n} · примерно ${m} мин ${m<30?'— меньше цели 30–40':m>40?'— больше цели 30–40':'✓'}`+(refs.length?` · фото: ${refs.length-miss.length} из ${refs.length}`+(miss.length?` (не найдены: ${miss.slice(0,3).join(', ')})`:''):'')}
+function setup(){const c=CF,o=(a,v)=>a.map(x=>`<option ${x==v?'selected':''}>${x}</option>`).join(''),n=(i,l,v,a,b)=>`<label>${l}<input id="${i}" type="number" min="${a}" max="${b}" value="${v}" oninput="es()"></label>`,ck=(i,l,v)=>`<label class="ck"><input id="${i}" type="checkbox" ${v?'checked':''} onchange="es()"> ${l}</label>`;
+$('#app').innerHTML=`<section class="cd pop"><small class="mt">Шоу Galbraith</small><h2>Конструктор выпуска</h2>
+<div class="gr"><label>Игроков<select id="np" onchange="rc();setup()">${o([2,3,4,5,6],c.np)}</select></label>
+<label>Штраф за ошибку<select id="pen"><option value="0" ${c.pen==0?'selected':''}>нет</option><option value="1" ${c.pen==1?'selected':''}>половина цены</option><option value="2" ${c.pen==2?'selected':''}>полная цена</option></select></label>${n('bt','Секунд на нажатие',c.bt,3,60)}${n('phs','Секунд на звонок другу',c.ph,10,120)}</div>
+<div class="gr">${c.nm.slice(0,c.np).map((x,i)=>`<label>Игрок ${i+1}<input id="n${i}" value="${esc(x)}"></label>`).join('')}</div>
+<p class="mt">Для особой ячейки укажи цену и текст «МОДИФИКАТОР» — поле ответа оставь пустым.</p><div class="sec">Дополнительные возможности</div><div class="row">${ck('hp','📞 Звонок другу',c.hp)}${ck('hh','💡 Подсказка',c.hh)}</div>\n<div class="row"><button type="button" class="bt gh" onclick="builderRound()">＋ Раунд</button><button type="button" class="bt gh" onclick="builderCategory()">＋ Категория</button><button type="button" class="bt gh" onclick="builderQuestion()">＋ Вопрос</button><button type="button" class="bt gh" onclick="saveDraft()">Сохранить черновик</button><select id="draftSelect" style="max-width:210px" onchange="loadDraft(this.value)"><option value="">Мои черновики…</option></select></div><label>Редактор раундов: «# Категория», затем «цена | вопрос | ответ». Новый раунд — строка ==<textarea id="qs" oninput="es()">${esc(c.q)}</textarea></label>
+<div class="sec">Фото, видео и аудио</div><p class="mt">Для медиа добавляй к строке вопроса поле фото:имя.jpg, видео:https://… или аудио:https://… .</p><p class="mt">В строке вопроса добавь поле <b>фото:имя.jpg</b> (файл из списка ниже) или <b>фото:https://…</b> (ссылка). Пример: <b>300 | Кто на фото? | Галбрейт | фото:galbraith.jpg</b></p><div class="row"><label class="bt gh" style="cursor:pointer;flex-direction:row">📷 Загрузить фото<input type="file" id="imgs" accept="image/*" multiple hidden onchange="addImgs(this)"></label></div><div id="il" class="il"></div>
+<div class="sec">Бегущая строка для эфира</div><label>Текст строки<input id="tickerInput" maxlength="300" placeholder="Например: Подписывайтесь на канал • Следующий раунд скоро"></label><button class="bt gh" onclick="setStreamTicker()">Обновить строку в окне эфира</button><div class="es" id="es"></div><button class="bt" onclick="go()">Создать комнату</button></section>`;es();refreshDrafts()}
+
+function builderText(){return $('#qs')?.value||''}
+function setBuilderText(v){const e=$('#qs');if(e){e.value=v;es()}}
+function builderRound(){const name=(prompt('Название нового раунда:','Раунд '+(parse(builderText()).length+1))||'').trim();if(!name)return;const v=builderText().trimEnd();setBuilderText(v+(v?'\n':'')+'== '+name+'\n# Новая категория\n100 | Вопрос | Ответ\n')}
+function builderCategory(){const v=builderText().trimEnd();setBuilderText(v+(v?'\n':'')+'# Новая категория\n100 | Вопрос | Ответ\n')}
+function builderQuestion(){const v=builderText().trimEnd();setBuilderText(v+(v?'\n':'')+'200 | Новый вопрос | Ответ\n')}
+function drafts(){try{return JSON.parse(localStorage.getItem('znatok-drafts')||'{}')}catch(e){return {}}}
+function refreshDrafts(){const e=$('#draftSelect');if(!e)return;const d=drafts(),cur=e.value;e.innerHTML='<option value="">Мои черновики…</option>'+Object.keys(d).map(k=>`<option value="${esc(k)}">${esc(k)}</option>`).join('');if(d[cur])e.value=cur}
+function saveDraft(){const name=prompt('Название черновика:','Выпуск '+new Date().toLocaleDateString('ru-RU'));if(!name)return;const d=drafts(),key=name.trim().slice(0,60);d[key]={q:builderText(),np:$('#np')?.value||CF.np,nm:Array.from({length:6},(_,i)=>$('#n'+i)?.value||CF.nm[i]||'Игрок '+(i+1)),pen:$('#pen')?.value||CF.pen,bt:$('#bt')?.value||CF.bt,phs:$('#phs')?.value||CF.ph};try{localStorage.setItem('znatok-drafts',JSON.stringify(d));refreshDrafts();$('#draftSelect').value=key;$('#es').textContent='Черновик сохранён'}catch(e){$('#es').textContent='Не удалось сохранить черновик'}}
+function loadDraft(name){if(!name)return;const d=drafts()[name];if(!d)return;CF.q=d.q||'';CF.np=+d.np||3;CF.nm=d.nm||CF.nm;CF.pen=+d.pen||0;CF.bt=+d.bt||15;CF.ph=+d.phs||30;setup();$('#es').textContent='Черновик загружен'}
+
+function setStreamTicker(){const text=($('#tickerInput')?.value||'').trim();streamTickerText=text;try{localStorage.setItem('znatok-stream-ticker',text)}catch(e){}if(streamBus)streamBus.postMessage({type:'ticker',text});renderTicker(text);const btn=$('button[onclick="setStreamTicker()"]');if(btn){btn.textContent='✓ Строка отправлена';setTimeout(()=>btn.textContent='Обновить строку в окне эфира',1400)}}
+async function go(){rc();const R=parse(CF.q);if(!cnt(R)){$('#es').textContent='Добавьте хотя бы одну категорию и вопрос';return}
+R.forEach(rd=>rd.cats.forEach(c=>Object.values(c.c).forEach(x=>{if(x.img){const u=/^https?:\/\//i.test(x.img)?x.img:IMG[x.img.toLowerCase()];if(u){x.im=u;x.iid='i'+(++IID)}}})));
+S={ph:'lobby',pl:CF.nm.map(n=>({n,s:0,out:0,pu:0,hu:0})),rs:R,r:0,ch:0,cf:0,q:null,bz:-1,ms:0,ex:0,ed:0,msg:'',code:String(1000+Math.random()*9000|0),cl:{},wg:{},fq:null,finalStarted:0,paused:false,pauseRem:0};
+if(ns){try{r=await(ns.join?ns.join('z'+S.code):ns);hook()}catch(e){r=null}}else{r=hub();RT=1;hook()}sync()}
+function parse(t){const R=[];let rd=null,c=null;t.split('\n').forEach(l=>{l=l.trim();if(!l)return;if(l.startsWith('==')){rd=null;c=null;const title=l.replace(/^==\s*/,'').trim();if(title)R.push(rd={name:title,cats:[],prices:[]})}else if(l[0]=='#'){if(!rd)R.push(rd={name:'',cats:[],prices:[]});rd.cats.push(c={n:l.slice(1).trim(),c:{}})}else if(c){const p=l.split('|').map(x=>x.trim()),pr=+p[0],isMod=/^модификатор$/i.test(p[1]||'');if(pr>0&&p[1]&&(p[2]||isMod)){const im=p.slice(3).map(x=>x.match(/^(?:фото|img)\s*:\s*(.+)$/i)).find(Boolean),md=p.slice(3).map(x=>x.match(/^(видео|video|аудио|audio)\s*:\s*(.+)$/i)).find(Boolean);c.c[pr]={t:isMod?'МОДИФИКАТОР':p[1],a:isMod?'':p[2],type:isMod?'modifier':'question',m:'',pr,img:im?im[1].trim():'',mediaType:md?md[1].toLowerCase():'',mediaUrl:md?md[2].trim():''};if(!rd.prices.includes(pr))rd.prices.push(pr)}}});R.forEach(x=>x.prices.sort((a,b)=>a-b));return R}
+const cnt=R=>R.reduce((a,r)=>a+r.cats.reduce((b,c)=>b+Object.keys(c.c).length,0),0),left=R=>R.cats.reduce((a,c)=>a+Object.values(c.c).filter(x=>!x.d).length,0);
+function grid(){const R=S.rs[S.r];return S.ph=='grid'&&R?{n:R.name||'',c:R.cats.map(c=>c.n),p:R.prices,d:R.cats.map(c=>R.prices.map(p=>c.c[p]?(c.c[p].d?2:1):0))}:null}
+const T=s=>{S.paused=false;S.pauseRem=0;S.ed=Math.max(0,+s||0);S.ex=S.ed?Date.now()+S.ed*1000:0};
+function clearTimer(){S.ex=0;S.ed=0;S.paused=false;S.pauseRem=0}
+function pauseTimers(){if(!host||!S||S.paused||!S.ex)return;S.pauseRem=Math.max(0,S.ex-Date.now());S.ex=0;S.paused=true;sync()}
+function resumeTimers(){if(!host||!S||!S.paused)return;S.ex=Date.now()+Math.max(0,S.pauseRem);S.paused=false;S.pauseRem=0;sync()}
+function nxt(){
+ S.pl.forEach(p=>p.out=0);S.bz=-1;S.msg='';clearTimer();S.q=null;
+ while(S.r<S.rs.length&&!left(S.rs[S.r]))S.r++;
+ if(S.r>=S.rs.length){
+   if(!S.finalStarted){
+     const qt=prompt('ФИНАЛ — введите один сложный вопрос:');
+     if(!qt){S.ph='end';sync();return}
+     const an=prompt('Правильный ответ на финальный вопрос:');
+     if(!an){S.ph='end';sync();return}
+     S.fq={t:qt,a:an};S.wg={};S.fa={};S.fsc={};S.finalStarted=1;S.ph='fwager';S.msg='Финал: каждый игрок выбирает ставку из своих очков';T(60);
+   }else S.ph='end';
+ }else S.ph='grid';
+ sync()
+}
+function pk(ci,pi){if(S.ph!='grid')return;const R=S.rs[S.r],x=R&&R.cats[ci]&&R.cats[ci].c[R.prices[pi]];if(!x||x.d)return;x.d=1;S.q=Object.assign({half:0,hint:'',pass:0,cat:R.cats[ci].n},x);sendImg();S.bz=-1;S.msg=S.q.type==='modifier'?'Выбрана ячейка: МОДИФИКАТОР':'Выбран вопрос: '+S.q.cat+' · '+S.q.pr;S.ph=S.q.type==='modifier'?'modifier':'q';if(S.ph==='q'){sync();setTimeout(()=>{if(host&&S&&S.ph==='q'&&S.q)opn()},350)}else{S.msg='Модификатор выбран';clearTimer();sync()}}
+function amod(){if(S.ph!='mod')return;const q=S.q;clearTimer();S.bz=-1;if(q.m=='заморозка'){S.ph='frz';S.bz=S.ch;T(15)}else if(q.m=='ва-банк'){S.ph='bet';S.bz=S.ch;T(15)}else {S.ph='q';sync();setTimeout(()=>{if(host&&S&&S.ph=='q'&&S.q)opn()},350)}}
+function frz(to){if(S.ph!='frz'||!S.pl[to]||to==S.ch)return;S.pl[to].out=1;S.msg='🧊 '+S.pl[to].n+' заморожен на этот вопрос';S.bz=-1;S.ph='q';clearTimer();sync();setTimeout(()=>{if(host&&S&&S.ph=='q'&&S.q)opn()},350)}
+function bo(){const s=S.pl[S.ch].s,p=S.q.pr,r=v=>Math.max(p,Math.round(v/50)*50);return[...new Set([p,r(s*.25),r(s*.5),r(Math.max(s,0))])].sort((a,b)=>a-b)}
+function bet(v){if(S.ph!='bet'||!bo().includes(v))return;S.q.pr=v;S.bz=-1;S.ph='q';clearTimer();sync();setTimeout(()=>{if(host&&S&&S.ph=='q'&&S.q)opn()},350)}
+let finalAnswerDraft='', finalWagerDraft=null, finalAnswerSent='';
+function finalWager(v){
+ if(!P||P.ph!='fwager'||me<0||!P.pl?.[me]||!r)return;
+ const max=Math.max(0,P.pl[me].s),w=Math.max(0,Math.min(max,Math.round(+v||0)));
+ finalWagerDraft=w;
+ r.emit('finalwager',{i:me,v:w});
+ const el=$('#finalWagerStatus');if(el)el.textContent='Ставка отправлена: '+w+' очков. Ждём подтверждения ведущего.';
+}
+function submitFinalAnswer(){
+ if(!P||P.ph!='fquestion'||me<0||!r)return;
+ const el=$('#finalAnswerInput');if(el)finalAnswerDraft=el.value;
+ const answer=String(finalAnswerDraft||'').trim().slice(0,300);if(!answer)return;
+ r.emit('finalanswer',{i:me,a:answer});finalAnswerSent=answer;
+ const st=$('#finalAnswerStatus');if(st)st.textContent='Ответ отправлен ведущему.';
+}
+function hostFinalWager(i,v){if(!host||!S||S.ph!='fwager'||!S.pl[i])return;S.wg[i]=Math.max(0,Math.min(Math.max(0,S.pl[i].s),Math.round(+v||0)));S.msg=S.pl.filter((p,j)=>S.wg[j]!=null).length+' / '+S.pl.length+' ставок принято';sync()}
+function openFinalQuestion(){if(!host||!S||S.ph!='fwager')return;S.ph='fquestion';clearTimer();S.msg='Финальный вопрос! Игроки записывают ответы; ведущий проверяет ответы и нажимает результат.';sync()}
+function scoreFinalPlayer(i,ok){
+ if(!host||!S||S.ph!='fquestion'||!S.pl[i])return;
+ S.fsc=S.fsc||{};if(S.fsc[i]!=null)return;
+ const w=Number(S.wg[i]||0);S.pl[i].s+=ok?w:-w;S.fsc[i]=!!ok;
+ S.msg='Проверено '+Object.keys(S.fsc).length+' / '+S.pl.length+' ответов';
+ if(S.pl.every((p,j)=>S.fsc[j]!=null)){S.ph='frev';S.msg='Финал завершён — ставки рассчитаны'}sync()
+}
+function swp(to){if(S.ph!='swap')return;const p=S.pl[S.bz],o=S.pl[to];if(o&&to!=S.bz){const t=p.s;p.s=o.s;o.s=t;S.msg+=' · 🔄 обмен очками с '+o.n}S.ph='rev';clearTimer();sync()}
+function fin(){if(!S.cf){S.cf=1;ctl();setTimeout(()=>{S.cf=0;ctl()},4000);return}S.cf=0;S.ph='end';S.q=null;clearTimer();sync()}
+function opn(){S.msg='Кнопки открыты';S.ph='open';S.t0=performance.now();T(CF.bt);sync()}
+function rv(m){S.msg=m||'Время вышло';S.ph='rev';clearTimer();sync()}
+function bz(i){if(S.ph!='open'||!S.pl[i]||S.pl[i].out)return;S.bz=i;S.ms=Math.round(performance.now()-S.t0);S.msg='Первым нажал: '+S.pl[i].n;S.ph='ans';clearTimer();S.ed=0;sync()}
+function pas(to){if(S.ph!='pass'||to==S.bz||!S.pl[to])return;S.bz=to;S.q.pass=1;S.ms=0;S.ph='ans';clearTimer();S.ed=0;sync()}
+function jd(ok){if(S.ph!='ans')return;const q=S.q,p=S.pl[S.bz],v=Math.round(q.pr*(q.half?.5:1));
+if(ok){p.s+=v;S.ch=S.bz;S.msg=`✓ ${p.n} +${v}`;S.ph='rev';clearTimer()}
+else{const d=[0,v/2,v][CF.pen]|0;p.s-=d;p.out=1;S.msg=`✗ ${p.n}${d?' −'+d:''}`;if(S.pl.every(x=>x.out)){S.ph='rev';clearTimer();S.msg+=' · вопрос сгорел'}else{S.ph='open';S.t0=performance.now();T(CF.bt);S.msg+=' · вопрос открыт для остальных'}}
+sync()}
+function call(){const p=S.pl[S.bz];if(S.ph!='ans'||p.pu)return;p.pu=1;T(CF.ph);S.msg='📞 '+p.n+' звонит другу';sync()}
+function hn(){const p=S.pl[S.bz];if(S.ph!='ans'||p.hu)return;p.hu=1;S.q.half=1;S.q.hint=S.q.a.slice(0,2)+'…';S.msg='💡 Подсказка, цена вопроса ÷2';sync()}
+function adj(i,d){S.pl[i].s+=d;S.msg=S.pl[i].n+': '+(d>0?'+':'')+d+' очков';sync()}
+function setScore(i){if(!host||!S||!S.pl[i])return;const v=prompt('Новый счёт игрока '+S.pl[i].n+':',String(S.pl[i].s));if(v===null||!Number.isFinite(+v))return;S.pl[i].s=Math.round(+v);S.msg='Счёт '+S.pl[i].n+': '+S.pl[i].s;sync()}
+function voidQuestion(){if(!host||!S||!S.q)return;const rd=S.rs[S.r],cat=rd&&rd.cats.find(c=>c.n===S.q.cat);if(cat&&cat.c[S.q.pr])cat.c[S.q.pr].d=0;S.q=null;S.bz=-1;S.msg='Вопрос возвращён на табло';clearTimer();S.ph='grid';sync()}
+function skipQuestion(){if(!host||!S||!S.q)return;S.msg='Вопрос пропущен';S.ph='rev';clearTimer();sync()}
+function pub(){const q=S.q;return{ph:S.ph,pl:S.pl.map((p,i)=>({n:p.n,a:p.a||'',s:p.s,out:p.out,c:Object.values(S.cl).includes(i)})),q:q&&{t:q.t,m:q.m,type:q.type,mediaType:q.mediaType,mediaUrl:q.mediaUrl,pr:q.pr,rd:S.r,cat:q.cat,roul:q.roul,iid:q.iid,im:q.im,hint:q.hint,a:S.ph=='rev'?q.a:null},g:grid(),r:S.r,nr:S.rs.length,ch:S.ch,bo:S.ph=='bet'?bo():null,wg:S.wg||{},fq:S.fq&&{t:S.fq.t,a:S.ph=='frev'?S.fq.a:null},bz:S.bz,ms:S.ms,rem:S.paused?Math.max(0,S.pauseRem)/1000:(S.ex?Math.max(0,S.ex-Date.now())/1000:0),paused:!!S.paused,ed:S.ed,msg:S.msg,code:S.code,rtc:RT}}
+function sync(){P=pub();P.end=S.ex;paint();r&&r.emit('st',strip(P));
+if(S.msg!==eventLast){eventLast=S.msg;if(S.msg&&streamBus&&!STREAM_MODE&&!EVENT_MODE)try{streamBus.postMessage({type:'event',text:S.msg})}catch(e){}}
+if(streamBus&&!STREAM_MODE&&!EVENT_MODE)try{streamBus.postMessage({type:'state',data:P})}catch(e){}}
+function hook(){r.on('st',m=>{if(host)return;P=m.data;P.end=P.paused?0:Date.now()+P.rem*1000;if(rtcAns)rtcSt='Связь с ведущим подтверждена';paint()});
+r.on('claim',m=>{if(!host||!S)return;const i=+(m.data&&m.data.i);if(S.pl[i]&&!Object.values(S.cl).includes(i)){S.cl[m.peer]=i;sync()}});
+r.on('img',m=>{const d=m.data||{};if(host||typeof d.id!=='string'||typeof d.d!=='string'||!(d.n>0&&d.n<=40)||!(d.k>=0&&d.k<d.n))return;const a=IMGP[d.id]=IMGP[d.id]||[];a[d.k]=d.d;if(a.filter(x=>x!=null).length===d.n){const full=a.join('');delete IMGP[d.id];if(/^data:image\/jpeg;base64,[A-Za-z0-9+\/=]+$/.test(full)&&full.length<400000){IMGC[d.id]=full;const c=$('#qc');if(c)c._k=null;if(P)paint()}}});
+r.on('needimg',m=>{if(host&&S&&S.q&&S.q.iid===(m.data&&m.data.id))sendImg()});
+r.on('buzz',m=>{if(host&&S&&S.cl[m.peer]!=null)bz(S.cl[m.peer])});
+r.on('finalanswer',m=>{if(!host||!S||S.ph!='fquestion')return;const d=m.data||{},i=+d.i;if(S.cl[m.peer]===i){S.fa=S.fa||{};S.fa[i]=String(d.a||'').slice(0,300);S.msg='Ответы получены: '+Object.keys(S.fa).length+' / '+S.pl.length;sync()}});
+r.on('finalwager',m=>{if(!host||!S)return;const d=m.data||{},i=+(d.i);if(S.cl[m.peer]===i)hostFinalWager(i,d.v)});
+r.on('profile',m=>{if(!host||!S||S.cl[m.peer]==null)return;const i=S.cl[m.peer],d=m.data||{};let changed=false;if(typeof d.n==='string'){const n=d.n.trim().slice(0,24);if(n&&n!==S.pl[i].n){S.pl[i].n=n;changed=true}}if(typeof d.a==='string'&&/^data:image\/jpeg;base64,[A-Za-z0-9+/=]+$/.test(d.a)&&d.a.length<180000){S.pl[i].a=d.a;changed=true}if(changed)sync()});
+r.on('pass',m=>{if(!host||!S||S.cl[m.peer]!==S.bz)return;const t=+(m.data&&m.data.to);({pass:pas,swap:swp,frz:frz,bet:bet}[S.ph]||(()=>0))(t)});
+r.on('pick',m=>{const d=m.data||{};if(host&&S&&S.ph=='grid'&&S.cl[m.peer]===S.ch)pk(+d.c,+d.p)});
+if(r.onPeers)r.onPeers(c=>{if(host&&S&&c.joined.length){sendImg();r.emit('st',strip(pub()))}});
+setInterval(()=>{if(host&&S)r.emit('st',strip(pub()))},2500)}
+async function jn(){const c=$('#cd').value;if(!ns||c.length<4)return;try{r=await(ns.join?ns.join('z'+c):ns);hook()}catch(e){r=null}paint()}
+function cl(i){me=i;r.emit('claim',{i})}
+function bzz(){if(r)r.emit('buzz',{});if(navigator.vibrate)navigator.vibrate(30)}
+function ps(i){r.emit('pass',{to:i})}
+function pkp(c,p){r.emit('pick',{c,p})}
+function shell(){if(!$('#st'))$('#app').innerHTML='<div id="st"><div id="bd" class="bd"></div><div id="qc" class="cd"></div></div><div id="ct"></div><div id="rtc"></div>'}
+function paint(){document.body.classList.toggle('plr',!host&&!OBS&&!STREAM_MODE);if(OBS||(STREAM_MODE&&(VIEW==='scores'||VIEW==='scene')))return obsPaint();shell();if(RT&&host)rtcUI();document.body.classList.toggle('air',!!air);if(P){board();qcard()}ctl()}
+function tw(e,v){const f=e._v||0;if(e._v===v)return;e._v=v;if(f==v){e.textContent=v;return}e.classList.remove('fl');void e.offsetWidth;e.classList.add('fl');const t0=performance.now();(function s(t){const k=Math.min(1,(t-t0)/600);e.textContent=Math.round(f+(v-f)*(1-Math.pow(1-k,3)));if(k<1)requestAnimationFrame(s)})(t0)}
+function board(){const b=$('#bd');if(b.children.length!=P.pl.length)b.innerHTML=P.pl.map((_,i)=>`<div class="pc" id="p${i}"><div class="av">${i+1}</div><div class="nm"></div><div class="sc">0</div><div class="ad"></div></div>`).join('');
+P.pl.forEach((p,i)=>{const e=$('#p'+i);e.className='pc'+((P.bz==i&&['ans','pass','swap','bet','frz'].includes(P.ph))||(P.ph=='grid'&&P.ch==i)?' on':'')+(p.out?' out':'')+(i==me&&!host?' me':'')+(P.ph=='lobby'&&!p.c&&r?' idle':'');$('.av',e).innerHTML=p.a?`<img src="${p.a}" alt="">`:String(i+1);$('.nm',e).textContent=p.n;tw($('.sc',e),p.s);$('.ad',e).innerHTML=host&&!air&&P.ph!='lobby'?`<button onclick="adj(${i},-50)">−50</button><button onclick="adj(${i},50)">+50</button><button title="Изменить счёт" onclick="setScore(${i})">✎</button>`:''})}
+function qcard(){const c=$('#qc'),q=P.q,k=[P.ph,P.r,q&&q.t,P.bz,P.msg,q&&q.hint,P.g&&P.g.d.join(),P.ph=='lobby'&&P.pl.map(p=>+p.c).join(''),P.paused?1:0].join('|');
+if(c._k!=k){c._k=k;let h='';
+if(P.ph=='modifier'){h=`<div class="lb">ОСОБАЯ ЯЧЕЙКА</div><h1 class="qt">МОДИФИКАТОР</h1><div class="stt">Ведущий объявит правило этого раунда</div>`}else if(P.ph=='grid'){const g=P.g;h=`<div class="lb">${esc(g.n||('Раунд '+(P.r+1)))} · выбирает ${esc(P.pl[P.ch].n)}</div><div class="gd">${g.c.map((n,ci)=>`<div class="rw" style="--n:${g.p.length}"><div class="gc">${esc(n)}</div>${g.p.map((p,pi)=>{const s=g.d[ci][pi],a=host?'pk':'pkp',dl=`style="animation-delay:${(ci+pi)*.04}s"`;return s==1?((host||P.ch==me)?`<button class="gp" ${dl} onclick="${a}(${ci},${pi})">${p}</button>`:`<div class="gp" ${dl}>${p}</div>`):'<div class="gp dn"></div>'}).join('')}</div>`).join('')}</div>`}else if(P.ph=='lobby')h=`<div class="lb">Знаток · Шоу Galbraith</div>${P.rtc?'<div class="code">🔗</div>':`<div class="code">${esc(P.code)}</div>`}<p class="mt">${P.rtc?(host?'Игроки подключаются по кодам: внизу нажми «Добавить игрока», отправь код игроку в Discord и вставь его ответ. Потом игрок выбирает своё имя.':'Ты на связи с ведущим. Выбери своё имя и дождись начала игры.'):'Игроки открывают эту страницу, вводят код и выбирают своё имя.'} Подключено: ${P.pl.filter(p=>p.c).length} из ${P.pl.length}</p>`;
+else if(P.ph=='fwager'){h=`<div class="lb">🏁 ФИНАЛЬНЫЙ РАУНД · СТАВКИ</div><h1 class="qt">Каждый игрок ставит часть своих очков</h1><div class="msg">${P.pl.filter((p,i)=>P.wg&&P.wg[i]!=null).length} из ${P.pl.length} ставок принято</div>`}else if(P.ph=='fquestion'||P.ph=='frev'){h=`<div class="lb">🏁 ФИНАЛЬНЫЙ ВОПРОС</div><h1 class="qt">${esc(P.fq?.t||'Финальный вопрос')}</h1>${P.ph=='frev'?`<div class="ansr">Ответ: ${esc(P.fq?.a||'')}</div>`:'<div class="stt">Запишите ответ и ждите проверки ведущим</div>'}<div class="msg">${esc(P.msg||'')}</div>`}else if(P.ph=='mod')h=modCard();else if(P.ph=='end'){const s=[...P.pl].sort((a,b)=>b.s-a.s);h=`<div class="lb">Финал</div><div class="pod">${s.map((p,i)=>`<div class="pd" style="--h:${100-i*15}%;animation-delay:${i*.18}s"><b>${esc(p.n)}</b><span>${p.s}</span><i>${i+1}</i></div>`).join('')}</div>`;boom()}
+else{const bz=P.pl[P.bz]||{n:''};h=`<div class="tp"><span class="bg">Раунд ${q.rd+1} · ${esc(q.cat)}</span>${q.m?`<span class="bg m-${q.m}">${MI[q.m][0]} ${MI[q.m][1]}</span>`:''}<span class="bg">${q.pr*(q.m=='x2'||q.m=='блиц'?2:1)} очк.</span></div><h1 class="qt">${(q.m=='секрет'&&(P.ph=='q'||P.ph=='pass'))||P.ph=='bet'||P.ph=='frz'?'🙈 Вопрос скрыт':esc(q.t)}</h1>${qimg(q)}${q.mediaUrl?(q.mediaType==='видео'||q.mediaType==='video'?`<video class="qmedia" controls playsinline src="${esc(q.mediaUrl)}"></video>`:`<audio class="qmedia" controls src="${esc(q.mediaUrl)}"></audio>`):''}${q.hint?`<div class="hint">💡 ${esc(q.hint)}</div>`:''}`;
+h+=({q:'<div class="stt mt">Ведущий читает вопрос…</div>',open:'<div class="stt go">ЖМИ!</div>',pass:`<div class="stt">🤫 ${esc(bz.n)} выбирает, кому передать вопрос…</div>`,ans:`<div class="stt">Отвечает: <b>${esc(bz.n)}</b> ${P.ms?`<small class="mt">${P.ms} мс</small>`:''}</div>`,bet:`<div class="stt">🎰 ${esc(bz.n)} делает ставку…</div>`,frz:`<div class="stt">🧊 ${esc(bz.n)} выбирает, кого заморозить…</div>`,swap:`<div class="stt">🔄 ${esc(bz.n)} выбирает, с кем поменяться очками…</div>`,rev:`<div class="ansr">Ответ: ${esc(q.a)}</div>`}[P.ph]||'');
+if(P.paused)h+='<div class="timer-paused">⏸ Таймер на паузе</div>';
+ if(P.msg)h+=`<div class="msg">${esc(P.msg)}</div>`;h+='<div class="tb"><i id="tf"></i></div>';if(P.msg.startsWith('✓'))boom()}
+c.innerHTML=h;if(P.ph=='mod'&&q.roul)spin(q.m)}}
+setInterval(()=>{if(host&&S&&!S.paused&&S.ex&&Date.now()>S.ex){const p=S.ph;clearTimer();if(p=='open')rv(S.pl.some(x=>x.out)?'Больше никто не ответил':'Никто не успел');else if(p=='pass'){const o=S.pl.map((_,i)=>i).filter(i=>i!=S.bz);pas(o[Math.random()*o.length|0])}else if(p=='ans')jd(0);else if(p=='mod')amod();else if(p=='swap')swp(-1);else if(p=='frz'){const o=S.pl.map((_,i)=>i).filter(i=>i!=S.ch);frz(o[Math.random()*o.length|0])}else if(p=='bet')bet(bo()[0])}
+const f=$('#tf');if(f&&P&&P.paused&&P.ed)f.style.width=Math.max(0,Math.min(100,P.rem/P.ed*100))+'%';else if(f&&P&&P.end&&P.ed)f.style.width=Math.max(0,(P.end-Date.now())/1000/P.ed*100)+'%';else if(f)f.style.width='0'},120);
+function ctl(){const c=$('#ct');c.innerHTML=host?hc():pc()}
+function hc(){const q=S.q,b=(t,f,k)=>`<button class="bt ${k||''}" onclick="${f}">${t}</button>`;let h=`<div class="hp"><div class="sec">${q?(q.type==='modifier'?'🃏 Модификатор':'🔒 Ответ: <b>'+esc(q.a)+'</b>'):'Ведущий'} <small class="mt">${r?(RT?'игроки по WebRTC · клавиши 1–'+S.pl.length+' для проверки':'комната '+S.code):'локальный режим: клавиши 1–'+S.pl.length+' = кнопки игроков'}</small></div><div class="row">`;
+const A={lobby:()=>b('Начать игру ␣','nxt()'),fwager:()=>`<div class="mt">${S.pl.map((p,i)=>esc(p.n)+': '+(S.wg[i]??'ставка не сделана')).join(' · ')}</div>`+b('Открыть финальный вопрос','openFinalQuestion()'),fquestion:()=>`<div class="mt">${S.pl.map((p,i)=>`<div>${esc(p.n)}: ${esc((S.fa||{})[i]||'ответ не отправлен')} — ${S.fsc&&S.fsc[i]!=null?'проверено':b('✓ Верно','scoreFinalPlayer('+i+',1)','ok')+b('✗ Неверно','scoreFinalPlayer('+i+',0)','no')}</div>`).join('')}</div>`,frev:()=>b('Показать итог','nxt()'),q:()=>b('Открыть кнопки ␣','opn()')+b('Снять вопрос','voidQuestion()','gh'),open:()=>b('Пропустить','skipQuestion()','gh')+b('Вернуть на табло','voidQuestion()','gh'),ans:()=>{let x=b('✓ Верно (Y)','jd(1)','ok')+b('✗ Неверно (N)','jd(0)','no')+b('Снять вопрос','voidQuestion()','gh');if(CF.hp&&!S.pl[S.bz].pu)x+=b('📞 Звонок другу','call()','gh');if(CF.hh&&!S.pl[S.bz].hu)x+=b('💡 Подсказка','hn()','gh');return x},pass:()=>S.pl.map((p,i)=>i==S.bz?'':b('→ '+esc(p.n),'pas('+i+')','gh')).join(''),rev:()=>b('Дальше ␣','nxt()'),frz:()=>S.pl.map((p,i)=>i==S.ch?'':b('🧊 '+esc(p.n),'frz('+i+')','gh')).join(''),bet:()=>bo().map(v=>b('Ставка '+v,'bet('+v+')','gh')).join(''),swap:()=>S.pl.map((p,i)=>i==S.bz?'':b('🔄 '+esc(p.n),'swp('+i+')','gh')).join('')+b('Не менять','swp(-1)','gh'),modifier:()=>b('Вернуться к табло','nxt()'),grid:()=>'<span class="mt">Выбирает '+esc(S.pl[S.ch].n)+' — кликни ячейку на табло</span>',end:()=>b('Новая игра','location.reload()')};
+return h+(A[S.ph]?A[S.ph]():'')+(S.paused?b('▶ Продолжить таймер','resumeTimers()','ok'):(S.ex?b('⏸ Пауза таймера','pauseTimers()','gh'):''))+b('🎥 Режим эфира в отдельном окне','openStreamWindow()','gh')+b('📝 Текст действий в OBS','openEventWindow()','gh')+b('↶ Отменить действие ('+undoStack.length+')','undoAction()','gh')+(actionLog.length?'<div class="mt" style="width:100%;font-size:12px">'+actionLog.slice(0,5).map(x=>esc(x)).join(' · ')+'</div>':'')+(S.ph!='end'?b(S.cf?'Точно завершить?':'🏁 Завершить игру досрочно','fin()',S.cf?'no':'gh'):'')+'</div></div>'}
+function prof(){const p=P&&P.pl&&P.pl[me];if(!p)return'';return `<div class="hp"><div class="sec">Твой профиль</div><div class="profile-card"><div class="profile-pic" id="profilePreview">${p.a?`<img src="${p.a}" alt="">`:esc((p.n||'?').slice(0,1).toUpperCase())}</div><div class="profile-info"><div class="profile-name">${esc(p.n)}</div><div class="profile-actions"><button class="bt gh" onclick="renameMe()">✏️ Изменить ник</button><button class="bt" onclick="document.getElementById('avatarInput').click()">📷 Выбрать фото</button><input class="avatar-file" id="avatarInput" type="file" accept="image/*" onchange="uploadAvatar(this)"></div></div></div><div class="profile-status" id="profileStatus"></div><div class="profile-help">Фото автоматически уменьшается и будет видно всем игрокам.</div></div>`}
+function renameMe(){if(me<0||!P?.pl?.[me])return;const n=prompt('Новый ник (до 24 символов):',P.pl[me].n);if(n===null)return;const v=n.trim().slice(0,24);if(v)r.emit('profile',{n:v})}
+function uploadAvatar(inp){const f=inp.files&&inp.files[0],status=$('#profileStatus');if(!f)return;if(!f.type.startsWith('image/')){if(status)status.textContent='Выбери файл изображения.';inp.value='';return}if(status)status.textContent='Обрабатываем фото…';const rd=new FileReader();rd.onerror=()=>{if(status)status.textContent='Не удалось прочитать файл. Попробуй другое фото.'};rd.onload=()=>{const im=new Image();im.onerror=()=>{if(status)status.textContent='Не удалось открыть это изображение.'};im.onload=()=>{try{const c=document.createElement('canvas'),max=96,scale=Math.min(1,max/Math.max(im.width,im.height));c.width=Math.max(1,Math.round(im.width*scale));c.height=Math.max(1,Math.round(im.height*scale));const ctx=c.getContext('2d');ctx.fillStyle='#ffffff';ctx.fillRect(0,0,c.width,c.height);ctx.drawImage(im,0,0,c.width,c.height);const data=c.toDataURL('image/jpeg',.65);if(data.length>180000)throw Error('large');if(!r){if(status)status.textContent='Нет соединения с комнатой.';return}r.emit('profile',{a:data});const preview=$('#profilePreview');if(preview)preview.innerHTML=`<img src="${data}" alt="">`;if(status)status.textContent='Фото отправлено — ждём подтверждения от ведущего…';setTimeout(()=>{const st=$('#profileStatus');if(st&&st.textContent.includes('ждём подтверждения'))st.textContent='Если фото не появилось у остальных, проверь соединение с ведущим.'},4000)}catch(e){if(status)status.textContent='Не удалось обработать фото. Попробуй другое изображение.'}};im.src=rd.result};rd.readAsDataURL(f);inp.value=''}
+function pc(){if(!ns&&(!r||!P))return rj();if(!r)return`<div class="hp"><div class="sec">Код комнаты</div><div class="row"><input id="cd" inputmode="numeric" maxlength="4" placeholder="1234" style="max-width:140px"><button class="bt" onclick="jn()">Войти</button></div>${ns?'':'<p class="mt">Комната недоступна: войдите в аккаунт Claude с доступом к странице.</p>'}</div>`;
+if(!P)return'<div class="hp"><div class="sec">Ждём ведущего…</div></div>';
+if(me<0||!P.pl[me]||!P.pl[me].c)return`<div class="hp"><div class="sec">Кто ты?</div><div class="row">${P.pl.map((p,i)=>p.c?'':`<button class="bt gh" onclick="cl(${i})">${esc(p.n)}</button>`).join('')}</div></div>`;
+const profile=prof();if(P.ph=='fwager'){const max=Math.max(0,P.pl[me].s);if(finalWagerDraft===null)finalWagerDraft=max;return `<div class="hp"><div class="sec">🏁 Финальная ставка · у тебя ${max} очков</div><div class="row"><input id="finalWagerInput" type="number" min="0" max="${max}" value="${finalWagerDraft}" style="max-width:130px" oninput="finalWagerDraft=this.value"><button class="bt" onclick="finalWager(document.getElementById('finalWagerInput').value)">Поставить</button></div><div id="finalWagerStatus" class="mt">${P.wg&&P.wg[me]!=null?'Ставка принята ведущим: '+P.wg[me]+' очков.':'Ставка не может превышать твои очки.'}</div></div>`+profile}if(P.ph=='fquestion'){if(P.fa&&P.fa[me]!=null){finalAnswerDraft=String(P.fa[me]);finalAnswerSent=finalAnswerDraft}return `<div class="hp"><div class="sec">🏁 Финальный вопрос</div><p>${esc(P.fq?.t||'')}</p><input id="finalAnswerInput" placeholder="Твой ответ" value="${esc(finalAnswerDraft)}" oninput="finalAnswerDraft=this.value"><button class="bt" onclick="submitFinalAnswer()">Отправить ответ</button><div id="finalAnswerStatus" class="mt">${finalAnswerSent?'Ответ отправлен ведущему.':'Ответ сохранится, даже если экран обновится.'}</div></div>`+profile}if(P.bz==me&&{swap:1,frz:1,bet:1}[P.ph])return pp()+profile;if(P.ph=='pass'&&P.bz==me)return`<div class="hp"><div class="sec">🤫 Кому передаёшь вопрос?</div><div class="row">${P.pl.map((x,i)=>i==me?'':`<button class="bt" onclick="ps(${i})">${esc(x.n)}</button>`).join('')}</div></div>`+profile;
+const on=P.ph=='open'&&!P.pl[me].out;return`<button id="big" class="${on?'live':''}" ${on?'':'disabled'} onpointerdown="bzz()">${on?'ЖМИ!':P.pl[me].out?'Выбыл':'Жди…'}</button>`+profile}
+const MI={},KS=[];const IMG={},IMGC={},IMGP={},NEED={};let IID=0;
+async function shrinkImg(f){const u=URL.createObjectURL(f);try{const im=await new Promise((ok,no)=>{const i=new Image();i.onload=()=>ok(i);i.onerror=no;i.src=u});let m=900;for(let k=0;k<6;k++){const sc=Math.min(1,m/Math.max(im.width,im.height)),cv=document.createElement('canvas');cv.width=Math.max(1,Math.round(im.width*sc));cv.height=Math.max(1,Math.round(im.height*sc));const x=cv.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,cv.width,cv.height);x.drawImage(im,0,0,cv.width,cv.height);const d=cv.toDataURL('image/jpeg',k<3?.8:.6);if(d.length<190000)return d;m*=.8}}catch(e){}finally{URL.revokeObjectURL(u)}return null}
+async function addImgs(inp){for(const f of inp.files){const d=await shrinkImg(f);if(d)IMG[f.name.toLowerCase()]=d}inp.value='';imgList();es()}
+function delImg(i){delete IMG[Object.keys(IMG)[i]];imgList();es()}
+function imgList(){const e=$('#il');if(!e)return;const k=Object.keys(IMG);e._s=k.join('|');e.innerHTML=k.map((n,i)=>`<span class="ib"><img src="${IMG[n]}" alt=""> ${esc(n)} <button onclick="delImg(${i})">✕</button></span>`).join('')}
+function qimg(q){if(P.ph=='bet'||P.ph=='frz'||(q.m=='секрет'&&(P.ph=='q'||P.ph=='pass')))return'';const u=q.im||IMGC[q.iid];if(u)return`<img class="qimg" src="${esc(u)}" alt="">`;if(q.iid){if(r&&!host&&(!NEED[q.iid]||Date.now()-NEED[q.iid]>3000)){NEED[q.iid]=Date.now();r.emit('needimg',{id:q.iid})}return'<div class="qimg ld">Загружаю фото…</div>'}return''}
+function sendImg(){const q=S&&S.q;if(q&&q.im&&q.iid&&!/^https?:/i.test(q.im)&&r){const d=q.im,n=Math.ceil(d.length/12000);for(let k=0;k<n;k++)r.emit('img',{id:q.iid,k,n,d:d.slice(k*12000,(k+1)*12000)})}}
+function strip(o){if(o.q&&o.q.im&&!/^https?:/i.test(o.q.im)){const c=Object.assign({},o);c.q=Object.assign({},o.q);delete c.q.im;return c}return o}
+function spin(m){const ks=KS.filter(k=>k!='рулетка');let t=0;const iv=setInterval(()=>{const e=$('#mj');if(!e)return clearInterval(iv);if(++t>22){clearInterval(iv);e.textContent=MI[m][0];$('#mn').textContent=MI[m][1];$('#md').textContent='Рулетка выбрала: '+MI[m][2];e.classList.add('lk');return}const k=ks[t%ks.length];e.textContent=MI[k][0];$('#mn').textContent=MI[k][1]},110)}
+function pp(){const T2={swap:'🔄 С кем меняешься очками?',frz:'🧊 Кого замораживаешь?',bet:'🎰 Твоя ставка'},x=P.ph=='bet'?P.bo.map(v=>`<button class="bt" onclick="ps(${v})">${v}</button>`).join(''):P.pl.map((x,i)=>i==me?'':`<button class="bt" onclick="ps(${i})">${esc(x.n)}</button>`).join('')+(P.ph=='swap'?'<button class="bt gh" onclick="ps(-1)">Не менять</button>':'');return`<div class="hp"><div class="sec">${T2[P.ph]}</div><div class="row">${x}</div></div>`}
+function boom(){const c=$('#cf'),x=c.getContext('2d');c.width=innerWidth;c.height=innerHeight;const a=[...Array(100)].map(()=>({x:innerWidth/2,y:innerHeight*.45,vx:(Math.random()-.5)*16,vy:-Math.random()*15-4,c:`hsl(${330+Math.random()*40} 90% 60%)`,s:Math.random()*6+3}));let n=0;(function f(){x.clearRect(0,0,c.width,c.height);a.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.vy+=.4;x.fillStyle=p.c;x.fillRect(p.x,p.y,p.s,p.s)});if(n++<110)requestAnimationFrame(f);else x.clearRect(0,0,c.width,c.height)})()}
+addEventListener('keydown',e=>{if(/INPUT|TEXTAREA|SELECT/.test(e.target.tagName))return;
+if(host&&S){if(e.code=='Space'){e.preventDefault();if(S.ph=='q')opn();else if(S.ph=='rev'||S.ph=='lobby')nxt()}else if(e.code=='KeyY')jd(1);else if(e.code=='KeyN')jd(0);else if(/^[1-6]$/.test(e.key))bz(+e.key-1)}
+else if(!host&&r&&e.code=='Space'){e.preventDefault();bzz()}});
+const ICE={iceServers:[
+ {urls:'stun:stun.l.google.com:19302'},
+ {urls:'stun:stun1.l.google.com:19302'},
+ {urls:'stun:stun.cloudflare.com:3478'}
+]};
+const ice=pc=>new Promise(res=>{
+ if(pc.iceGatheringState==='complete')return res();
+ let done=false;
+ const finish=()=>{if(done)return;done=true;pc.removeEventListener('icegatheringstatechange',check);clearTimeout(timer);res()};
+ const check=()=>{if(pc.iceGatheringState==='complete')finish()};
+ const timer=setTimeout(finish,15000);
+ pc.addEventListener('icegatheringstatechange',check);
+ check();
+});
+async function enc(d){const j=JSON.stringify({t:d.type,s:d.sdp});if(window.CompressionStream){const b=new Uint8Array(await new Response(new Blob([j]).stream().pipeThrough(new CompressionStream('deflate-raw'))).arrayBuffer());return'Z'+btoa(String.fromCharCode(...b))}return'P'+btoa(unescape(encodeURIComponent(j)))}
+async function dec(c){c=c.trim();let j;if(c[0]=='Z'){const b=Uint8Array.from(atob(c.slice(1)),x=>x.charCodeAt(0));j=await new Response(new Blob([b]).stream().pipeThrough(new DecompressionStream('deflate-raw'))).text()}else j=decodeURIComponent(escape(atob(c.slice(1))));const o=JSON.parse(j);return{type:o.t,sdp:o.s}}
+function hub(){const h={},pe=[],cs={};let n=0;return{emit:(t,d)=>{const s=JSON.stringify({t,d});for(const k in cs)if(cs[k].dc.readyState=='open')cs[k].dc.send(s)},on:(t,f)=>{(h[t]=h[t]||[]).push(f)},onPeers:f=>pe.push(f),
+async offer(){const id='p'+(++n),pc=new RTCPeerConnection(ICE),dc=pc.createDataChannel('z');cs[id]={pc,dc};dc.onmessage=e=>{let m;try{m=JSON.parse(e.data)}catch(x){return}(h[m.t]||[]).forEach(f=>f({peer:id,data:m.d,isMe:false}))};dc.onopen=()=>{rs(id,'ok');pe.forEach(f=>f({joined:[{peer:id}]}))};dc.onclose=()=>rs(id,'off');pc.onconnectionstatechange=()=>{if(pc.connectionState=='failed')rs(id,'fail')};await pc.setLocalDescription(await pc.createOffer());await ice(pc);return{id,code:await enc(pc.localDescription)}},
+async accept(id,c){const pc=cs[id].pc;if(pc.signalingState!=='have-local-offer')throw Error('used');await pc.setRemoteDescription(await dec(c))}}}
+async function joinRtc(code){const pc=new RTCPeerConnection(ICE),h={},pe=[];let dc;const o={emit:(t,d)=>{if(dc&&dc.readyState=='open')dc.send(JSON.stringify({t,d}))},on:(t,f)=>{(h[t]=h[t]||[]).push(f)},onPeers:f=>pe.push(f)};pc.ondatachannel=e=>{dc=e.channel;dc.onmessage=m=>{let j;try{j=JSON.parse(m.data)}catch(x){return}(h[j.t]||[]).forEach(f=>f({peer:'host',data:j.d,isMe:false}))};dc.onopen=()=>{try{if(navigator.wakeLock)navigator.wakeLock.request('screen').catch(()=>{})}catch(e){}rtcSt='Канал связи открыт, проверяю связь с ведущим…';ctl()};dc.onclose=()=>{r=null;P=null;rtcAns='';rtcSt='Соединение потеряно. Подключись заново';if($('#st'))$('#st').innerHTML='<div id="bd" class="bd"></div><div id="qc" class="cd"></div>';if(OBS)obsPaint();else ctl()}};await pc.setRemoteDescription(await dec(code));await pc.setLocalDescription(await pc.createAnswer());await ice(pc);return{o,a:await enc(pc.localDescription)}}
+async function jr(){const v=$('#oc').value.trim();if(!v)return;rtcSt='Готовлю ответ (до 15 секунд)…';ctl();try{const x=await joinRtc(v);r=x.o;rtcAns=x.a;rtcSt='Ждём, пока ведущий вставит код';hook()}catch(e){rtcSt='Не удалось прочитать код, проверь, что скопирован целиком';rtcAns=''}ctl()}
+function rj(){return rtcAns?`<div class="hp"><div class="sec">Шаг 2. Отправь этот код ведущему</div><textarea id="ac" readonly onclick="this.select()">${rtcAns}</textarea><div class="row"><button class="bt" onclick="cp('ac')">Скопировать</button></div><p class="mt">${rtcSt}</p></div>`:`<div class="hp"><div class="sec">Шаг 1. Вставь код от ведущего</div><textarea id="oc" placeholder="Код от ведущего"></textarea><div class="row"><button class="bt" onclick="jr()">Подключиться</button></div><p class="mt">${rtcSt}</p></div>`}
+function rtcUI(){const e=$('#rtc');if(!e||e._b)return;e._b=1;e.innerHTML='<div class="hp"><div class="sec">Подключение игроков <small class="mt">один игрок — один код, повторно использовать нельзя</small></div><div class="row"><button class="bt gh" onclick="addP()">➕ Добавить игрока</button><button class="bt gh" onclick="addP(1)">📺 Добавить OBS</button></div><div id="pl"></div></div>'}
+async function addP(l){const d=document.createElement('div');d.className='pr';d.textContent='Готовлю код (до 15 секунд)…';$('#pl').appendChild(d);try{const x=await r.offer();d.innerHTML=`<div class="sec">${l?'OBS':'Игрок'} ${x.id.slice(1)}: <span id="s${x.id}">ждём ответ</span></div><label>1. Код для ЭТОГО игрока — одноразовый! Другому игроку нужен другой код<textarea id="o${x.id}" readonly onclick="this.select()">${x.code}</textarea></label><div class="row"><button class="bt gh" onclick="cp('o${x.id}')">Скопировать</button></div><label>2. Код-ответ от игрока<textarea id="a${x.id}" placeholder="Вставь сюда"></textarea></label><div class="row"><button class="bt" onclick="okp('${x.id}')">Подключить</button></div>`}catch(e){d.textContent='Не удалось создать код'}}
+async function okp(id){
+ const field=$('#a'+id),answer=field&&field.value.trim();
+ if(!answer){rs(id,'вставь код-ответ игрока');return}
+ const btn=field.closest('.pr')?.querySelector('button.bt:not(.gh)');
+ if(btn)btn.disabled=true;
+ try{
+   await r.accept(id,answer);
+   rs(id,'соединяем…');
+ }catch(e){
+   rs(id,e&&e.message==='used'?'этот код уже использован — нажми «Добавить игрока» и отправь игроку НОВЫЙ код':'код-ответ неверный или соединение не поддерживается');
+   if(btn)btn.disabled=false;
+ }
+}
+function rs(id,s){const e=$('#s'+id),pr=e&&e.closest('.pr');if(pr)pr.classList.toggle('done',s=='ok');if(e)e.textContent=s=='ok'?'✓ подключён':s=='off'?'отключён':s=='fail'?'не удалось соединиться':s}
+function cp(i){const t=$('#'+i);t.select();if(navigator.clipboard)navigator.clipboard.writeText(t.value).catch(()=>document.execCommand('copy'));else document.execCommand('copy')}
+function wsRoom(){return{join:name=>new Promise((res,rej)=>{const w=new WebSocket((location.protocol=='https:'?'wss://':'ws://')+location.host+'/ws?room='+encodeURIComponent(name)),h={},pe=[];let id=null;const o={emit:(t,d)=>{if(w.readyState==1)w.send(JSON.stringify({t,d}))},on:(t,f)=>{(h[t]=h[t]||[]).push(f)},onPeers:f=>pe.push(f)};w.onmessage=e=>{let m;try{m=JSON.parse(e.data)}catch(x){return}if(m.t=='_hi'){id=m.id;res(o)}else if(m.t=='_join')pe.forEach(f=>f({joined:[{peer:m.id}]}));else(h[m.t]||[]).forEach(f=>f({peer:m.id,data:m.d,isMe:m.id==id}))};w.onerror=()=>rej();setTimeout(()=>rej(),5000)})}}
+function pickRole(h){host=!!h;host?setup():paint()}
+
+let undoStack=[],actionLog=[];
+function rememberAction(label){if(!host||!S)return;undoStack.push(JSON.parse(JSON.stringify(S)));if(undoStack.length>40)undoStack.shift();actionLog.unshift(label+' · '+new Date().toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-digit',second:'2-digit'}));actionLog=actionLog.slice(0,8)}
+function undoAction(){if(!host||!S||!undoStack.length)return;S=undoStack.pop();S.msg='Отменено последнее действие';sync()}
+function wrapAction(name,label){const fn=window[name];if(typeof fn!=='function')return;window[name]=function(...args){rememberAction(label);return fn.apply(this,args)}}
+
+wrapAction('nxt','Переход');wrapAction('pk','Выбор вопроса');wrapAction('opn','Открытие кнопок');wrapAction('bz','Нажатие');wrapAction('jd','Проверка ответа');wrapAction('adj','Изменение очков');wrapAction('setScore','Ручной счёт');wrapAction('voidQuestion','Возврат вопроса');wrapAction('skipQuestion','Пропуск вопроса');wrapAction('fin','Завершение игры');wrapAction('scoreFinalPlayer','Финальная проверка');wrapAction('openFinalQuestion','Открытие финала');wrapAction('pauseTimers','Пауза');wrapAction('resumeTimers','Продолжение');
+(async()=>{if(EVENT_MODE){document.body.classList.add('ovm');document.body.innerHTML='<div id="eventOverlay"><span></span></div>';return}if(STREAM_MODE&&(VIEW==='scores'||VIEW==='scene')){host=false;document.body.classList.add('ovm');obsPaint();return}if(OBS){host=false;obsPaint();return}if(STREAM_MODE){host=false;air=1;document.body.classList.add('air','stream-window');$('#app').innerHTML='<div id="st"><div id="bd" class="bd"></div><div id="qc" class="cd"></div></div><div id="ct"></div><div id="rtc"></div>';return}const U=async n=>{try{return await window.claude.use(n)}catch(e){return null}};ns=await U('room');if(!ns&&location.hash=='#server'&&window.WebSocket)ns=wsRoom();
+$('#app').innerHTML='<section class="cd pop"><small class="mt">Шоу Galbraith</small><h2>Кто ты?</h2><p class="mt">Ведущий создаёт комнату и управляет игрой. Игрок вводит код комнаты и жмёт кнопку.</p><div class="row"><button class="bt" onclick="pickRole(1)">🎙 Я ведущий</button><button class="bt gh" onclick="pickRole(0)">🎮 Я игрок</button></div></section>'})();
+</script></body></html>
