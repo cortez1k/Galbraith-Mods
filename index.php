@@ -1100,6 +1100,8 @@ if ($uri === '' || $uri === 'index.php') {
     require __DIR__ . '/admin/nicks.php';
 } elseif ($uri === 'fixed') {
     require __DIR__ . '/pages/fixed.php';
+} elseif ($uri === 'projects') {
+    require __DIR__ . '/pages/projects.php';
 } elseif ($uri === 'amazing') {
     require __DIR__ . '/pages/amazing.php';
 } elseif ($uri === 'catalog') {

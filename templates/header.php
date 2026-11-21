@@ -63,6 +63,7 @@ $unreadCount = $headerUser ? getUnreadNotificationsCount($headerUser['id']) : 0;
             <nav class="nav">
                 <a href="/catalog" class="<?= $currentPath === '/catalog' ? 'active' : '' ?>">Каталог</a>
                 <a href="/marketplace" class="<?= $currentPath === '/marketplace' ? 'active' : '' ?>">Торговая площадка</a>
+                <a href="/projects" class="<?= $currentPath === '/projects' ? 'active' : '' ?>">Проекты</a>
                 <?php foreach ($menuPages as $p): ?>
                     <a href="/page/<?= e($p['slug']) ?>"><?= e($p['title']) ?></a>
                 <?php endforeach; ?>

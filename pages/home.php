@@ -31,15 +31,6 @@ foreach (getMaterials(null, null, null, 'new') as $m) { if ($m['access_type'] ==
     </div>
 </div>
 
-<?php $nd = function_exists('nickOfDay') ? nickOfDay() : null; if ($nd): $ndg = nickGroupDefs(); ?>
-<a href="/generator-nikov" class="nd-strip">
-    <?php if (!empty($nd['skin'])): ?><img src="/assets/img/nick/skins/<?= e($nd['skin']) ?>.webp" alt="" width="52" height="64" loading="lazy"><?php endif; ?>
-    <span class="nd-text"><small>⭐ Ник дня</small><b><?= e($nd['nick']) ?></b></span>
-    <span class="nd-tag"><?= e($ndg[$nd['group']]['label'] ?? '') ?></span>
-    <span class="nd-cta">Сгенерировать свой ник →</span>
-</a>
-<?php endif; ?>
-
 <!-- News Carousel -->
 <?php if (count($news) > 0 || $ytInfo || true): ?>
 <div style="margin-bottom:32px;">
@@ -195,6 +186,15 @@ foreach (getMaterials(null, null, null, 'new') as $m) { if ($m['access_type'] ==
     </a>
     <?php endforeach; ?>
 </div>
+
+<?php $nd = function_exists('nickOfDay') ? nickOfDay() : null; if ($nd): $ndg = nickGroupDefs(); ?>
+<a href="/generator-nikov" class="nd-strip" style="margin-top:28px;">
+    <?php if (!empty($nd['skin'])): ?><img src="/assets/img/nick/skins/<?= e($nd['skin']) ?>.webp" alt="" width="52" height="64" loading="lazy"><?php endif; ?>
+    <span class="nd-text"><small>⭐ Ник дня</small><b><?= e($nd['nick']) ?></b></span>
+    <span class="nd-tag"><?= e($ndg[$nd['group']]['label'] ?? '') ?></span>
+    <span class="nd-cta">Сгенерировать свой ник →</span>
+</a>
+<?php endif; ?>
 
 <div style="text-align:center;margin-top:32px;">
     <a href="/catalog" class="btn btn-primary">Все материалы →</a>

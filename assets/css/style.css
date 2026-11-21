@@ -214,7 +214,7 @@ a:hover { opacity: 0.85; }
 .top-banner-text { font-size: 13.5px; font-weight: 500; color: rgba(255,255,255,0.85); letter-spacing: 0.005em; line-height: 1.4; }
 .top-banner-highlight {
     color: #fff; font-weight: 700; margin-right: 6px;
-    background: linear-gradient(90deg, var(--g-accent-light), var(--g-accent));
+    background: linear-gradient(135deg, var(--g-accent-light) 0%, var(--g-accent) 50%, var(--g-accent-light) 100%);
     -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
 }
 .top-banner-btn {
@@ -1074,7 +1074,7 @@ body.light-mode .admin-table tr:hover td { background: rgba(0,0,0,0.02); }
 }
 .hero-unusual-panel::before {
     content: ''; position: absolute; top: -30%; right: -8%; width: 480px; height: 480px;
-    background: radial-gradient(circle, rgba(232,28,90,0.24) 0%, transparent 68%);
+    background: radial-gradient(circle, rgba(232,28,90,0.16) 0%, transparent 68%);
     animation: g-glow-breathe 7s ease-in-out infinite; pointer-events: none;
 }
 .hero-unusual-panel::after {
@@ -1106,7 +1106,7 @@ body.light-mode .admin-table tr:hover td { background: rgba(0,0,0,0.02); }
     background: var(--g-bg-soft); white-space: nowrap;
 }
 .hero-marquee-track { display: inline-flex; animation: g-marquee 26s linear infinite; padding: 10px 0; }
-.hero-marquee-track span { font-family: var(--g-font-display); font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--g-text-secondary); padding: 0 22px; display: inline-flex; align-items: center; gap: 22px; }
+.hero-marquee-track span { font-family: var(--g-font-body); font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--g-text-secondary); padding: 0 22px; display: inline-flex; align-items: center; gap: 22px; }
 .hero-marquee-track span i { color: var(--g-accent); font-style: normal; }
 @keyframes g-marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 @media (max-width: 720px) {
