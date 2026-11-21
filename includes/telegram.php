@@ -32,7 +32,8 @@ function tgSendMessage($chatId, $text) {
         CURLOPT_POSTFIELDS => http_build_query(['chat_id' => $chatId, 'text' => $text, 'disable_web_page_preview' => 1]),
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_HTTPHEADER => ['Content-Type: application/x-www-form-urlencoded'],
-        CURLOPT_TIMEOUT => 12,
+        CURLOPT_CONNECTTIMEOUT => 3,
+        CURLOPT_TIMEOUT => 8,
         CURLOPT_SSL_VERIFYPEER => true,
     ]);
     $resp = curl_exec($ch);
@@ -67,7 +68,7 @@ function telegramCheckBot() {
     $__lastTelegramError = null;
     if (!telegramConfigured()) { $__lastTelegramError = 'Токен не задан'; return null; }
     $ch = curl_init(telegramApiUrl('getMe'));
-    curl_setopt_array($ch, [CURLOPT_RETURNTRANSFER => true, CURLOPT_TIMEOUT => 12, CURLOPT_SSL_VERIFYPEER => true]);
+    curl_setopt_array($ch, [CURLOPT_RETURNTRANSFER => true, CURLOPT_CONNECTTIMEOUT => 3, CURLOPT_TIMEOUT => 8, CURLOPT_SSL_VERIFYPEER => true]);
     $resp = curl_exec($ch);
     $curlError = curl_error($ch);
     curl_close($ch);

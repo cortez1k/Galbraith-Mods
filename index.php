@@ -54,8 +54,10 @@ function galbraithVkApi($method, array $params = []) {
         CURLOPT_POST => true,
         CURLOPT_POSTFIELDS => $body,
         CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_CONNECTTIMEOUT => 5,
-        CURLOPT_TIMEOUT => 10,
+        CURLOPT_CONNECTTIMEOUT => 3,
+        CURLOPT_TIMEOUT => 8,
+        CURLOPT_CONNECTTIMEOUT => 3,
+        CURLOPT_TIMEOUT => 8,
         CURLOPT_HTTPHEADER => ['Content-Type: application/x-www-form-urlencoded'],
         CURLOPT_SSL_VERIFYPEER => true,
         CURLOPT_USERAGENT => 'Galbraith VK Bot/2.0',
@@ -1287,10 +1289,10 @@ if ($uri === '' || $uri === 'index.php') {
     requireLogin(); $order=getOrderById((int)$m[1]); if(!$order || (int)$order['buyer_id']!==(int)$_SESSION['user_id'] || !receiptStatusAllowed($order['status'])) redirect('/orders');
     $tmpDir=sys_get_temp_dir(); $base='gal_receipt_'.bin2hex(random_bytes(8)); $htmlFile=$tmpDir.'/'.$base.'.html'; $pdfFile=$tmpDir.'/'.$base.'.pdf';
     $doc='<!doctype html><html lang="ru"><meta charset="utf-8"><title>Квитанция #'.(int)$order['id'].'</title><style>body{font-family:Arial,sans-serif;max-width:760px;margin:40px auto;color:#111}.box{border:1px solid #ddd;border-radius:14px;padding:24px}.row{display:flex;justify-content:space-between;gap:20px;padding:10px 0;border-top:1px solid #eee}.muted{color:#666;font-size:12px}</style><div class="box">'.receiptHtml($order).'<p class="muted">Это подтверждение/квитанция сайта, а не кассовый чек ККТ.</p></div></html>';
-    file_put_contents($htmlFile,$doc); $chromium=trim((string)@shell_exec('command -v chromium 2>/dev/null || command -v chromium-browser 2>/dev/null || command -v google-chrome 2>/dev/null'));
-    if($chromium){$cmd=escapeshellarg($chromium).' --headless --no-sandbox --disable-gpu --print-to-pdf='.escapeshellarg($pdfFile).' '.escapeshellarg('file://'.$htmlFile).' 2>&1'; @shell_exec($cmd);}
-    if(is_file($pdfFile)&&filesize($pdfFile)>100){header('Content-Type: application/pdf');header('Content-Disposition: attachment; filename="receipt-'.$order['id'].'.pdf"');header('Content-Length: '.filesize($pdfFile));readfile($pdfFile);@unlink($htmlFile);@unlink($pdfFile);exit;}
-    @unlink($htmlFile);@unlink($pdfFile);http_response_code(503);header('Content-Type: text/plain; charset=utf-8');echo 'Генератор PDF не доступен на сервере. Откройте страницу квитанции и используйте «Печать → Сохранить как PDF».';exit;
+    // Раньше здесь синхронно запускался Chromium на каждую квитанцию: процесс жил
+    // дольше лимита PHP и держал воркер → 504. Теперь отдаём ту же квитанцию как
+    // HTML (печать в PDF — штатными средствами браузера).
+    header('Content-Type: text/html; charset=utf-8'); header('Content-Disposition: inline; filename="receipt-'.$order['id'].'.html"'); echo $doc; exit;
 } elseif (preg_match('/^payment-success\/(\d+)$/', $uri, $m)) {
     $_GET['id'] = $m[1];
     $premMat = getMaterialById((int)$m[1]);

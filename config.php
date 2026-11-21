@@ -1,4 +1,31 @@
 <?php
+// Логи вместо белого экрана: фатальные ошибки пишутся в файл, а не пользователю.
+// Вывод ошибок на экран выключен всегда — на проде это ломает заголовки и верстку.
+@ini_set('display_errors', '0');
+@ini_set('log_errors', '1');
+@ini_set('error_log', __DIR__ . '/logs/php-errors.log');
+@ini_set('max_execution_time', '60');
+error_reporting(E_ALL);
+
+// Один раз на процесс: регистрируем обработчик фатальных ошибок (OOM, исчерпан
+// лимит времени, невызовное исключение) и сообщаем пользователю что-то внятное.
+if (!defined('GALBRAITH_FATAL_HANDLER')) {
+    define('GALBRAITH_FATAL_HANDLER', true);
+    @register_shutdown_function(static function () {
+        $err = error_get_last();
+        if (!$err || !in_array($err['type'], [E_ERROR, E_PARSE, E_CORE_ERROR, E_COMPILE_ERROR, E_USER_ERROR], true)) return;
+        $dir = __DIR__ . '/logs';
+        if (!is_dir($dir)) { @mkdir($dir, 0775, true); }
+        @file_put_contents($dir . '/php-errors.log', '[' . date('Y-m-d H:i:s') . '] ' . $err['message'] . ' in ' . $err['file'] . ':' . $err['line'] . PHP_EOL, FILE_APPEND | LOCK_EX);
+        if (!headers_sent()) {
+            http_response_code(500);
+            header('Content-Type: text/html; charset=utf-8');
+        }
+        echo '<div style="font-family:sans-serif;max-width:640px;margin:60px auto;padding:20px;border:1px solid #ffcccc;border-radius:10px;background:#fff7f7;color:#222">';
+        echo '<b>Страница не загрузилась.</b><p>Ошибка записана в лог, покажите её администратору сайта.</p></div>';
+    });
+}
+
 session_start();
 
 // ===== Bootstrap self-check: turn a blank 500 into a readable diagnostic =====

@@ -9,7 +9,12 @@ class SQLite3Wrapper {
     private $db;
     public function __construct($path) {
         $this->db = new SQLite3($path);
-        $this->db->busyTimeout(5000);
+        // 5 с ожидания блокировки: дольше держать бессмысленно — запрос уйдёт в 504.
+        $this->db->busyTimeout(3000);
+        // WAL: читатели не блокируются писателем — главная причина «подвисаний»
+        // SQLite под нагрузкой. synchronous = NORMAL — без fsync на каждую запись.
+        @$this->db->exec('PRAGMA journal_mode = WAL');
+        @$this->db->exec('PRAGMA synchronous = NORMAL');
     }
     public function prepare($sql) {
         $stmt = $this->db->prepare($sql);
@@ -32,6 +37,9 @@ class SQLite3Wrapper {
         }
         return $res;
     }
+    public function begin() { @$this->db->exec('BEGIN IMMEDIATE'); }
+    public function commit() { @$this->db->exec('COMMIT'); }
+    public function rollback() { @$this->db->exec('ROLLBACK'); }
     public function lastInsertId() {
         return $this->db->lastInsertRowID();
     }
@@ -108,15 +116,22 @@ function getDB() {
             if ($isNew) {
                 initDB($db);
             }
-            // ensureTables() должна выполняться ВСЕГДА, а не только для уже
-            // существующей базы: initDB() создаёт лишь базовый набор таблиц,
-            // а все дополнительные таблицы и колонки, добавленные в более
-            // поздних версиях (trader_products, orders, product_stock,
-            // notifications, seller_messages, email_log, VK-поля и т.д.),
-            // живут только в ensureTables(). На свежей базе она раньше вообще
-            // не вызывалась — сайт на новой установке был обречён на 500 при
-            // первом же обращении к любой из этих таблиц.
-            ensureTables($db);
+            // ensureTables() — тяжёлая миграция: десятки PRAGMA table_info, ALTER TABLE
+            // и CREATE INDEX в одной записи SQLite. Выполнять её на КАЖДЫЙ запрос
+            // нельзя: под нагрузкой это держало блокировку базы и давало 504.
+            // Теперь она идёт один раз на версию схемы (маркер в assets/) и один
+            // раз на процесс. После выкладки новой версии с миграциями выполните
+            // diagnose.php или удалите assets/.schema_version, чтобы она применилась.
+            static $migrated = false;
+            if (!$migrated) {
+                $migrated = true;
+                $schemaFile = __DIR__ . '/../assets/.schema_version';
+                $schema = (int)@file_get_contents($schemaFile);
+                if ($isNew || $schema < SCHEMA_VERSION) {
+                    ensureTables($db);
+                    @file_put_contents($schemaFile, (string)SCHEMA_VERSION);
+                }
+            }
         } catch (Throwable $e) {
             http_response_code(500);
             header('Content-Type: text/html; charset=utf-8');
@@ -954,7 +969,17 @@ function ensureTables($db) {
         UNIQUE(material_id, user_id)
     )");
 
-    $materialsColsPub = array_column($db->query('PRAGMA table_info(materials)')->fetchAll(), 'name');
+            // ensureTables(): индексы для тяжёлых выборок (каталог, заказы, чат, логи).
+            $db->exec('CREATE INDEX IF NOT EXISTS idx_materials_publish ON materials(publish_at)');
+            $db->exec('CREATE INDEX IF NOT EXISTS idx_materials_cat_price ON materials(category_id, price)');
+            $db->exec('CREATE INDEX IF NOT EXISTS idx_orders_user ON orders(user_id, created_at)');
+            $db->exec('CREATE INDEX IF NOT EXISTS idx_orders_status ON orders(status, created_at)');
+            $db->exec('CREATE INDEX IF NOT EXISTS idx_notifications_user ON notifications(user_id, is_read, created_at)');
+            $db->exec('CREATE INDEX IF NOT EXISTS idx_comments_material ON comments(material_id, created_at)');
+            $db->exec('CREATE INDEX IF NOT EXISTS idx_seller_messages_thread ON seller_messages(sender_id, receiver_id, created_at)');
+            $db->exec('CREATE INDEX IF NOT EXISTS idx_premiere_reminders_pending ON premiere_reminders(notified, material_id)');
+
+            $materialsColsPub = array_column($db->query('PRAGMA table_info(materials)')->fetchAll(), 'name');
     if (!in_array('publish_at', $materialsColsPub)) {
         $db->exec('ALTER TABLE materials ADD COLUMN publish_at TIMESTAMP');
     }

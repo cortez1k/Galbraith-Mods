@@ -202,9 +202,11 @@ function httpPostForm($url, $params) {
         CURLOPT_POSTFIELDS => http_build_query($params),
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_HTTPHEADER => ['Content-Type: application/x-www-form-urlencoded', 'Accept: application/json'],
-        CURLOPT_TIMEOUT => 10,
+        CURLOPT_CONNECTTIMEOUT => 3,
+        CURLOPT_TIMEOUT => 8,
     ]);
     $resp = curl_exec($ch);
+    if ($resp === false) error_log('httpPostForm failed: ' . curl_error($ch) . ' url=' . $url);
     curl_close($ch);
     return $resp ?: '{}';
 }
@@ -214,9 +216,11 @@ function httpGet($url, $headers = []) {
     curl_setopt_array($ch, [
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_HTTPHEADER => $headers,
-        CURLOPT_TIMEOUT => 10,
+        CURLOPT_CONNECTTIMEOUT => 3,
+        CURLOPT_TIMEOUT => 8,
     ]);
     $resp = curl_exec($ch);
+    if ($resp === false) error_log('httpGet failed: ' . curl_error($ch) . ' url=' . $url);
     curl_close($ch);
     return $resp ?: '{}';
 }
