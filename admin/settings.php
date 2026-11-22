@@ -26,9 +26,9 @@ include __DIR__ . '/../templates/admin_header.php';
         <h3 style="font-size:16px;font-weight:600;">Цвета (тёмная тема)</h3>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
             <div><label style="font-size:13px;color:var(--g-text-secondary);">Акцент</label><input type="color" name="accent_default" class="input" value="<?= e(setting('accent_default', '#E81C5A')) ?>" style="height:40px;padding:4px;"></div>
-            <div><label style="font-size:13px;color:var(--g-text-secondary);">Фон</label><input type="color" name="bg_main_default" class="input" value="<?= e(setting('bg_main_default', '#F6F5F2')) ?>" style="height:40px;padding:4px;"></div>
-            <div><label style="font-size:13px;color:var(--g-text-secondary);">Карточки</label><input type="color" name="bg_card_default" class="input" value="<?= e(setting('bg_card_default', '#FFFFFF')) ?>" style="height:40px;padding:4px;"></div>
-            <div><label style="font-size:13px;color:var(--g-text-secondary);">Текст</label><input type="color" name="text_main_default" class="input" value="<?= e(setting('text_main_default', '#17140F')) ?>" style="height:40px;padding:4px;"></div>
+            <div><label style="font-size:13px;color:var(--g-text-secondary);">Фон</label><input type="color" name="bg_main_default" class="input" value="<?= e(setting('bg_main_default', '#0D0D0F')) ?>" style="height:40px;padding:4px;"></div>
+            <div><label style="font-size:13px;color:var(--g-text-secondary);">Карточки</label><input type="color" name="bg_card_default" class="input" value="<?= e(setting('bg_card_default', '#16161A')) ?>" style="height:40px;padding:4px;"></div>
+            <div><label style="font-size:13px;color:var(--g-text-secondary);">Текст</label><input type="color" name="text_main_default" class="input" value="<?= e(setting('text_main_default', '#F0F0F5')) ?>" style="height:40px;padding:4px;"></div>
         </div>
 
         <h3 style="font-size:16px;font-weight:600;margin-top:8px;">Цвета (светлая тема)</h3>
