@@ -4,50 +4,81 @@ include __DIR__ . '/../templates/header.php';
 
 $dbProjects = [];
 try {
-    $dbProjects = getDB()->query('SELECT * FROM projects ORDER BY sort_order ASC, id ASC')->fetchAll();
+    $dbProjects = getDB()->query('SELECT * FROM projects WHERE is_active = 1 ORDER BY sort_order ASC, id ASC')->fetchAll();
 } catch (Throwable $e) {
     $dbProjects = [];
+}
+
+$socials = [];
+foreach (['telegram' => 'Telegram', 'vk' => 'VK', 'discord' => 'Discord', 'youtube' => 'YouTube', 'instagram' => 'Instagram'] as $key => $label) {
+    $v = setting("social_{$key}");
+    if ($v) $socials[$key] = ['label' => $label, 'url' => $v];
 }
 ?>
 
 <div class="container" style="padding-top: 40px; padding-bottom: 40px;">
-    <div style="max-width: 800px; margin: 0 auto;">
-        <h1 style="font-size: 32px; font-weight: 700; margin-bottom: 24px;">Проекты Galbraith</h1>
-
-        <div style="display: grid; gap: 24px; margin-bottom: 40px;">
-            <!-- Социальные сети -->
-            <div style="background: var(--g-card); border: 1px solid var(--g-border); border-radius: var(--g-radius); padding: 24px;">
-                <h2 style="font-size: 20px; font-weight: 700; margin-bottom: 16px; color: var(--g-accent);">Социальные сети</h2>
-                <ul style="list-style: none; padding: 0;">
-                    <li style="margin-bottom: 12px;"><a href="https://t.me/galbraithmods" style="color: var(--g-text); text-decoration: none; font-size: 14px;">Telegram @galbraithmods</a></li>
-                    <li style="margin-bottom: 12px;"><a href="https://vk.com/galbraithmods" style="color: var(--g-text); text-decoration: none; font-size: 14px;">VK @galbraithmods</a></li>
-                    <li style="margin-bottom: 12px;"><a href="https://discord.gg/galbraithmods" style="color: var(--g-text); text-decoration: none; font-size: 14px;">Discord</a></li>
-                </ul>
+    <div style="max-width: 1100px; margin: 0 auto;">
+        <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:20px; margin-bottom: 32px; flex-wrap: wrap;">
+            <div>
+                <h1 style="font-size: 32px; font-weight: 700; margin-bottom: 8px;">Проекты Galbraith</h1>
+                <p style="font-size: 15px; color: var(--g-text-secondary);">Наши сервисы, моды и сообщества для Amazing RP.</p>
             </div>
+        </div>
 
-            <!-- Проекты, добавленные через админку -->
-            <div style="background: var(--g-card); border: 1px solid var(--g-border); border-radius: var(--g-radius); padding: 24px;">
-                <h2 style="font-size: 20px; font-weight: 700; margin-bottom: 16px; color: var(--g-accent);">Наши проекты</h2>
-                <?php if ($dbProjects): ?>
-                <ul style="list-style: none; padding: 0;">
-                    <?php foreach ($dbProjects as $p): ?>
-                    <li style="margin-bottom: 12px;"><a href="<?= e($p['url']) ?>" target="_blank" rel="noopener" style="color: var(--g-text); text-decoration: none; font-size: 14px;"><?= e($p['title']) ?></a></li>
-                    <?php endforeach; ?>
-                </ul>
-                <?php else: ?>
-                <p style="color: var(--g-text-secondary); font-size: 14px;">Пока не добавлено ни одного проекта.</p>
-                <?php endif; ?>
+        <!-- Социальные сети сайта -->
+        <?php if ($socials): ?>
+        <div style="background: var(--g-card); border: 1px solid var(--g-border); border-radius: var(--g-radius); padding: 20px; margin-bottom: 32px;">
+            <h2 style="font-size: 18px; font-weight: 700; margin-bottom: 14px; color: var(--g-accent);">Социальные сети</h2>
+            <div style="display:flex; gap: 14px; flex-wrap: wrap;">
+                <?php foreach ($socials as $key => $s): ?>
+                <a href="<?= e($s['url']) ?>" target="_blank" rel="noopener" style="display:flex; align-items:center; gap:8px; padding: 10px 16px; background: var(--g-bg); border: 1px solid var(--g-border); border-radius: var(--g-radius); color: var(--g-text); text-decoration: none; font-size: 14px;">
+                    <span style="font-size: 16px;"><?= $key === 'telegram' ? '📩' : ($key === 'vk' ? '📘' : ($key === 'discord' ? '💬' : ($key === 'youtube' ? '▶️' : '📷'))) ?></span>
+                    <span><?= e($s['label']) ?></span>
+                </a>
+                <?php endforeach; ?>
             </div>
+        </div>
+        <?php endif; ?>
 
-            <!-- Разделы сайта -->
-            <div style="background: var(--g-card); border: 1px solid var(--g-border); border-radius: var(--g-radius); padding: 24px;">
-                <h2 style="font-size: 20px; font-weight: 700; margin-bottom: 16px; color: var(--g-accent);">Разделы сайта</h2>
-                <ul style="list-style: none; padding: 0;">
-                    <li style="margin-bottom: 12px;"><a href="/catalog" style="color: var(--g-text); text-decoration: none; font-size: 14px;">Каталог модов</a></li>
-                    <li style="margin-bottom: 12px;"><a href="/marketplace" style="color: var(--g-text); text-decoration: none; font-size: 14px;">Торговая площадка</a></li>
-                    <li style="margin-bottom: 12px;"><a href="/generator-nikov" style="color: var(--g-text); text-decoration: none; font-size: 14px;">Генератор ников</a></li>
-                </ul>
-            </div>
+        <!-- Проекты -->
+        <h2 style="font-size: 20px; font-weight: 700; margin-bottom: 20px;">Наши проекты</h2>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px;">
+            <?php if ($dbProjects): foreach ($dbProjects as $p): $socialsP = $p['socials'] ? json_decode($p['socials'], true) : []; ?>
+                <a href="<?= e($p['url']) ?>" target="_blank" rel="noopener" style="text-decoration:none; color: inherit; display:block; background: var(--g-card); border: 1px solid var(--g-border); border-radius: var(--g-radius); overflow: hidden; transition: transform 0.15s, box-shadow 0.15s;">
+                    <div style="aspect-ratio: 4/3; background: var(--g-bg); border-bottom: 1px solid var(--g-border); position: relative;">
+                        <?php if (!empty($p['icon_path'])): ?>
+                            <img src="<?= e(UPLOAD_URL . $p['icon_path']) ?>" alt="<?= e($p['title']) ?>" style="width:100%; height:100%; object-fit: cover;">
+                        <?php else: ?>
+                            <div style="width:100%; height:100%; display:flex; align-items:center; justify-content:center; font-size: 48px; color: var(--g-text-secondary);">🛠️</div>
+                        <?php endif; ?>
+                        <?php if ((int)$p['is_active'] === 0): ?>
+                            <div style="position:absolute; top:8px; left:8px; background: rgba(0,0,0,0.7); color: #ff5f5f; padding: 2px 8px; border-radius: 6px; font-size: 12px; font-weight: 700;">Выключено</div>
+                        <?php endif; ?>
+                    </div>
+                    <div style="padding: 18px;">
+                        <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:10px; margin-bottom: 10px;">
+                            <h3 style="font-size: 18px; font-weight: 700; margin: 0;"><?= e($p['title']) ?></h3>
+                            <?php if (!empty($p['category'])): ?>
+                                <span style="font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; padding: 3px 8px; background: var(--g-bg); border: 1px solid var(--g-border); border-radius: 6px; color: var(--g-text-secondary); white-space: nowrap;"><?= e($p['category']) ?></span>
+                            <?php endif; ?>
+                        </div>
+                        <p style="font-size: 14px; color: var(--g-text-secondary); line-height: 1.5; margin-bottom: 14px;"><?= e($p['description'] ?: 'Проект без описания.') ?></p>
+                        <div style="display:flex; gap:8px; flex-wrap: wrap;">
+                            <?php foreach ($socialsP as $k => $v): ?>
+                                <a href="<?= e($v) ?>" target="_blank" rel="noopener" style="display:flex; align-items:center; gap:6px; font-size: 13px; color: var(--g-accent-light); text-decoration: none;">
+                                    <span style="font-size: 14px;"><?= $k === 'telegram' ? '📩' : ($k === 'vk' ? '📘' : ($k === 'discord' ? '💬' : ($k === 'youtube' ? '▶️' : '📷'))) ?></span>
+                                    <span><?= e(ucfirst($k)) ?></span>
+                                </a>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
+                </a>
+            <?php endforeach; else: ?>
+                <div style="grid-column: 1 / -1; background: var(--g-card); border: 1px solid var(--g-border); border-radius: var(--g-radius); padding: 40px; text-align: center; color: var(--g-text-secondary);">
+                    Пока не добавлено ни одного активного проекта.
+                </div>
+            <?php endif; ?>
         </div>
     </div>
 </div>

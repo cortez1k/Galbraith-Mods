@@ -182,6 +182,35 @@ function ensureTables($db) {
         $db->exec('ALTER TABLE users ADD COLUMN totp_secret VARCHAR(32)');
     }
 
+    // ===== v5.0: расширенные проекты (описание, иконка, категория, активность, соцсети) =====
+    $pCols = array_column($db->query("PRAGMA table_info(projects)")->fetchAll(), 'name');
+    foreach ([
+        'description' => 'TEXT',
+        'icon_path' => 'VARCHAR(255)',
+        'category' => 'VARCHAR(100)',
+        'is_active' => 'INTEGER DEFAULT 1',
+        'socials' => 'TEXT',
+    ] as $col => $def) {
+        if (!in_array($col, $pCols)) {
+            $db->exec("ALTER TABLE projects ADD COLUMN $col $def");
+        }
+    }
+
+    // Быстрые ответы для агентов поддержки (rich-форматирование)
+    if (!in_array('support_quick_replies', $existing)) {
+        $db->exec('
+            CREATE TABLE support_quick_replies (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                title VARCHAR(255) NOT NULL,
+                content TEXT NOT NULL,
+                shortcut VARCHAR(50),
+                sort_order INTEGER DEFAULT 0,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            )
+        ');
+    }
+
     // ===== v2.0 migration: marketplace / escrow / roles =====
     $isFirstV2Migration = !in_array('role', $colNames);
 
