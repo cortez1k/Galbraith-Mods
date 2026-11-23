@@ -156,7 +156,7 @@ include __DIR__ . '/../templates/admin_header.php';
                 <td style="color: var(--g-text-secondary); font-size: 13px;"><?= e($p['category'] ?? '-') ?></td>
                 <td style="font-size: 13px;">
                     <?php if (!empty($p['icon_path'])): ?><?= e($p['icon_path']) ?>
-                    <?php else: ><span style="color: var(--g-text-secondary);">—</span><?php endif; ?>
+                    <?php else: ?><span style="color: var(--g-text-secondary);">—</span><?php endif; ?>
                 </td>
                 <td><span style="padding:2px 8px;border-radius:999px;font-size:12px;background:<?= (int)$p['is_active'] ? 'var(--g-success-dim)' : 'var(--g-text-secondary-dim)' ?>;color:<?= (int)$p['is_active'] ? 'var(--g-success)' : '#fff' ?>;"><?= (int)$p['is_active'] ? 'Активно' : 'Выключено' ?></span></td>
                 <td style="font-size:13px;color:var(--g-text-secondary);"><?= (int)$p['sort_order'] ?></td>

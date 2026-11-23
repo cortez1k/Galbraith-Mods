@@ -1101,6 +1101,9 @@ if ($uri === '' || $uri === 'index.php') {
 } elseif ($uri === 'admin/projects') {
     requireAdmin();
     require __DIR__ . '/admin/projects.php';
+} elseif ($uri === 'admin/quick-replies') {
+    requireAdmin();
+    require __DIR__ . '/admin/quick_replies.php';
 } elseif ($uri === 'fixed') {
     require __DIR__ . '/pages/fixed.php';
 } elseif ($uri === 'projects') {

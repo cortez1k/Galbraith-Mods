@@ -9,10 +9,29 @@ try {
     $dbProjects = [];
 }
 
-$socials = [];
-foreach (['telegram' => 'Telegram', 'vk' => 'VK', 'discord' => 'Discord', 'youtube' => 'YouTube', 'instagram' => 'Instagram'] as $key => $label) {
-    $v = setting("social_{$key}");
-    if ($v) $socials[$key] = ['label' => $label, 'url' => $v];
+$socialIcons = [
+    'telegram' => '📩',
+    'vk' => '📘',
+    'youtube' => '▶️',
+    'discord' => '💬',
+    'instagram' => '📷',
+];
+$socialLabels = [
+    'telegram' => 'Telegram',
+    'vk' => 'VK',
+    'youtube' => 'YouTube',
+    'discord' => 'Discord',
+    'instagram' => 'Instagram',
+];
+
+// Социальные сети сайта из общих настроек (social_yt, social_vk и т.д.)
+$siteSocials = [];
+foreach ($socialLabels as $key => $label) {
+    $settingKeys = ['vk' => 'social_vk', 'youtube' => 'social_yt'];
+    $v = setting($settingKeys[$key] ?? ('social_' . $key));
+    if ($v) {
+        $siteSocials[$key] = ['label' => $label, 'url' => $v];
+    }
 }
 ?>
 
@@ -25,14 +44,14 @@ foreach (['telegram' => 'Telegram', 'vk' => 'VK', 'discord' => 'Discord', 'youtu
             </div>
         </div>
 
-        <!-- Социальные сети сайта -->
-        <?php if ($socials): ?>
+        <!-- Социальные сети сайта (из настроек) -->
+        <?php if ($siteSocials): ?>
         <div style="background: var(--g-card); border: 1px solid var(--g-border); border-radius: var(--g-radius); padding: 20px; margin-bottom: 32px;">
-            <h2 style="font-size: 18px; font-weight: 700; margin-bottom: 14px; color: var(--g-accent);">Социальные сети</h2>
+            <h2 style="font-size: 18px; font-weight: 700; margin-bottom: 14px; color: var(--g-accent);">Социальные сети сайта</h2>
             <div style="display:flex; gap: 14px; flex-wrap: wrap;">
-                <?php foreach ($socials as $key => $s): ?>
+                <?php foreach ($siteSocials as $key => $s): ?>
                 <a href="<?= e($s['url']) ?>" target="_blank" rel="noopener" style="display:flex; align-items:center; gap:8px; padding: 10px 16px; background: var(--g-bg); border: 1px solid var(--g-border); border-radius: var(--g-radius); color: var(--g-text); text-decoration: none; font-size: 14px;">
-                    <span style="font-size: 16px;"><?= $key === 'telegram' ? '📩' : ($key === 'vk' ? '📘' : ($key === 'discord' ? '💬' : ($key === 'youtube' ? '▶️' : '📷'))) ?></span>
+                    <span style="font-size: 16px;"><?= $socialIcons[$key] ?? '🔗' ?></span>
                     <span><?= e($s['label']) ?></span>
                 </a>
                 <?php endforeach; ?>
@@ -44,7 +63,9 @@ foreach (['telegram' => 'Telegram', 'vk' => 'VK', 'discord' => 'Discord', 'youtu
         <h2 style="font-size: 20px; font-weight: 700; margin-bottom: 20px;">Наши проекты</h2>
 
         <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px;">
-            <?php if ($dbProjects): foreach ($dbProjects as $p): $socialsP = $p['socials'] ? json_decode($p['socials'], true) : []; ?>
+            <?php if ($dbProjects): foreach ($dbProjects as $p):
+                $socialsP = $p['socials'] ? json_decode($p['socials'], true) : [];
+            ?>
                 <a href="<?= e($p['url']) ?>" target="_blank" rel="noopener" style="text-decoration:none; color: inherit; display:block; background: var(--g-card); border: 1px solid var(--g-border); border-radius: var(--g-radius); overflow: hidden; transition: transform 0.15s, box-shadow 0.15s;">
                     <div style="aspect-ratio: 4/3; background: var(--g-bg); border-bottom: 1px solid var(--g-border); position: relative;">
                         <?php if (!empty($p['icon_path'])): ?>
@@ -67,8 +88,8 @@ foreach (['telegram' => 'Telegram', 'vk' => 'VK', 'discord' => 'Discord', 'youtu
                         <div style="display:flex; gap:8px; flex-wrap: wrap;">
                             <?php foreach ($socialsP as $k => $v): ?>
                                 <a href="<?= e($v) ?>" target="_blank" rel="noopener" style="display:flex; align-items:center; gap:6px; font-size: 13px; color: var(--g-accent-light); text-decoration: none;">
-                                    <span style="font-size: 14px;"><?= $k === 'telegram' ? '📩' : ($k === 'vk' ? '📘' : ($k === 'discord' ? '💬' : ($k === 'youtube' ? '▶️' : '📷'))) ?></span>
-                                    <span><?= e(ucfirst($k)) ?></span>
+                                    <span style="font-size: 14px;"><?= $socialIcons[$k] ?? '🔗' ?></span>
+                                    <span><?= e($socialLabels[$k] ?? ucfirst($k)) ?></span>
                                 </a>
                             <?php endforeach; ?>
                         </div>

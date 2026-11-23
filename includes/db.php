@@ -205,10 +205,16 @@ function ensureTables($db) {
                 content TEXT NOT NULL,
                 shortcut VARCHAR(50),
                 sort_order INTEGER DEFAULT 0,
+                is_active INTEGER DEFAULT 1,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             )
         ');
+    } else {
+        $qrCols = array_column($db->query("PRAGMA table_info(support_quick_replies)")->fetchAll(), 'name');
+        if (!in_array('is_active', $qrCols)) {
+            $db->exec('ALTER TABLE support_quick_replies ADD COLUMN is_active INTEGER DEFAULT 1');
+        }
     }
 
     // ===== v2.0 migration: marketplace / escrow / roles =====

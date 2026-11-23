@@ -104,3 +104,33 @@ function countSupportChatsByTab($agentId) {
         'mine' => (int)$mineStmt->fetchColumn(),
     ];
 }
+
+/**
+ * Возвращает список активных быстрых ответов, отсортированных по sort_order.
+ * @return array
+ */
+function getQuickReplies() {
+    $db = getDB();
+    $stmt = $db->prepare('SELECT * FROM support_quick_replies WHERE is_active = 1 ORDER BY sort_order ASC, id ASC');
+    $stmt->execute();
+    return $stmt->fetchAll();
+}
+
+/**
+ * Безопасный рендерер сообщений поддержки (как от агента, так и от пользователя).
+ * Экранирует весь текст, затем восстанавливает только разрешённую разметку:
+ * **жирный**, *курсив*, `код`, переносы строк -> <br>.
+ *
+ * @param string $message
+ * @return string HTML
+ */
+function renderSupportMessage($message) {
+    if ($message === '') {
+        return '';
+    }
+    $html = e($message);
+    $html = preg_replace('/\*\*([^*]+)\*\*/', '<strong>$1</strong>', $html);
+    $html = preg_replace('/(?<!\*)\*([^*\n]+)\*(?!\*)/', '<em>$1</em>', $html);
+    $html = preg_replace('/`([^`\n]+)`/', '<code>$1</code>', $html);
+    return nl2br($html);
+}

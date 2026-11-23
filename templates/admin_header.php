@@ -21,6 +21,7 @@ $navGroups = [
         ['/admin/marketplace', '🗳️', 'Витрина: порядок/закреп'],
         ['/admin/orders', '🧾', 'Заказы'],
         ['/support/chats/new', '🆘', 'Поддержка (чаты)'],
+        ['/admin/quick-replies', '⚡', 'Быстрые ответы'],
         ['/admin/seller-chats', '💬', 'Чаты: вопросы продавцам'],
         ['/admin/auto-delivery', '⚡', 'Товары с автовыдачей'],
         ['/admin/promos', '🏷️', 'Промокоды'],
