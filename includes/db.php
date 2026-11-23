@@ -1025,19 +1025,33 @@ function ensureTables($db) {
         UNIQUE(material_id, user_id)
     )");
 
-            // ensureTables(): индексы для тяжёлых выборок (каталог, заказы, чат, логи).
-            $db->exec('CREATE INDEX IF NOT EXISTS idx_materials_publish ON materials(publish_at)');
-            $db->exec('CREATE INDEX IF NOT EXISTS idx_materials_cat_price ON materials(category_id, price)');
-            $db->exec('CREATE INDEX IF NOT EXISTS idx_orders_user ON orders(user_id, created_at)');
-            $db->exec('CREATE INDEX IF NOT EXISTS idx_orders_status ON orders(status, created_at)');
-            $db->exec('CREATE INDEX IF NOT EXISTS idx_notifications_user ON notifications(user_id, is_read, created_at)');
-            $db->exec('CREATE INDEX IF NOT EXISTS idx_comments_material ON comments(material_id, created_at)');
-            $db->exec('CREATE INDEX IF NOT EXISTS idx_seller_messages_thread ON seller_messages(sender_id, receiver_id, created_at)');
-            $db->exec('CREATE INDEX IF NOT EXISTS idx_premiere_reminders_pending ON premiere_reminders(notified, material_id)');
-
-            $materialsColsPub = array_column($db->query('PRAGMA table_info(materials)')->fetchAll(), 'name');
+    $materialsColsPub = array_column($db->query('PRAGMA table_info(materials)')->fetchAll(), 'name');
     if (!in_array('publish_at', $materialsColsPub)) {
         $db->exec('ALTER TABLE materials ADD COLUMN publish_at TIMESTAMP');
+    }
+
+    // Старые базы могут иметь другую структуру заказов и уведомлений.
+    // Необязательный индекс не должен блокировать запуск всего сайта.
+    $performanceIndexes = [
+        ['materials', 'idx_materials_publish', ['publish_at']],
+        ['materials', 'idx_materials_cat_price', ['category_id', 'price']],
+        ['orders', 'idx_orders_user', ['user_id', 'created_at']],
+        ['orders', 'idx_orders_status', ['status', 'created_at']],
+        ['notifications', 'idx_notifications_user', ['user_id', 'is_read', 'created_at']],
+        ['comments', 'idx_comments_material', ['material_id', 'created_at']],
+        ['seller_messages', 'idx_seller_messages_thread', ['sender_id', 'receiver_id', 'created_at']],
+        ['premiere_reminders', 'idx_premiere_reminders_pending', ['notified', 'material_id']],
+    ];
+    $indexTableColumns = [];
+    foreach ($performanceIndexes as $index) {
+        list($table, $name, $columns) = $index;
+        if (!isset($indexTableColumns[$table])) {
+            $indexTableColumns[$table] = array_column($db->query('PRAGMA table_info(' . $table . ')')->fetchAll(), 'name');
+        }
+        if (array_diff($columns, $indexTableColumns[$table])) {
+            continue;
+        }
+        $db->exec('CREATE INDEX IF NOT EXISTS ' . $name . ' ON ' . $table . '(' . implode(', ', $columns) . ')');
     }
 }
 
