@@ -30,11 +30,10 @@
             <div class="g-header-right">
                 <?php if (!empty($_SESSION['user_id']) || !empty($_SESSION['admin_id'])):
                     $gHeaderUser = currentUser(); ?>
-                    <a href="/pages/profile.php" class="g-header-user" title="Личный кабинет">
+                    <a href="/pages/profile.php" class="g-header-btn g-header-account" title="Личный кабинет">
                         <span class="g-header-user-dot" aria-hidden="true"></span>
                         <span class="g-header-user-name"><?= e($gHeaderUser['name'] ?? 'Кабинет') ?></span>
                     </a>
-                    <a href="/pages/profile.php" class="g-header-btn">Кабинет</a>
                 <?php else: ?>
                     <a href="/pages/login.php" class="g-header-btn">Вход</a>
                 <?php endif; ?>
