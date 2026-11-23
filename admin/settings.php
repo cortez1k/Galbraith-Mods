@@ -1,6 +1,6 @@
 <?php
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $keys = ['accent_default','bg_main_default','bg_card_default','text_main_default','text_secondary_default','bg_main_light','bg_card_light','text_main_light','text_secondary_light','social_yt','social_vk','vk_contact','admin_email','donate_thanks_text','donate_details','youtube_last_video_id','banner_icon','banner_brand','banner_brand_tag','banner_highlight','banner_message','banner_button_text','banner_button_url'];
+    $keys = ['accent_default','bg_main_default','bg_card_default','text_main_default','text_secondary_default','bg_main_light','bg_card_light','text_main_light','text_secondary_light','social_yt','social_vk','social_telegram','social_discord','social_instagram','social_tiktok','social_boosty','vk_contact','admin_email','donate_thanks_text','donate_details','youtube_last_video_id','banner_icon','banner_brand','banner_brand_tag','banner_highlight','banner_message','banner_button_text','banner_button_url'];
     foreach ($keys as $k) {
         if (isset($_POST[$k])) setSetting($k, $_POST[$k]);
     }
@@ -37,9 +37,19 @@ include __DIR__ . '/../templates/admin_header.php';
             <div><label style="font-size:13px;color:var(--g-text-secondary);">Карточки</label><input type="color" name="bg_card_light" class="input" value="<?= e(setting('bg_card_light', '#FFFFFF')) ?>" style="height:40px;padding:4px;"></div>
         </div>
 
-        <h3 style="font-size:16px;font-weight:600;margin-top:8px;">Контакты и соцсети</h3>
-        <div><label style="font-size:13px;color:var(--g-text-secondary);">YouTube</label><input type="url" name="social_yt" class="input" value="<?= e(setting('social_yt')) ?>"></div>
-        <div><label style="font-size:13px;color:var(--g-text-secondary);">VK</label><input type="url" name="social_vk" class="input" value="<?= e(setting('social_vk')) ?>"></div>
+        <h3 style="font-size:16px;font-weight:600;margin-top:8px;">Соц. сети сайта</h3>
+        <p style="font-size:12px;color:var(--g-text-secondary);margin-top:-8px;">Официальные каналы всего сайта, а не отдельных проектов. Показываются на странице «Проекты» в блоке «Galbraith в сети».</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+            <div><label style="font-size:13px;color:var(--g-text-secondary);">Telegram</label><input type="url" name="social_telegram" class="input" value="<?= e(setting('social_telegram')) ?>" placeholder="https://t.me/..."></div>
+            <div><label style="font-size:13px;color:var(--g-text-secondary);">VK</label><input type="url" name="social_vk" class="input" value="<?= e(setting('social_vk')) ?>" placeholder="https://vk.com/..."></div>
+            <div><label style="font-size:13px;color:var(--g-text-secondary);">YouTube</label><input type="url" name="social_yt" class="input" value="<?= e(setting('social_yt')) ?>" placeholder="https://youtube.com/..."></div>
+            <div><label style="font-size:13px;color:var(--g-text-secondary);">Discord</label><input type="url" name="social_discord" class="input" value="<?= e(setting('social_discord')) ?>" placeholder="https://discord.gg/..."></div>
+            <div><label style="font-size:13px;color:var(--g-text-secondary);">Instagram (необязательно)</label><input type="url" name="social_instagram" class="input" value="<?= e(setting('social_instagram')) ?>" placeholder="https://instagram.com/..."></div>
+            <div><label style="font-size:13px;color:var(--g-text-secondary);">TikTok (необязательно)</label><input type="url" name="social_tiktok" class="input" value="<?= e(setting('social_tiktok')) ?>" placeholder="https://tiktok.com/@..."></div>
+            <div><label style="font-size:13px;color:var(--g-text-secondary);">Boosty (необязательно)</label><input type="url" name="social_boosty" class="input" value="<?= e(setting('social_boosty')) ?>" placeholder="https://boosty.to/..."></div>
+        </div>
+
+        <h3 style="font-size:16px;font-weight:600;margin-top:8px;">Контакты</h3>
         <div><label style="font-size:13px;color:var(--g-text-secondary);">VK для связи</label><input type="url" name="vk_contact" class="input" value="<?= e(setting('vk_contact')) ?>"></div>
         <div><label style="font-size:13px;color:var(--g-text-secondary);">Email админа</label><input type="email" name="admin_email" class="input" value="<?= e(setting('admin_email')) ?>"></div>
 

@@ -19,14 +19,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($title === '' || $url === '') {
             $errors[] = 'Название и URL обязательны.';
         } else {
-            $socials = [];
-            foreach (['telegram', 'vk', 'discord', 'youtube', 'instagram'] as $key) {
-                if (!empty($_POST["social_{$key}"])) {
-                    $socials[$key] = trim($_POST["social_{$key}"]);
-                }
-            }
+            // Соцсети — общие для всего сайта, задаются в «Настройках», а не у проекта.
             $db->prepare('INSERT INTO projects (title, url, category, description, icon_path, is_active, sort_order, socials) VALUES (?, ?, ?, ?, ?, ?, ?, ?)')
-                ->execute([$title, $url, trim($_POST['category'] ?? ''), trim($_POST['description'] ?? ''), trim($_POST['icon_path'] ?? ''), (int)($_POST['is_active'] ?? 1), (int)($_POST['sort_order'] ?? 0), $socials ? json_encode($socials, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) : null]);
+                ->execute([$title, $url, trim($_POST['category'] ?? ''), trim($_POST['description'] ?? ''), trim($_POST['icon_path'] ?? ''), (int)($_POST['is_active'] ?? 1), (int)($_POST['sort_order'] ?? 0), null]);
             redirect('/admin/projects');
         }
     } elseif (isset($_POST['action']) && $_POST['action'] === 'update') {
@@ -36,14 +31,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($id <= 0 || $title === '' || $url === '') {
             $errors[] = 'Неверные данные проекта.';
         } else {
-            $socials = [];
-            foreach (['telegram', 'vk', 'discord', 'youtube', 'instagram'] as $key) {
-                if (!empty($_POST["social_{$key}"])) {
-                    $socials[$key] = trim($_POST["social_{$key}"]);
-                }
-            }
+            // Соцсети — общие для всего сайта, задаются в «Настройках», а не у проекта.
             $db->prepare('UPDATE projects SET title = ?, url = ?, category = ?, description = ?, icon_path = ?, is_active = ?, sort_order = ?, socials = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?')
-                ->execute([$title, $url, trim($_POST['category'] ?? ''), trim($_POST['description'] ?? ''), trim($_POST['icon_path'] ?? ''), (int)($_POST['is_active'] ?? 1), (int)($_POST['sort_order'] ?? 0), $socials ? json_encode($socials, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) : null, $id]);
+                ->execute([$title, $url, trim($_POST['category'] ?? ''), trim($_POST['description'] ?? ''), trim($_POST['icon_path'] ?? ''), (int)($_POST['is_active'] ?? 1), (int)($_POST['sort_order'] ?? 0), null, $id]);
             redirect('/admin/projects');
         }
     } elseif (isset($_POST['action']) && $_POST['action'] === 'delete') {
@@ -117,16 +107,8 @@ include __DIR__ . '/../templates/admin_header.php';
             <span style="display:block; font-size: 12px; color: var(--g-text-secondary); margin-top: 4px;">Относительный путь к файлу иконки (например, assets/img/projects/game.svg)</span>
         </div>
 
-        <div style="margin-bottom: 16px;">
-            <label style="display:block; font-size: 13px; color: var(--g-text-secondary); margin-bottom: 6px;">Соцсети проекта</label>
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px;">
-                <?php foreach (['telegram' => 'Telegram', 'vk' => 'VK', 'discord' => 'Discord', 'youtube' => 'YouTube', 'instagram' => 'Instagram'] as $key => $label): ?>
-                    <div>
-                        <label style="display:block; font-size: 12px; color: var(--g-text-secondary); margin-bottom: 4px;"><?= e($label) ?></label>
-                        <input type="text" name="social_<?= $key ?>" class="input" placeholder="https://…" value="<?= e($editProject['socials_arr'][$key] ?? '') ?>">
-                    </div>
-                <?php endforeach; ?>
-            </div>
+        <div style="background: var(--g-card); border: 1px solid var(--g-border); border-radius: var(--g-radius); padding: 12px 16px; font-size: 12.5px; color: var(--g-text-secondary); margin-bottom: 16px;">
+            Соцсети задаются один раз для всего сайта — в разделе <a href="/admin/settings" style="color: var(--g-accent-light);">«Настройки» → «Соц. сети»</a>.
         </div>
 
         <div style="margin-bottom: 16px;">
@@ -149,7 +131,7 @@ include __DIR__ . '/../templates/admin_header.php';
             <tr><th>#</th><th>Название</th><th>Категория</th><th>Иконка</th><th>Статус</th><th>Порядок</th><th>Действия</th></tr>
         </thead>
         <tbody>
-            <?php foreach ($projects as $p): $socials = $p['socials'] ? json_decode($p['socials'], true) : []; ?>
+            <?php foreach ($projects as $p): ?>
             <tr>
                 <td><?= (int)$p['id'] ?></td>
                 <td><?= e($p['title']) ?></td>
@@ -168,9 +150,6 @@ include __DIR__ . '/../templates/admin_header.php';
                         <input type="hidden" name="id" value="<?= (int)$p['id'] ?>">
                         <button type="submit" class="btn btn-secondary btn-sm" style="color: var(--g-danger);">Удалить</button>
                     </form>
-                    <div style="font-size:11px;color:var(--g-text-secondary);margin-top:4px;">
-                        <?php foreach ($socials as $k => $v): ?><?= e(ucfirst($k)) ?>: <a href="<?= e($v) ?>" target="_blank" style="color: var(--g-accent-light);">ссылка</a><br><?php endforeach; ?>
-                    </div>
                 </td>
             </tr>
             <?php endforeach; ?>
