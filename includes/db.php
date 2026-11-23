@@ -1,6 +1,9 @@
 <?php
 require_once __DIR__ . '/../config.php';
 
+// Повышать при изменении миграций: старый маркер не должен пропускать обновление.
+if (!defined('SCHEMA_VERSION')) define('SCHEMA_VERSION', 51);
+
 /**
  * Обёртка над SQLite3, имитирующая PDO API.
  * Это позволяет не переписывать весь остальной код сайта.
@@ -190,6 +193,7 @@ function ensureTables($db) {
         'category' => 'VARCHAR(100)',
         'is_active' => 'INTEGER DEFAULT 1',
         'socials' => 'TEXT',
+        'updated_at' => 'TIMESTAMP',
     ] as $col => $def) {
         if (!in_array($col, $pCols)) {
             $db->exec("ALTER TABLE projects ADD COLUMN $col $def");
@@ -959,6 +963,12 @@ function ensureTables($db) {
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             )
         ');
+    }
+
+    // CREATE TABLE не обновляет уже существующую таблицу сообщений.
+    $supportMessageCols = array_column($db->query('PRAGMA table_info(support_messages)')->fetchAll(), 'name');
+    if (!in_array('is_internal_note', $supportMessageCols)) {
+        $db->exec('ALTER TABLE support_messages ADD COLUMN is_internal_note INTEGER DEFAULT 0');
     }
 
     // ===== Шаблоны товаров для торговцев =====
