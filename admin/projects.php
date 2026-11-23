@@ -26,11 +26,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } else {
             // Соцсети — общие для всего сайта, задаются в «Настройках», а не у проекта.
             $db->prepare('INSERT INTO projects (title, url, category, description, icon_path, is_active, sort_order, socials) VALUES (?, ?, ?, ?, ?, ?, ?, ?)')
-                ->execute([$title, $url, trim($_POST['category'] ?? ''), trim($_POST['description'] ?? ''), trim($_POST['icon_path'] ?? ''), (int)($_POST['is_active'] ?? 1), (int)($_POST['sort_order'] ?? 0), null]);
+                ->execute([$title, $url, trim($_POST['category'] ?? ''), trim($_POST['description'] ?? ''), $iconPath, isset($_POST['is_active']) ? 1 : 0, (int)($_POST['sort_order'] ?? 0), null]);
             redirect('/admin/projects');
         }
     } elseif (isset($_POST['action']) && $_POST['action'] === 'update') {
         $id = (int)($_POST['id'] ?? 0);
+        $iconPath = trim($_POST['icon_path'] ?? '');
+        if (!empty($_FILES['project_image']['tmp_name']) && ($_FILES['project_image']['error'] ?? UPLOAD_ERR_NO_FILE) === UPLOAD_ERR_OK) {
+            $uploaded = uploadFile($_FILES['project_image'], 'projects');
+            if ($uploaded) $iconPath = $uploaded;
+        }
         $title = trim($_POST['title'] ?? '');
         $url = trim($_POST['url'] ?? '');
         if ($id <= 0 || $title === '' || $url === '') {
@@ -38,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } else {
             // Соцсети — общие для всего сайта, задаются в «Настройках», а не у проекта.
             $db->prepare('UPDATE projects SET title = ?, url = ?, category = ?, description = ?, icon_path = ?, is_active = ?, sort_order = ?, socials = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?')
-                ->execute([$title, $url, trim($_POST['category'] ?? ''), trim($_POST['description'] ?? ''), trim($_POST['icon_path'] ?? ''), (int)($_POST['is_active'] ?? 1), (int)($_POST['sort_order'] ?? 0), null, $id]);
+                ->execute([$title, $url, trim($_POST['category'] ?? ''), trim($_POST['description'] ?? ''), $iconPath, isset($_POST['is_active']) ? 1 : 0, (int)($_POST['sort_order'] ?? 0), null, $id]);
             redirect('/admin/projects');
         }
     } elseif (isset($_POST['action']) && $_POST['action'] === 'delete') {
@@ -77,7 +82,7 @@ include __DIR__ . '/../templates/admin_header.php';
         <div style="background: var(--g-success-dim); border: 1px solid var(--g-success); border-radius: var(--g-radius); padding: 12px 16px; color: var(--g-success); margin-bottom: 20px;"><?= e($success) ?></div>
     <?php endif; ?>
 
-    <form method="POST" style="margin-bottom: 32px;">
+    <form method="POST" enctype="multipart/form-data" style="margin-bottom: 32px;">
         <?= csrfField() ?>
         <input type="hidden" name="action" value="<?= $editProject ? 'update' : 'add' ?>">
         <?php if ($editProject): ?><input type="hidden" name="id" value="<?= (int)$editProject['id'] ?>"><?php endif; ?>

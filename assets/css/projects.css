@@ -342,6 +342,58 @@
 .pj-empty h3 { font-size: 18px; font-weight: 700; margin-bottom: 6px; }
 .pj-empty p { font-size: 13.5px; color: var(--g-text-secondary); max-width: 420px; margin: 0 auto; line-height: 1.6; }
 
+/* ---------- Обложка карточки (фото проекта) и эффекты наведения ---------- */
+.pj-card-glow {
+    z-index: 2;
+    background: radial-gradient(circle 260px at var(--x, 50%) var(--y, 50%), rgba(232, 28, 90, 0.16), transparent 70%);
+}
+.pj-cover {
+    position: relative;
+    margin: -22px -22px 18px;
+    height: 176px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, rgba(232, 28, 90, 0.20), rgba(255, 255, 255, 0.02));
+    border-bottom: 1px solid var(--g-border);
+}
+.pj-cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.6s var(--g-ease);
+}
+.pj-card:hover .pj-cover img { transform: scale(1.07); }
+.pj-cover::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 55%, rgba(5, 5, 5, 0.55));
+    pointer-events: none;
+}
+.pj-cover .pj-ico-ph {
+    font-size: 60px;
+    font-weight: 800;
+    color: var(--g-accent-light);
+}
+.pj-cover .pj-tag {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    z-index: 1;
+    background: rgba(5, 5, 5, 0.6);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+.pj-card-body {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+.pj-card:hover .pj-open { border-color: var(--g-accent); }
+
 /* ---------- Адаптив ---------- */
 @media (max-width: 640px) {
     .pj-hero { padding: 32px 22px 28px; margin-top: 10px; }

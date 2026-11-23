@@ -48,8 +48,8 @@ function projectIconUrl($path) {
     $path = trim((string)$path);
     if ($path === '') return '';
     if (preg_match('~^https?://~i', $path)) return $path;
-    if ($path[0] !== '/') $path = '/' . ltrim($path, './');
-    return $path;
+    if ($path[0] === '/') return $path;
+    return UPLOAD_URL . ltrim($path, '/');
 }
 
 include __DIR__ . '/../templates/header.php';
@@ -103,16 +103,15 @@ include __DIR__ . '/../templates/header.php';
                 ?>
                 <article class="pj-card" style="--i:<?= (int)$i ?>">
                     <span class="pj-card-glow" aria-hidden="true"></span>
-                    <div class="pj-card-top">
-                        <span class="pj-ico">
-                            <?php if ($icon): ?>
-                                <img src="<?= e($icon) ?>" alt="" loading="lazy">
-                            <?php else: ?>
-                                <span class="pj-ico-ph"><?= e(mb_strtoupper(mb_substr(trim($p['title']), 0, 1))) ?></span>
-                            <?php endif; ?>
-                        </span>
+                    <div class="pj-cover">
+                        <?php if ($icon): ?>
+                            <img src="<?= e($icon) ?>" alt="<?= e($p['title']) ?>" loading="lazy">
+                        <?php else: ?>
+                            <span class="pj-ico-ph"><?= e(mb_strtoupper(mb_substr(trim($p['title']), 0, 1))) ?></span>
+                        <?php endif; ?>
                         <?php if ($cat !== ''): ?><span class="pj-tag"><?= e($cat) ?></span><?php endif; ?>
                     </div>
+                    <div class="pj-card-body">
                     <h3><?= e($p['title']) ?></h3>
                     <?php if (!empty($p['description'])): ?>
                         <p class="pj-desc"><?= e(mb_substr(trim($p['description']), 0, 180)) ?></p>
@@ -121,6 +120,7 @@ include __DIR__ . '/../templates/header.php';
                         Перейти
                         <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
                     </a>
+                    </div>
                 </article>
                 <?php endforeach; ?>
             </div>
@@ -134,4 +134,13 @@ include __DIR__ . '/../templates/header.php';
     </section>
 </div>
 
+<script>
+document.querySelectorAll('.pj-card').forEach(function (card) {
+    card.addEventListener('pointermove', function (ev) {
+        var r = card.getBoundingClientRect();
+        card.style.setProperty('--x', (ev.clientX - r.left) + 'px');
+        card.style.setProperty('--y', (ev.clientY - r.top) + 'px');
+    });
+});
+</script>
 <?php include __DIR__ . '/../templates/footer.php'; ?>
