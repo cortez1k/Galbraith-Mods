@@ -4,7 +4,7 @@ require_once __DIR__ . '/functions.php';
 // Security: bind session to IP + User-Agent, 15-min timeout
 function checkAdminSession() {
     if (empty($_SESSION['admin_id'])) return false;
-    $maxAge = 900; // 15 minutes
+    $maxAge = 3600; // 1 hour
     if (!empty($_SESSION['admin_last_active']) && (time() - $_SESSION['admin_last_active']) > $maxAge) {
         session_destroy();
         return false;
