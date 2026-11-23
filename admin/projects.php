@@ -14,6 +14,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $db = getDB();
 
     if (isset($_POST['action']) && $_POST['action'] === 'add') {
+        $iconPath = trim($_POST['icon_path'] ?? '');
+        if (!empty($_FILES['project_image']['tmp_name']) && ($_FILES['project_image']['error'] ?? UPLOAD_ERR_NO_FILE) === UPLOAD_ERR_OK) {
+            $uploaded = uploadFile($_FILES['project_image'], 'projects');
+            if ($uploaded) $iconPath = $uploaded;
+        }
         $title = trim($_POST['title'] ?? '');
         $url = trim($_POST['url'] ?? '');
         if ($title === '' || $url === '') {
@@ -102,9 +107,16 @@ include __DIR__ . '/../templates/admin_header.php';
         </div>
 
         <div style="margin-bottom: 16px;">
-            <label style="display:block; font-size: 13px; color: var(--g-text-secondary); margin-bottom: 6px;">Путь к иконке</label>
-            <input type="text" name="icon_path" class="input" placeholder="assets/img/projects/ico.svg" value="<?= e($editProject['icon_path'] ?? '') ?>">
-            <span style="display:block; font-size: 12px; color: var(--g-text-secondary); margin-top: 4px;">Относительный путь к файлу иконки (например, assets/img/projects/game.svg)</span>
+            <label style="display:block; font-size: 13px; color: var(--g-text-secondary); margin-bottom: 6px;">Фото проекта</label>
+            <input type="file" name="project_image" class="input" accept="image/jpeg,image/png,image/webp,image/gif">
+            <input type="hidden" name="icon_path" value="<?= e($editProject['icon_path'] ?? '') ?>">
+            <?php if (!empty($editProject['icon_path'])): ?>
+                <div style="display:flex;align-items:center;gap:10px;margin-top:10px;">
+                    <img src="<?= e(preg_match('~^https?://~i', $editProject['icon_path']) ? $editProject['icon_path'] : UPLOAD_URL . ltrim($editProject['icon_path'], '/')) ?>" alt="" style="width:96px;height:54px;object-fit:cover;border-radius:8px;border:1px solid var(--g-border);">
+                    <span style="font-size:12px;color:var(--g-text-secondary);">Текущее изображение. Новое заменит его.</span>
+                </div>
+            <?php endif; ?>
+            <span style="display:block; font-size: 12px; color: var(--g-text-secondary); margin-top: 6px;">JPG, PNG, WEBP или GIF. Изображение автоматически сохранится в загрузках проекта.</span>
         </div>
 
         <div style="background: var(--g-card); border: 1px solid var(--g-border); border-radius: var(--g-radius); padding: 12px 16px; font-size: 12.5px; color: var(--g-text-secondary); margin-bottom: 16px;">
