@@ -208,6 +208,110 @@ a:hover { opacity: 0.85; }
     .top-banner-btn { padding: 7px 12px 7px 14px; font-size: 12px; }
 }
 
+/* =========================================================================
+   Header v5 — точно по прототипу (galbraith-prototype-v4 / изображение.png):
+   прозрачная полоса над фоном со свечением, текстовый логотип GALBRAITH.,
+   по центру три ссылки, справа круглая пилюля «Вход». Без плашек и иконок.
+   ========================================================================= */
+.g-header {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(5, 5, 5, 0.55);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+body.light-mode .g-header { background: rgba(246, 245, 242, 0.75); border-bottom-color: var(--g-border); }
+
+.g-header-inner {
+    max-width: 1152px; margin: 0 auto; padding: 0 24px;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 16px; height: 84px;
+}
+
+.g-logo {
+    font-family: var(--g-font-display);
+    font-size: 24px; font-weight: 900; letter-spacing: -0.05em;
+    font-style: italic; color: var(--g-text); text-decoration: none;
+    white-space: nowrap; line-height: 1;
+}
+.g-logo-dot { color: var(--g-accent); }
+
+.g-nav { display: flex; gap: 32px; align-items: center; }
+.g-nav-link {
+    font-size: 14px; font-weight: 500; color: #9CA3AF; text-decoration: none;
+    transition: color 0.2s ease;
+}
+.g-nav-link:hover, .g-nav-link.active { color: #fff; opacity: 1; }
+body.light-mode .g-nav-link { color: var(--g-text-secondary); }
+body.light-mode .g-nav-link:hover, body.light-mode .g-nav-link.active { color: var(--g-text); }
+
+.g-header-right { display: flex; align-items: center; gap: 12px; min-width: max-content; }
+
+.g-header-btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    padding: 10px 24px; border-radius: var(--g-radius-full);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    color: #fff; font-size: 14px; font-weight: 700; text-decoration: none;
+    transition: background 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
+    white-space: nowrap;
+}
+.g-header-btn:hover { background: rgba(255, 255, 255, 0.10); border-color: rgba(255, 255, 255, 0.2); transform: translateY(-1px); opacity: 1; }
+body.light-mode .g-header-btn { color: var(--g-text); border-color: rgba(20, 18, 14, 0.12); }
+
+.g-header-user {
+    display: inline-flex; align-items: center; gap: 8px; max-width: 170px;
+    font-size: 13.5px; font-weight: 600; color: var(--g-text-secondary);
+    text-decoration: none; transition: color 0.2s ease;
+}
+.g-header-user:hover { color: #fff; opacity: 1; }
+.g-header-user-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.g-header-user-dot {
+    width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
+    background: var(--g-accent);
+    box-shadow: 0 0 10px rgba(232, 28, 90, 0.8);
+}
+
+.g-header-burger {
+    display: none; align-items: center; justify-content: center;
+    width: 42px; height: 42px; border-radius: 12px; flex-shrink: 0;
+    background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.10);
+    color: #fff; cursor: pointer;
+}
+body.light-mode .g-header-burger { color: var(--g-text); }
+
+/* Мобильное меню — во всю ширину под шапкой */
+.g-mobile-menu {
+    display: none;
+    position: fixed; top: 84px; left: 0; right: 0; bottom: 0; z-index: 99;
+    flex-direction: column;
+    background: rgba(5, 5, 5, 0.97);
+    backdrop-filter: blur(20px);
+    padding: 12px 24px 24px;
+    overflow-y: auto;
+}
+.g-mobile-menu.open { display: flex; }
+.g-mobile-menu a, .g-mobile-menu .g-mobile-logout {
+    padding: 16px 4px; font-size: 16px; font-weight: 500; text-align: left; width: 100%;
+    color: var(--g-text); text-decoration: none;
+    border: 0; border-bottom: 1px solid var(--g-border);
+    background: none; font-family: inherit; cursor: pointer;
+}
+.g-mobile-menu a:hover { color: var(--g-accent-light); opacity: 1; }
+
+@media (max-width: 768px) {
+    .g-nav { display: none; }
+    .g-header-burger { display: inline-flex; }
+    .g-header-btn { padding: 9px 18px; font-size: 13px; }
+    .g-header-user-name { display: none; }
+    .g-header-inner { height: 72px; padding: 0 16px; }
+    .g-mobile-menu { top: 72px; }
+}
+@media (min-width: 769px) {
+    .g-header-burger { display: none !important; }
+    .g-mobile-menu { display: none !important; }
+}
+
 /* Header */
 .header {
     position: sticky; top: 0; z-index: 100;
