@@ -61,11 +61,6 @@ include __DIR__ . '/../templates/header.php';
         <span class="pj-eyebrow"><i></i>Galbraith Ecosystem</span>
         <h1>Проекты <span class="pj-grad">Galbraith</span></h1>
         <p>Сервисы, инструменты и сообщества, которые мы делаем для игроков Amazing RP.</p>
-        <div class="pj-hero-stats">
-            <div><strong><?= count($dbProjects) ?></strong><span>проектов</span></div>
-            <div><strong><?= count($siteSocials) ?></strong><span>каналов</span></div>
-            <div><strong>24/7</strong><span>на связи</span></div>
-        </div>
     </header>
 
     <?php if ($siteSocials): ?>

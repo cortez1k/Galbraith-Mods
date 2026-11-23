@@ -12,5 +12,7 @@
         </div>
     </footer>
     <script src="/assets/js/app.js?v=<?= filemtime(__DIR__ . '/../assets/js/app.js') ?>"></script>
+    <script src="/assets/js/notify-live.js?v=<?= filemtime(__DIR__ . '/../assets/js/notify-live.js') ?>"></script>
+    <script src="/assets/js/support-widget.js?v=<?= filemtime(__DIR__ . '/../assets/js/support-widget.js') ?>"></script>
 </body>
 </html>

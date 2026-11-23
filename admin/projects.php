@@ -7,6 +7,32 @@ $success = null;
 
 $csrf = csrfToken();
 
+/**
+ * Сохраняет фото проекта. Возвращает путь (строку) при успехе или текст ошибки для админа.
+ * Раньше при неудачной загрузке ошибка молча терялась, поэтому фото «не добавлялось» без объяснения.
+ */
+function saveProjectPhoto(array $file)
+{
+    if ((int)$file['error'] !== UPLOAD_ERR_OK) {
+        $msgs = [
+            UPLOAD_ERR_INI_SIZE => 'файл больше лимита upload_max_filesize на сервере',
+            UPLOAD_ERR_FORM_SIZE => 'файл больше лимита формы',
+            UPLOAD_ERR_PARTIAL => 'файл загружен не полностью',
+            UPLOAD_ERR_NO_TMP_DIR => 'на сервере нет временной папки',
+            UPLOAD_ERR_CANT_WRITE => 'сервер не может записать файл на диск',
+            UPLOAD_ERR_EXTENSION => 'загрузку остановило расширение PHP',
+        ];
+        return 'Фото не загружено: ' . ($msgs[(int)$file['error']] ?? 'неизвестная ошибка') . '.';
+    }
+    $ext = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+    $info = @getimagesize($file['tmp_name']);
+    if (!$info || !in_array($ext, ['jpg', 'jpeg', 'png', 'webp', 'gif'], true)) {
+        return 'Фото не загружено: допустимы только изображения JPG, PNG, WEBP или GIF.';
+    }
+    $saved = uploadFile($file, 'projects');
+    return $saved ?: 'Фото не загружено: не удалось сохранить файл (проверьте права на папку assets/uploads).';
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!verifyCsrfToken($_POST['csrf_token'] ?? '')) {
         die('Неверный CSRF-токен. Обновите страницу и попробуйте снова.');
@@ -15,15 +41,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (isset($_POST['action']) && $_POST['action'] === 'add') {
         $iconPath = trim($_POST['icon_path'] ?? '');
-        if (!empty($_FILES['project_image']['tmp_name']) && ($_FILES['project_image']['error'] ?? UPLOAD_ERR_NO_FILE) === UPLOAD_ERR_OK) {
-            $uploaded = uploadFile($_FILES['project_image'], 'projects');
-            if ($uploaded) $iconPath = $uploaded;
+        if (isset($_FILES['project_image']) && (int)$_FILES['project_image']['error'] !== UPLOAD_ERR_NO_FILE) {
+            $upload = saveProjectPhoto($_FILES['project_image']);
+            if (is_string($upload) && strpos($upload, 'Фото не загружено') === 0) { $errors[] = $upload; } else { $iconPath = $upload; }
         }
         $title = trim($_POST['title'] ?? '');
         $url = trim($_POST['url'] ?? '');
         if ($title === '' || $url === '') {
             $errors[] = 'Название и URL обязательны.';
-        } else {
+        } elseif (!$errors) {
             // Соцсети — общие для всего сайта, задаются в «Настройках», а не у проекта.
             $db->prepare('INSERT INTO projects (title, url, category, description, icon_path, is_active, sort_order, socials) VALUES (?, ?, ?, ?, ?, ?, ?, ?)')
                 ->execute([$title, $url, trim($_POST['category'] ?? ''), trim($_POST['description'] ?? ''), $iconPath, isset($_POST['is_active']) ? 1 : 0, (int)($_POST['sort_order'] ?? 0), null]);
@@ -32,15 +58,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } elseif (isset($_POST['action']) && $_POST['action'] === 'update') {
         $id = (int)($_POST['id'] ?? 0);
         $iconPath = trim($_POST['icon_path'] ?? '');
-        if (!empty($_FILES['project_image']['tmp_name']) && ($_FILES['project_image']['error'] ?? UPLOAD_ERR_NO_FILE) === UPLOAD_ERR_OK) {
-            $uploaded = uploadFile($_FILES['project_image'], 'projects');
-            if ($uploaded) $iconPath = $uploaded;
+        if (isset($_FILES['project_image']) && (int)$_FILES['project_image']['error'] !== UPLOAD_ERR_NO_FILE) {
+            $upload = saveProjectPhoto($_FILES['project_image']);
+            if (is_string($upload) && strpos($upload, 'Фото не загружено') === 0) { $errors[] = $upload; } else { $iconPath = $upload; }
         }
         $title = trim($_POST['title'] ?? '');
         $url = trim($_POST['url'] ?? '');
         if ($id <= 0 || $title === '' || $url === '') {
             $errors[] = 'Неверные данные проекта.';
-        } else {
+        } elseif (!$errors) {
             // Соцсети — общие для всего сайта, задаются в «Настройках», а не у проекта.
             $db->prepare('UPDATE projects SET title = ?, url = ?, category = ?, description = ?, icon_path = ?, is_active = ?, sort_order = ?, socials = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?')
                 ->execute([$title, $url, trim($_POST['category'] ?? ''), trim($_POST['description'] ?? ''), $iconPath, isset($_POST['is_active']) ? 1 : 0, (int)($_POST['sort_order'] ?? 0), null, $id]);

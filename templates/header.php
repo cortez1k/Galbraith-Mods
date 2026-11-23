@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="/assets/css/style.css?v=<?= filemtime(__DIR__ . '/../assets/css/style.css') ?>">
     <?= $extraHead ?? '' ?>
 </head>
-<body class="grain">
+<body class="grain"<?= (!empty($_SESSION['user_id']) || !empty($_SESSION['admin_id'])) ? ' data-logged-in="1"' : '' ?>>
     <!-- Radial glow background is handled by CSS on body -->
     
     <header class="g-header" role="banner">
@@ -30,6 +30,14 @@
             <div class="g-header-right">
                 <?php if (!empty($_SESSION['user_id']) || !empty($_SESSION['admin_id'])):
                     $gHeaderUser = currentUser(); ?>
+                    <div class="header-popup-wrap">
+                        <button type="button" class="g-header-btn header-popup-trigger" aria-label="Уведомления" onclick="toggleHeaderPopup('notifPopup')">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.7 21a2 2 0 0 1-3.4 0"></path></svg>
+                        </button>
+                        <div id="notifPopup" class="header-popup">
+                            <div class="header-popup-head"><strong>Уведомления</strong><a href="/notifications" class="header-popup-action">Все</a></div>
+                        </div>
+                    </div>
                     <a href="/pages/profile.php" class="g-header-btn g-header-account" title="Личный кабинет">
                         <span class="g-header-user-dot" aria-hidden="true"></span>
                         <span class="g-header-user-name"><?= e($gHeaderUser['name'] ?? 'Кабинет') ?></span>
