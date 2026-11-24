@@ -46,9 +46,9 @@
                         </button>
                         <div id="accountPopup" class="header-popup">
                             <div class="header-popup-head"><strong>Аккаунт</strong></div>
-                            <a href="/profile" class="header-popup-item">👤 Профиль</a>
-                            <a href="/profile/settings" class="header-popup-item">⚙️ Настройки</a>
-                            <a href="/logout" class="header-popup-item">🚪 Выход</a>
+                            <a href="/profile" class="header-popup-item" style="display:flex;align-items:center;gap:8px">👤 Профиль</a>
+                            <a href="/profile/settings" class="header-popup-item" style="display:flex;align-items:center;gap:8px">⚙️ Настройки</a>
+                            <a href="/logout" class="header-popup-item" style="display:flex;align-items:center;gap:8px">🚪 Выход</a>
                         </div>
                     </div>
                 <?php else: ?>
