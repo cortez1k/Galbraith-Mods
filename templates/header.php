@@ -39,10 +39,18 @@
                             <div class="header-popup-head"><strong>Уведомления</strong><a href="/notifications" class="header-popup-action">Все</a></div>
                         </div>
                     </div>
-                    <a href="/pages/profile.php" class="g-header-btn g-header-account" title="Личный кабинет">
-                        <span class="g-header-user-dot" aria-hidden="true"></span>
-                        <span class="g-header-user-name"><?= e($gHeaderUser['name'] ?? 'Кабинет') ?></span>
-                    </a>
+                    <div class="header-popup-wrap">
+                        <button type="button" class="g-header-btn g-header-account" aria-label="Меню аккаунта" onclick="toggleHeaderPopup('accountPopup')">
+                            <span class="g-header-user-dot" aria-hidden="true"></span>
+                            <span class="g-header-user-name"><?= e($gHeaderUser['name'] ?? 'Кабинет') ?></span>
+                        </button>
+                        <div id="accountPopup" class="header-popup">
+                            <div class="header-popup-head"><strong>Аккаунт</strong></div>
+                            <a href="/profile" class="header-popup-item">👤 Профиль</a>
+                            <a href="/profile/settings" class="header-popup-item">⚙️ Настройки</a>
+                            <a href="/logout" class="header-popup-item">🚪 Выход</a>
+                        </div>
+                    </div>
                 <?php else: ?>
                     <a href="/pages/login.php" class="g-header-btn">Вход</a>
                 <?php endif; ?>
