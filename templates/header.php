@@ -8,6 +8,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= htmlspecialchars($pageTitle ?? 'Galbraith') ?></title>
+    <link rel="icon" href="/assets/uploads/logos/favicon.ico" type="image/x-icon">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -22,9 +23,9 @@
             <a href="/" class="g-logo" aria-label="Galbraith — главная">GALBRAITH<span class="g-logo-dot">.</span></a>
 
             <nav class="g-nav" role="navigation" aria-label="Основная навигация">
-                <a href="/pages/projects.php" class="g-nav-link">Проекты</a>
-                <a href="/pages/marketplace.php" class="g-nav-link">Магазин</a>
-                <a href="/pages/support.php" class="g-nav-link">Поддержка</a>
+                <a href="/catalog" class="g-nav-link">Каталог</a>
+                <a href="/marketplace" class="g-nav-link">Торговая площадка</a>
+                <a href="/projects" class="g-nav-link">Проекты</a>
             </nav>
 
             <div class="g-header-right">
@@ -57,9 +58,9 @@
 
         <!-- Мобильное меню -->
         <div id="mobile-menu" class="g-mobile-menu">
-            <a href="/pages/projects.php">Проекты</a>
-            <a href="/pages/marketplace.php">Магазин</a>
-            <a href="/pages/support.php">Поддержка</a>
+            <a href="/catalog">Каталог</a>
+            <a href="/marketplace">Торговая площадка</a>
+            <a href="/projects">Проекты</a>
             <?php if (!empty($_SESSION['user_id']) || !empty($_SESSION['admin_id'])): ?>
                 <a href="/pages/profile.php">Кабинет</a>
                 <a href="/pages/orders.php">Заказы</a>
