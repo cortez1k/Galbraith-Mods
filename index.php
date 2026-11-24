@@ -1128,6 +1128,9 @@ if ($uri === '' || $uri === 'index.php') {
 } elseif (preg_match('/^reset-password\/([a-f0-9]+)$/', $uri, $m)) {
     $_GET['token'] = $m[1];
     require __DIR__ . '/pages/reset-password.php';
+} elseif ($uri === 'notifications') {
+    requireLogin();
+    require __DIR__ . '/pages/notifications.php';
 } elseif (preg_match('/^notifications\/(\d+)$/',$uri,$m)) {
     requireLogin(); $st=getDB()->prepare('SELECT * FROM notifications WHERE id=? AND user_id=?');$st->execute([(int)$m[1],$_SESSION['user_id']]);$n=$st->fetch();if(!$n)redirect('/profile');getDB()->prepare('UPDATE notifications SET is_read=1 WHERE id=?')->execute([$n['id']]);$data=json_decode($n['data']??'{}',true)?:[];$url='/profile';if(!empty($data['order_id']))$url='/orders/'.(int)$data['order_id'];elseif($n['type']==='seller_question')$url=hasRole('trader')?'/seller/messages':'/profile';redirect($url);
 } elseif ($uri === 'notifications/read' && $_SERVER['REQUEST_METHOD'] === 'POST') {
